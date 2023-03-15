@@ -9,6 +9,7 @@ public class LevelGrid : MonoBehaviour
     
     [SerializeField] private Transform gridDebugObject;
     private GridSystem<GridObject> gridSystem;
+    public AssetsData assetsData;
    
     private void Awake()
     {
@@ -22,6 +23,10 @@ public class LevelGrid : MonoBehaviour
         
         gridSystem = new GridSystem<GridObject>(10, 10, 2f, (GridSystem<GridObject> _grid, GridPosition _gridPosition) => new GridObject(_grid, _gridPosition));
         gridSystem.CreateDebugObjects(gridDebugObject);
+        List<AssetInfo> assetList = assetsData.GetAllAssets();
+        AssetInfo asset;
+        assetsData.GetAsset("Floor", out asset);
+        Debug.Log(asset.prefab.name);
     }
 
     public Vector3 GetTargetGridPosition(Vector3 _worldPosition)

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 319032839dd279e46b91e34f5b3b6f90, type: 3}
+  m_Name: ModuleList
+  m_EditorClassIdentifier: 
+  AssetsList:
+  - id: CornerPillarN
+    prefab: {fileID: 4625658504183238675, guid: 0144674230c9dd1448dd6cdd38dd4aea,
+      type: 3}
+  - id: DoorwayN
+    prefab: {fileID: 4560071942470523377, guid: 4880f3476895d494d9a2d6dba63a4661,
+      type: 3}
+  - id: Floor
+    prefab: {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb,
+      type: 3}
+  - id: FloorPillarN
+    prefab: {fileID: 2770533987285190762, guid: 5a1dc5af6bd3f9e4182852593a146807,
+      type: 3}
+  - id: FloorWallN
+    prefab: {fileID: 1333202536239531733, guid: 49d2998949e58b24c8cc394de730f9f7,
+      type: 3}
+  - id: GateLeftN
+    prefab: {fileID: 7286301901147341654, guid: a4e2d81e139f66e498676a65ca0c82e7,
+      type: 3}
+  - id: GateRightN
+    prefab: {fileID: 8498377868446006386, guid: c46cbf05248544c41946cc21a7bf88b5,
+      type: 3}
+  - id: WallWindowN
+    prefab: {fileID: 5893537311564010113, guid: 4bb4b088bbd00ee46bb047b54472dff9,
+      type: 3}
