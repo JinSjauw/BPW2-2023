@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af65cf891c85c8a4f996a330f4abd718, type: 3}
+  m_Name: ModulesList
+  m_EditorClassIdentifier: 
+  ModuleList:
+  - id: Floor
+    prefab: {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb,
+      type: 3}
+    north: 4
+    east: 4
+    south: 4
+    west: 4
+  - id: DoorwayN
+    prefab: {fileID: 4560071942470523377, guid: 4880f3476895d494d9a2d6dba63a4661,
+      type: 3}
+    north: 0
+    east: 1
+    south: 0
+    west: 1
+  - id: DoorwayE
+    prefab: {fileID: 5711195142415458404, guid: f52de082f13c5374b821279568c0d32d,
+      type: 3}
+    north: 1
+    east: 0
+    south: 0
+    west: 1
+  - id: DoorwayS
+    prefab: {fileID: 382743243673223538, guid: e5069037e622e844c98f110727ae22db, type: 3}
+    north: 0
+    east: 1
+    south: 1
+    west: 0
+  - id: DoorwayW
+    prefab: {fileID: 7798182132286352948, guid: fe2f6684a6a00c84486ad37d01b26df2,
+      type: 3}
+    north: 1
+    east: 0
+    south: 0
+    west: 1
+  - id: CornerPillarN
+    prefab: {fileID: 4625658504183238675, guid: 0144674230c9dd1448dd6cdd38dd4aea,
+      type: 3}
+    north: 1
+    east: 1
+    south: 2
+    west: 2
+  - id: CornerPillarE
+    prefab: {fileID: 4625658504183238675, guid: 0144674230c9dd1448dd6cdd38dd4aea,
+      type: 3}
+    north: 2
+    east: 1
+    south: 1
+    west: 2
+  - id: CornerPillarS
+    prefab: {fileID: 4625658504183238675, guid: 0144674230c9dd1448dd6cdd38dd4aea,
+      type: 3}
+    north: 2
+    east: 2
+    south: 1
+    west: 1
+  - id: CornerPillarW
+    prefab: {fileID: 4625658504183238675, guid: 0144674230c9dd1448dd6cdd38dd4aea,
+      type: 3}
+    north: 1
+    east: 2
+    south: 2
+    west: 1
+  - id: PillarN
+    prefab: {fileID: 2770533987285190762, guid: 5a1dc5af6bd3f9e4182852593a146807,
+      type: 3}
+    north: 0
+    east: 0
+    south: 1
+    west: 1
+  - id: PillarE
+    prefab: {fileID: 485412544225477450, guid: 2ed46017c54112f4ba7733021c66124f, type: 3}
+    north: 1
+    east: 0
+    south: 0
+    west: 1
+  - id: PillarS
+    prefab: {fileID: 7683482878597922529, guid: 91bf0ff8940a8364598f1e95f032215a,
+      type: 3}
+    north: 1
+    east: 1
+    south: 0
+    west: 0
+  - id: PillarW
+    prefab: {fileID: 2402736049494723981, guid: f28f5aade5c82cf4595b0cd0f46d6848,
+      type: 3}
+    north: 0
+    east: 1
+    south: 1
+    west: 0
+  - id: WallN
+    prefab: {fileID: 1333202536239531733, guid: 49d2998949e58b24c8cc394de730f9f7,
+      type: 3}
+    north: 2
+    east: 1
+    south: 2
+    west: 1
+  - id: WallE
+    prefab: {fileID: 9083536456770248184, guid: bab7ca8c5563bdf40aedf9d9cf2c804f,
+      type: 3}
+    north: 1
+    east: 2
+    south: 1
+    west: 2
+  - id: WallS
+    prefab: {fileID: 8051884029918313955, guid: 8a2887d35c7098b4c8c8e0af3dab40d2,
+      type: 3}
+    north: 2
+    east: 1
+    south: 2
+    west: 1
+  - id: WallW
+    prefab: {fileID: 4482717062708232044, guid: f2a653201686dae4790e07f71b993698,
+      type: 3}
+    north: 1
+    east: 2
+    south: 1
+    west: 2

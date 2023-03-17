@@ -14,7 +14,7 @@ public class AssetInfo
 public class AssetsData : ScriptableObject
 {
     [SerializeField] private List<AssetInfo> AssetsList;
-
+    
     public bool GetAsset(string _id, out AssetInfo value)
     {
         foreach (var asset in AssetsList)

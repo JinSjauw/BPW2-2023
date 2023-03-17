@@ -7,9 +7,12 @@ public class LevelGrid : MonoBehaviour
 {
     public static LevelGrid Instance  { get; private set; }
     
+    [Header("Grid Data")]
     [SerializeField] private Transform gridDebugObject;
+    [SerializeField] private int width, height, cellSize;
+    
     private GridSystem<GridObject> gridSystem;
-    public AssetsData assetsData;
+    public ModuleData ModuleData;
    
     private void Awake()
     {
@@ -21,12 +24,8 @@ public class LevelGrid : MonoBehaviour
         }
         Instance = this;
         
-        gridSystem = new GridSystem<GridObject>(10, 10, 2f, (GridSystem<GridObject> _grid, GridPosition _gridPosition) => new GridObject(_grid, _gridPosition));
+        gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> _grid, GridPosition _gridPosition) => new GridObject(_grid, _gridPosition));
         gridSystem.CreateDebugObjects(gridDebugObject);
-        List<AssetInfo> assetList = assetsData.GetAllAssets();
-        AssetInfo asset;
-        assetsData.GetAsset("Floor", out asset);
-        Debug.Log(asset.prefab.name);
     }
 
     public Vector3 GetTargetGridPosition(Vector3 _worldPosition)
@@ -38,12 +37,28 @@ public class LevelGrid : MonoBehaviour
     
     public Vector3 GetWorldPosition(GridPosition _gridPosition) => gridSystem.GetWorldPosition(_gridPosition);
 
+    public GridObject GetGridObject(GridPosition _gridPosition) => gridSystem.GetGridObject(_gridPosition);
+
+    public List<GridPosition> GetGridPositions()
+    {
+        List<GridPosition> result = new List<GridPosition>();
+        for(int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                result.Add(new GridPosition(x,z));
+            }
+        }
+        
+        return result;
+    }
+    public int GetWidth()
+    {
+        return width;
+    }
     
-    //WFC generation
-    //Collapse Cell
-    private void Collapse(){}
-    //Propagate
-    private void Propagate(){}
-    //Observe
-    private void Observe(){}
+    public int GetHeight()
+    {
+        return height;
+    }
 }

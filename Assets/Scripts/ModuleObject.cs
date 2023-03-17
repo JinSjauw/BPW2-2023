@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModuleObject : MonoBehaviour
+[System.Serializable]
+public class ModuleObject
 {
-    //List of possible neighbours
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string id;
+    public GameObject prefab;
+    public List<int> pZ;
+    public List<int> pX;
+    public List<int> pZmin;
+    public List<int> pXmin;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
