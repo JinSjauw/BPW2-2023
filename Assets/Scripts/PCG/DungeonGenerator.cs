@@ -8,10 +8,13 @@ using Random = UnityEngine.Random;
 public class DungeonGenerator : MonoBehaviour
 {
     private LevelGrid grid;
-    [SerializeField] private List<GridPosition> closedList, openList;
+    [SerializeField] private List<GridPosition> openList;
     [SerializeField] private List<Room> roomList;
     [SerializeField] private GameObject tilePrefab;
     
+    private Triangulation triangulation;
+    [SerializeField] private List<Triangle> delaunayMesh;
+
     [Header("Room Data")]
     [SerializeField] private int minRoomWidth;
     [SerializeField] private int minRoomHeight;
@@ -27,8 +30,8 @@ public class DungeonGenerator : MonoBehaviour
     {
         grid = LevelGrid.Instance;
         openList = grid.GetGridPositions();
+        triangulation = new Triangulation();
         
-        closedList = new List<GridPosition>();
         roomList = new List<Room>();
     }
 
@@ -153,7 +156,30 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
     }
+    
+    public void GenerateTriangulation()
+    {
+        //Get grid of GridPositions
+        List<GridPosition> gridPositions = grid.GetGridPositions();
+        //Convert List<GridPositions> into List<Vector3> containing the world positions
+        List<Vector3> vertices = new List<Vector3>();
+        foreach (var position in gridPositions)
+        {
+            Vector3 gridToVert = grid.GetWorldPosition(position);
+            vertices.Add(gridToVert);
+        }
+        
+        delaunayMesh = triangulation.Triangulate(vertices);
+        
+        //DEBUG: draw the triangles
+        
+    }
 
+    public void FindMST()
+    {
+        
+    }
+    
     public Vector2 GetRatioSize()
     {
         int width = 0;
@@ -179,6 +205,15 @@ public class DungeonGenerator : MonoBehaviour
     {
         return b == 0 ? Math.Abs(a) : GCD(b, a % b);
     }
-    
-    
+
+    private void OnDrawGizmos()
+    {
+        foreach (var triangle in delaunayMesh)
+        {
+            Gizmos.color = new Color(0, 1, 0, 1);
+            Gizmos.DrawLine(triangle.vertexA, triangle.vertexB);
+            Gizmos.DrawLine(triangle.vertexB, triangle.vertexC);
+            Gizmos.DrawLine(triangle.vertexC, triangle.vertexA);
+        }
+    }
 }

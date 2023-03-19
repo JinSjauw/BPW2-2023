@@ -11,9 +11,14 @@ public class NewBehaviourScript : Editor
         DrawDefaultInspector();
 
         DungeonGenerator generator = (DungeonGenerator)target;
-        if (GUILayout.Button("Generate"))
+        if (GUILayout.Button("Generate Rooms"))
         {
             generator.SpawnRooms();
+        }
+
+        if (GUILayout.Button("Generate Delaunay"))
+        {
+            generator.GenerateTriangulation();
         }
     }
 }
