@@ -16,7 +16,8 @@ public class DungeonGenerator : MonoBehaviour
     private Triangulation triangulation;
     [SerializeField] private List<Edge> dungeonPaths;
     [SerializeField] private List<Triangle> delaunayMesh;
-
+    
+    
     [Header("Room Data")]
     [SerializeField] private int minRoomWidth;
     [SerializeField] private int minRoomHeight;
@@ -25,7 +26,8 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private float maxRatio, minRatio;
     [SerializeField] private int minAmountRoom;
     [SerializeField] private int maxAmountRoom;
-    
+
+    [Header("Path Data")] [SerializeField] private int pathLoops;
 
     // Start is called before the first frame update
     void Start()
@@ -178,12 +180,12 @@ public class DungeonGenerator : MonoBehaviour
         }
 
         delaunayMesh = triangulation.Triangulate(vertices);
-        dungeonPaths = FindMST(delaunayMesh);
+        dungeonPaths = GeneratePath(delaunayMesh);
         
-        //DEBUG: draw the triangles
+        
     }
 
-    public List<Edge> FindMST(List<Triangle> _delaunayMesh)
+    public List<Edge> GeneratePath(List<Triangle> _delaunayMesh)
     {
         List<Edge> edges = new List<Edge>();
         List<Vector3> vertices = new List<Vector3>();
@@ -291,6 +293,18 @@ public class DungeonGenerator : MonoBehaviour
             path.Add(minimumEdge);
         }
         
+        //Add Back a few Edges
+        for (int i = 0; i < pathLoops;)
+        {
+            Edge edge = edges[Random.Range(0, edges.Count - 1)];
+            if (!path.Contains(edge))
+            {
+                path.Add(edge);
+                i++;
+            }
+           
+        }
+        
         return path;
     }
     
@@ -327,13 +341,13 @@ public class DungeonGenerator : MonoBehaviour
             return;
         }
         
-        foreach (var triangle in delaunayMesh)
+        /*foreach (var triangle in delaunayMesh)
         {
             Gizmos.color = new Color(0, 0, 1, 1);
             Gizmos.DrawLine(triangle.vertexA, triangle.vertexB);
             Gizmos.DrawLine(triangle.vertexB, triangle.vertexC);
             Gizmos.DrawLine(triangle.vertexC, triangle.vertexA);
-        }
+        }*/
         
         if (dungeonPaths == null)
         {
