@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[System.Serializable]
 public struct Edge
 {
     public Vector3 vertexA;
@@ -15,11 +16,16 @@ public struct Edge
         vertexB = _vertexB;
     }
 
-    public Vector3 GetMidpoint()
+    public Vector3 Midpoint()
     {
         return new Vector3((vertexA.x + vertexB.x) / 2, (vertexA.z + vertexB.z) / 2);
     }
 
+    public float Length()
+    {
+        return Vector3.Distance(vertexA, vertexB);
+    }
+    
     public static bool operator ==(Edge a, Edge b)
     {
         return a.vertexA == b.vertexA && a.vertexB == b.vertexB ||
@@ -120,8 +126,7 @@ public class Triangle
         Vector3 midpoint = new Vector3();
         midpoint.x = (_vertexA.x + _vertexB.x) / 2;
         midpoint.z = (_vertexA.z + _vertexB.z) / 2;
-        Debug.Log("Midpoint: " + midpoint);
-        
+
         c = -b * midpoint.x + a * midpoint.z;
 
         float temp = a;
@@ -216,7 +221,7 @@ public class Triangulation
         return _triangles;
     }
 
-    private List<Edge> GetUniqueEdges(List<Edge> _edges)
+    public List<Edge> GetUniqueEdges(List<Edge> _edges)
     {
         List<Edge> uniqueEdges = new List<Edge>();
         for (int i = _edges.Count - 1; i >= 0; i--)

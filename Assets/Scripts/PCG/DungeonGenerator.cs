@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,6 +14,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private GameObject tilePrefab;
     
     private Triangulation triangulation;
+    [SerializeField] private List<Edge> dungeonPaths;
     [SerializeField] private List<Triangle> delaunayMesh;
 
     [Header("Room Data")]
@@ -174,18 +176,122 @@ public class DungeonGenerator : MonoBehaviour
             Vector3 gridToVert = grid.GetWorldPosition(position);
             vertices.Add(gridToVert);
         }
-        
-        Debug.Log(vertices.Count);
-        
+
         delaunayMesh = triangulation.Triangulate(vertices);
+        dungeonPaths = FindMST(delaunayMesh);
         
         //DEBUG: draw the triangles
-        
     }
 
-    public void FindMST()
+    public List<Edge> FindMST(List<Triangle> _delaunayMesh)
     {
+        List<Edge> edges = new List<Edge>();
+        List<Vector3> vertices = new List<Vector3>();
+        //Convert Triangle to Edge
+        foreach (var triangle in _delaunayMesh)
+        {
+            if (!vertices.Contains(triangle.vertexA))
+            {
+                vertices.Add(triangle.vertexA);
+            }
+            if (!vertices.Contains(triangle.vertexB))
+            {
+                vertices.Add(triangle.vertexB);
+            }
+            if (!vertices.Contains(triangle.vertexC))
+            {
+                vertices.Add(triangle.vertexC);
+            }
+            
+            if(!edges.Contains(new Edge(triangle.vertexA, triangle.vertexB)))
+            {
+                edges.Add(new Edge(triangle.vertexA, triangle.vertexB));
+            }
+
+            if (!edges.Contains(new Edge(triangle.vertexB, triangle.vertexC)))
+            {
+                edges.Add(new Edge(triangle.vertexB, triangle.vertexC));
+            }
+
+            if (!edges.Contains(new Edge(triangle.vertexC, triangle.vertexA)))
+            {
+                edges.Add(new Edge(triangle.vertexC, triangle.vertexA));
+            }
+        }
+
+        List<Vector3> visitedList = new List<Vector3>();
+        List<Edge> reachableList = new List<Edge>();
+        List<Edge> path = new List<Edge>();
+        //PRIM'S Algorithmn 
+        //Pick Start Node - Random
         
+        visitedList.Add(vertices[Random.Range(0, vertices.Count - 1)]);
+        
+        foreach (var edge in edges)
+        {
+            if (edge.vertexA.Equals(visitedList.First()))
+            {
+                reachableList.Add(edge);
+            }
+            else if (edge.vertexB.Equals(visitedList.First()))
+            {
+                reachableList.Add(edge);
+            }
+        }
+        
+        while (visitedList.Count < vertices.Count)
+        {
+            //Find minimum Edge
+            Edge minimumEdge = reachableList[0];
+            
+            foreach (var edge in reachableList)
+            {
+
+                if (visitedList.Contains(edge.vertexA) && visitedList.Contains(edge.vertexB))
+                {
+                    continue;
+                }
+                
+                float distanceA = edge.Length();
+                float distanceB = minimumEdge.Length();
+                if (distanceA < distanceB)
+                {
+                    minimumEdge = edge;
+                }
+            }
+            
+            //Add edges connected to minimumEdge
+            foreach (var edge in edges)
+            {
+                if (edge.Equals(minimumEdge))
+                {
+                    continue;
+                }
+                
+                if (edge.vertexA.Equals(minimumEdge.vertexA) || edge.vertexA.Equals(minimumEdge.vertexB) || 
+                    edge.vertexB.Equals(minimumEdge.vertexA) || edge.vertexB.Equals(minimumEdge.vertexB))
+                {
+                    if (!reachableList.Contains(edge))
+                    {
+                        reachableList.Add(edge);   
+                    }
+                }
+            }
+
+            if (visitedList.Contains(minimumEdge.vertexA))
+            {
+                visitedList.Add(minimumEdge.vertexB);
+            }
+            else if (visitedList.Contains(minimumEdge.vertexB))
+            {
+                visitedList.Add(minimumEdge.vertexA);
+            }
+            
+            reachableList.Remove(minimumEdge);
+            path.Add(minimumEdge);
+        }
+        
+        return path;
     }
     
     public Vector2 GetRatioSize()
@@ -223,10 +329,21 @@ public class DungeonGenerator : MonoBehaviour
         
         foreach (var triangle in delaunayMesh)
         {
-            Gizmos.color = new Color(0, 1, 0, 1);
+            Gizmos.color = new Color(0, 0, 1, 1);
             Gizmos.DrawLine(triangle.vertexA, triangle.vertexB);
             Gizmos.DrawLine(triangle.vertexB, triangle.vertexC);
             Gizmos.DrawLine(triangle.vertexC, triangle.vertexA);
+        }
+        
+        if (dungeonPaths == null)
+        {
+            return;
+        }
+        
+        foreach (var edge in dungeonPaths)
+        {
+            Gizmos.color = new Color(0, 1, 0, 1);
+            Gizmos.DrawLine(edge.vertexA, edge.vertexB);
         }
     }
 }
