@@ -159,8 +159,14 @@ public class DungeonGenerator : MonoBehaviour
     
     public void GenerateTriangulation()
     {
-        //Get grid of GridPositions
-        List<GridPosition> gridPositions = grid.GetGridPositions();
+        //Get list of roomCenters
+        List<GridPosition> gridPositions = new List<GridPosition>();
+
+        foreach (var room in roomList)
+        {
+            gridPositions.Add(room.roomCenter);
+        }
+        
         //Convert List<GridPositions> into List<Vector3> containing the world positions
         List<Vector3> vertices = new List<Vector3>();
         foreach (var position in gridPositions)
@@ -168,6 +174,8 @@ public class DungeonGenerator : MonoBehaviour
             Vector3 gridToVert = grid.GetWorldPosition(position);
             vertices.Add(gridToVert);
         }
+        
+        Debug.Log(vertices.Count);
         
         delaunayMesh = triangulation.Triangulate(vertices);
         
@@ -208,6 +216,11 @@ public class DungeonGenerator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (delaunayMesh == null)
+        {
+            return;
+        }
+        
         foreach (var triangle in delaunayMesh)
         {
             Gizmos.color = new Color(0, 1, 0, 1);

@@ -50,6 +50,7 @@ public struct Edge
     }
 }
 
+[System.Serializable]
 public class Triangle
 {
     public Vector3 vertexA;
@@ -148,6 +149,12 @@ public class Triangle
         return intersection;
     }
 
+    public override string ToString()
+    {
+        return "A: " + " x: " + vertexA.x + " z: " + vertexA.z + "\n" +
+               "B: " + " x: " + vertexB.x + " z: " + vertexB.z + "\n" +
+               "C: " + " x: " + vertexC.x + " z: " + vertexC.z;
+    }
 }
 
 public class Triangulation
@@ -168,9 +175,10 @@ public class Triangulation
             triangles = AddVertex(vertex, triangles);
         }
         
-        //Remove triangles that share an edge
-        foreach (var triangle in triangles)
+        for (int i = triangles.Count - 1; i >= 0; i--)
         {
+            Triangle triangle = triangles[i];
+            
             if (triangle.vertexA == superTriangle.vertexA || triangle.vertexA == superTriangle.vertexB || triangle.vertexA == superTriangle.vertexC
                 || triangle.vertexB == superTriangle.vertexA || triangle.vertexB == superTriangle.vertexB || triangle.vertexB == superTriangle.vertexC
                 || triangle.vertexC == superTriangle.vertexA || triangle.vertexC == superTriangle.vertexB || triangle.vertexC == superTriangle.vertexC)
@@ -178,22 +186,22 @@ public class Triangulation
                 triangles.Remove(triangle);
             }
         }
-
         return triangles;
     }
 
     private List<Triangle> AddVertex(Vector3 _vertex, List<Triangle> _triangles)
     {
         List<Edge> edges = new List<Edge>();
-
-        foreach (var triangle in _triangles)
+        
+        for (int i = _triangles.Count - 1; i >= 0; i--)
         {
+            Triangle triangle = _triangles[i];
             if (triangle.InCircumCircle(_vertex))
             {
                 edges.Add(new Edge(triangle.vertexA, triangle.vertexB));
                 edges.Add(new Edge(triangle.vertexB, triangle.vertexC));
                 edges.Add(new Edge(triangle.vertexC, triangle.vertexA));
-
+                
                 _triangles.Remove(triangle);
             }
         }
@@ -211,10 +219,10 @@ public class Triangulation
     private List<Edge> GetUniqueEdges(List<Edge> _edges)
     {
         List<Edge> uniqueEdges = new List<Edge>();
-        for (int i = 0; i < _edges.Count; i++)
+        for (int i = _edges.Count - 1; i >= 0; i--)
         {
             bool isUnique = true;
-            for (int j = 0; j < _edges.Count; j++)
+            for (int j = _edges.Count - 1; j >= 0; j--)
             {
                 if (i != j && _edges[i].Equals(_edges[j]))
                 {
@@ -235,25 +243,25 @@ public class Triangulation
     private Triangle GetSuperTriangle(List<Vector3> _vertices)
     {
         float minX = Mathf.Infinity;
-        float maxX = Mathf.Infinity;
-        float minY = Mathf.Infinity;
-        float maxY = Mathf.Infinity;
+        float maxX = -Mathf.Infinity;
+        float minZ = Mathf.Infinity;
+        float maxZ = -Mathf.Infinity;
         
         foreach (var vertex in _vertices)
         {
             minX = Mathf.Min(minX, vertex.x);
-            minY = Mathf.Min(minY, vertex.y);
+            minZ = Mathf.Min(minZ, vertex.z);
 
             maxX = Mathf.Max(maxX, vertex.x);
-            maxY = Mathf.Max(maxY, vertex.y);
+            maxZ = Mathf.Max(maxZ, vertex.z);
         }
 
         float x = (maxX - minX) * 10;
-        float y = (maxY - minY) * 10;
+        float z = (maxZ - minZ) * 10;
 
-        Vector3 vertexA = new Vector3(minX - x,0,  minY - y * 3);
-        Vector3 vertexB = new Vector3(minX - x, 0, maxY + y * 3);
-        Vector3 vertexC = new Vector3(maxX + x * 3, 0, maxY + y);
+        Vector3 vertexA = new Vector3(minX - x,0,  minZ - z * 3);
+        Vector3 vertexB = new Vector3(minX - x, 0, maxZ + z * 3);
+        Vector3 vertexC = new Vector3(maxX + x * 3, 0, maxZ + z);
 
         return new Triangle(vertexA, vertexB, vertexC);
     }

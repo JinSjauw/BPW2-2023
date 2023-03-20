@@ -154,8 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridDebugObject: {fileID: 1981648028813177864, guid: a86bdee89b57d3043ad3348ebd3ce102,
     type: 3}
-  width: 50
-  height: 50
+  width: 40
+  height: 40
   cellSize: 2
   ModuleData: {fileID: 0}
 --- !u!4 &169919
@@ -500,16 +500,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a38994c0a37ba4186b17701c51450b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closedList: []
   openList: []
   roomList: []
   tilePrefab: {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb,
     type: 3}
-  minRoomWidth: 3
-  minRoomHeight: 3
+  delaunayMesh: []
+  minRoomWidth: 1
+  minRoomHeight: 1
   maxRoomWidth: 12
   maxRoomHeight: 12
   maxRatio: 1.3
   minRatio: 0.7
-  minAmountRoom: 8
-  maxAmountRoom: 12
+  minAmountRoom: 3
+  maxAmountRoom: 11
