@@ -504,6 +504,7 @@ MonoBehaviour:
   roomList: []
   tilePrefab: {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb,
     type: 3}
+  dungeonPaths: []
   delaunayMesh: []
   minRoomWidth: 1
   minRoomHeight: 1
@@ -513,3 +514,4 @@ MonoBehaviour:
   minRatio: 0.7
   minAmountRoom: 3
   maxAmountRoom: 11
+  pathLoops: 2

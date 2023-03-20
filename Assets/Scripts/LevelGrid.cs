@@ -12,8 +12,7 @@ public class LevelGrid : MonoBehaviour
     [SerializeField] private int width, height, cellSize;
     
     private GridSystem<GridObject> gridSystem;
-    public ModuleData ModuleData;
-   
+
     private void Awake()
     {
         if (Instance != null)
@@ -52,6 +51,68 @@ public class LevelGrid : MonoBehaviour
         
         return result;
     }
+
+    public List<Node> GetNodeGrid()
+    {
+        List<Node> nodeList = new List<Node>();
+        List<GridPosition> grid = GetGridPositions();
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                //Add neighbours to node
+                GridPosition position = new GridPosition(x, z);
+                Node node = GetGridObject(position).gridNode;
+                
+                //Left
+                if (grid.Contains(new GridPosition(position.x - 1, position.z)))
+                {
+                    node.neighbourList.Add(GetGridObject(new GridPosition(position.x - 1, position.z)).gridNode);
+                    //Left Down
+                    if (grid.Contains(new GridPosition(position.x - 1, position.z - 1)))
+                    {
+                        node.neighbourList.Add(GetGridObject(new GridPosition(position.x - 1, position.z - 1)).gridNode);
+                    }
+                    if (grid.Contains(new GridPosition(position.x - 1, position.z + 1)))
+                    {
+                        node.neighbourList.Add(GetGridObject(new GridPosition(position.x - 1, position.z + 1)).gridNode);
+                    }
+                }
+                
+                //Right
+                if (grid.Contains(new GridPosition(position.x + 1, position.z)))
+                {
+                    node.neighbourList.Add(GetGridObject(new GridPosition(position.x + 1, position.z)).gridNode);
+                    //Right Down
+                    if (grid.Contains(new GridPosition(position.x + 1, position.z - 1)))
+                    {
+                        node.neighbourList.Add(GetGridObject(new GridPosition(position.x + 1, position.z - 1)).gridNode);
+                    }
+                    //Right Up
+                    if (grid.Contains(new GridPosition(position.x + 1, position.z + 1)))
+                    {
+                        node.neighbourList.Add(GetGridObject(new GridPosition(position.x + 1, position.z + 1)).gridNode);
+                    }
+                }
+
+                //Down
+                if (grid.Contains(new GridPosition(position.x, position.z - 1)))
+                {
+                    node.neighbourList.Add(GetGridObject(new GridPosition(position.x, position.z - 1)).gridNode);
+                }
+                
+                if (grid.Contains(new GridPosition(position.x, position.z + 1)))
+                {
+                    node.neighbourList.Add(GetGridObject(new GridPosition(position.x, position.z + 1)).gridNode);
+                }
+                
+                nodeList.Add(node);
+            }
+        }
+
+        return nodeList;
+    }
+
     public int GetWidth()
     {
         return width;

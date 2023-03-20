@@ -14,6 +14,7 @@ public enum TILETYPE
 public class GridObject
 {
     private GridSystem<GridObject> gridSystem;
+    public Node gridNode;
     public GridPosition gridPosition { get; private set; }
     public TILETYPE tileType { get; private set; }
 
@@ -21,6 +22,7 @@ public class GridObject
     {
         gridSystem = _gridSystem;
         gridPosition = _gridPosition;
+        gridNode = new Node(_gridSystem.GetWorldPosition(_gridPosition));
     }
 
     public override string ToString()
