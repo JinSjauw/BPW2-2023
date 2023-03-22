@@ -157,7 +157,6 @@ MonoBehaviour:
   width: 40
   height: 40
   cellSize: 2
-  ModuleData: {fileID: 0}
 --- !u!4 &169919
 Transform:
   m_ObjectHideFlags: 0
@@ -504,6 +503,7 @@ MonoBehaviour:
   roomList: []
   tilePrefab: {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb,
     type: 3}
+  tileHallPrefab: {fileID: 0}
   dungeonPaths: []
   delaunayMesh: []
   minRoomWidth: 1

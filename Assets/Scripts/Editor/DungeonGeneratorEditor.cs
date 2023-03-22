@@ -20,5 +20,10 @@ public class NewBehaviourScript : Editor
         {
             generator.GenerateTriangulation();
         }
+        
+        if (GUILayout.Button("Generate Hallways"))
+        {
+            generator.SpawnHallways();
+        }
     }
 }

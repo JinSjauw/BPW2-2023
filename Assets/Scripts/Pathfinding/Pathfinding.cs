@@ -4,39 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class Node
-{
-    public Vector3 position;
-    
-    public int fCost;
-    public int gCost;
-    public int hCost;
-
-    public Node parent = null;
-    public List<Node> neighbourList;
-        
-    public Node(Vector3 _position)
-    {
-        position = _position;
-    }
-
-    public void CalculateFCost()
-    {
-        fCost = gCost + hCost;
-    }
-}
-
 public class Pathfinding
 {
     //CONST
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
-    private const int MOVE_THROUGH = 5;
-    
+
     private LevelGrid grid;
-    private List<Node> nodeGrid;
-    private List<Node> openList;
-    private List<Node> closedList;
+    private List<GridObject> nodeGrid;
+    private List<GridObject> openList;
+    private List<GridObject> closedList;
 
     public Pathfinding()
     {
@@ -50,13 +27,13 @@ public class Pathfinding
 
     }
 
-    public List<Node> FindPath(Node _start, Node _end)
+    public List<GridObject> FindPath(GridObject _start, GridObject _end)
     {
-        Node startNode = _start;
-        Node endNode = _end;
+        GridObject startNode = _start;
+        GridObject endNode = _end;
 
-        openList = new List<Node> { startNode };
-        closedList = new List<Node>();
+        openList = new List<GridObject> { startNode };
+        closedList = new List<GridObject>();
 
         //Reset Nodes
         foreach (var node in nodeGrid)
@@ -72,12 +49,12 @@ public class Pathfinding
 
         while (openList.Count > 0)
         {
-            Node currentNode = GetLowestFcost(openList);
+            GridObject currentNode = GetLowestFcost(openList);
 
             if (currentNode == endNode)
             {
                 //Return path here. End has been reached
-                return null;
+                return ReturnPath(startNode, endNode);
             }
 
             openList.Remove(currentNode);
@@ -104,21 +81,27 @@ public class Pathfinding
                     }
                 }
             }
-
-            return null;
         }
         
-        
         return null;
     }
 
-    public List<Node> ReturnPath()
+    public List<GridObject> ReturnPath(GridObject _startNode, GridObject _endNode)
     {
-        //Reverse List
-        return null;
+        List<GridObject> path = new List<GridObject>();
+        GridObject currentNode = _endNode;
+        path.Add(currentNode);
+        while (currentNode != _startNode)
+        {
+            path.Add(currentNode.parent);
+            currentNode = currentNode.parent;
+        }
+        path.Reverse();
+        
+        return path;
     }
 
-    private int CalculateDistance(Node _a, Node _b)
+    private int CalculateDistance(GridObject _a, GridObject _b)
     {
         if(_a == null || _b == null)
         {
@@ -129,13 +112,20 @@ public class Pathfinding
         int distanceX = (int)MathF.Abs(_a.position.x - _b.position.z);
         int distanceY = (int)MathF.Abs(_a.position.x - _b.position.z);
         int remaining = Mathf.Abs(distanceX - distanceY);
+        
+        int score = MOVE_DIAGONAL_COST * Mathf.Min(distanceX, distanceY) + MOVE_STRAIGHT_COST * remaining;
 
-        return MOVE_DIAGONAL_COST * Mathf.Min(distanceX, distanceY) + MOVE_STRAIGHT_COST * remaining;
+        if (_a.tileType == TILETYPE.HALLWAY)
+        {
+            score =- 5;
+        }
+
+        return score;
     }
 
-    private Node GetLowestFcost(List<Node> _nodes)
+    private GridObject GetLowestFcost(List<GridObject> _nodes)
     {
-        Node lowestFcost = _nodes[0];
+        GridObject lowestFcost = _nodes[0];
         foreach (var node in _nodes)
         {
             if (node.fCost < lowestFcost.fCost)
@@ -146,8 +136,4 @@ public class Pathfinding
         
         return lowestFcost;
     }
-    
-    
-
-
 }

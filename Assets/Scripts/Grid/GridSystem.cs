@@ -56,7 +56,7 @@ public class GridSystem<TGridObject>
 
    private TGridObject[,] gridObjectArray;
    
-   public GridSystem(int _width, int _height, float _cellSize, Func<GridSystem<TGridObject>, GridPosition, TGridObject> _CreateGridObject)
+   public GridSystem(int _width, int _height, float _cellSize, Func<GridSystem<TGridObject>, GridPosition, Vector3, TGridObject> _CreateGridObject)
    {
       width = _width;
       height = _height;
@@ -68,7 +68,8 @@ public class GridSystem<TGridObject>
          for (int z = 0; z < height; z++)
          {
             GridPosition gridPosition = new GridPosition(x, z);
-            gridObjectArray[x, z] = _CreateGridObject(this, gridPosition);
+            Vector3 worldPosition = GetWorldPosition(gridPosition);
+            gridObjectArray[x, z] = _CreateGridObject(this, gridPosition, worldPosition);
          }
       }
    }

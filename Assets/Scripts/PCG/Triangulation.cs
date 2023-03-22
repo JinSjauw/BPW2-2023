@@ -191,6 +191,7 @@ public class Triangulation
                 triangles.Remove(triangle);
             }
         }
+
         return triangles;
     }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,12 +13,14 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private List<GridPosition> openList;
     [SerializeField] private List<Room> roomList;
     [SerializeField] private GameObject tilePrefab;
-    
+    [SerializeField] private GameObject tileHallPrefab;
+
     private Triangulation triangulation;
     [SerializeField] private List<Edge> dungeonPaths;
     [SerializeField] private List<Triangle> delaunayMesh;
-    
-    
+    [SerializeField] private List<Vector3> hallWays;
+
+
     [Header("Room Data")]
     [SerializeField] private int minRoomWidth;
     [SerializeField] private int minRoomHeight;
@@ -27,7 +30,9 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private int minAmountRoom;
     [SerializeField] private int maxAmountRoom;
 
-    [Header("Path Data")] [SerializeField] private int pathLoops;
+    [Header("Path Data")] 
+    [SerializeField] private int pathLoops;
+    private Pathfinding pathfinder;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +40,7 @@ public class DungeonGenerator : MonoBehaviour
         grid = LevelGrid.Instance;
         openList = grid.GetGridPositions();
         triangulation = new Triangulation();
-        
+        pathfinder = new Pathfinding();
         roomList = new List<Room>();
     }
 
@@ -157,6 +162,7 @@ public class DungeonGenerator : MonoBehaviour
             foreach (var roomTile in roomGrid)
             {
                 Instantiate(tilePrefab, grid.GetWorldPosition(roomTile), Quaternion.identity);
+                grid.GetGridObject(roomTile).SetTileType(TILETYPE.FLOOR);
             }
         }
     }
@@ -181,7 +187,6 @@ public class DungeonGenerator : MonoBehaviour
 
         delaunayMesh = triangulation.Triangulate(vertices);
         dungeonPaths = GeneratePath(delaunayMesh);
-        
         
     }
 
@@ -241,7 +246,7 @@ public class DungeonGenerator : MonoBehaviour
             }
         }
         
-        while (visitedList.Count < vertices.Count)
+        while (visitedList.Count <= vertices.Count)
         {
             //Find minimum Edge
             Edge minimumEdge = reachableList[0];
@@ -294,6 +299,11 @@ public class DungeonGenerator : MonoBehaviour
         }
         
         //Add Back a few Edges
+        if (path.Count == edges.Count)
+        {
+            return path;
+        }
+        
         for (int i = 0; i < pathLoops;)
         {
             Edge edge = edges[Random.Range(0, edges.Count - 1)];
@@ -306,6 +316,29 @@ public class DungeonGenerator : MonoBehaviour
         }
         
         return path;
+    }
+
+    public void SpawnHallways()
+    {
+        foreach (var edge in dungeonPaths)
+        {
+            List<GridObject> path = new List<GridObject>();
+            GridObject start = grid.GetGridObject(grid.GetGridPosition(edge.vertexA));
+            GridObject end = grid.GetGridObject(grid.GetGridPosition(edge.vertexB));
+            path = pathfinder.FindPath(start, end);
+
+            foreach (var tile in path)
+            {
+                if (tile.tileType != TILETYPE.EMPTY)
+                {
+                    continue;
+                }
+                
+                tile.SetTileType(TILETYPE.HALLWAY);
+                Instantiate(tileHallPrefab, tile.position, quaternion.identity);
+                hallWays.Add(tile.position);
+            }
+        }
     }
     
     public Vector2 GetRatioSize()
@@ -358,6 +391,12 @@ public class DungeonGenerator : MonoBehaviour
         {
             Gizmos.color = new Color(0, 1, 0, 1);
             Gizmos.DrawLine(edge.vertexA, edge.vertexB);
+        }
+
+        for (int i = 0; i < hallWays.Count - 1; i++)
+        {
+            Gizmos.color = new Color(1, 0, 0, 1);
+            Gizmos.DrawLine(hallWays[i], hallWays[i + 1]);
         }
     }
 }
