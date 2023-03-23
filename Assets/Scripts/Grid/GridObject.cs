@@ -51,4 +51,9 @@ public class GridObject
     {
         return gridPosition.ToString();
     }
+
+    public void Render()
+    {
+        
+    }
 }

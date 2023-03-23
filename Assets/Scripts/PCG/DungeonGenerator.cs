@@ -10,8 +10,10 @@ using Random = UnityEngine.Random;
 public class DungeonGenerator : MonoBehaviour
 {
     private LevelGrid grid;
-    [SerializeField] private List<GridPosition> openList;
+    [SerializeField] private List<GridPosition> cellList;
     [SerializeField] private List<Room> roomList;
+    [SerializeField] private List<GridObject> walkableList;
+    
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject tileHallPrefab;
 
@@ -20,6 +22,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private List<Triangle> delaunayMesh;
     [SerializeField] private List<Vector3> hallWays;
 
+    private int testIndex = 0;
 
     [Header("Room Data")]
     [SerializeField] private int minRoomWidth;
@@ -38,7 +41,7 @@ public class DungeonGenerator : MonoBehaviour
     void Start()
     {
         grid = LevelGrid.Instance;
-        openList = grid.GetGridPositions();
+        cellList = grid.GetGridPositions();
         triangulation = new Triangulation();
         pathfinder = new Pathfinding();
         roomList = new List<Room>();
@@ -54,7 +57,7 @@ public class DungeonGenerator : MonoBehaviour
         {
             LoopStart:
             
-            if (openList.Count <= 0)
+            if (cellList.Count <= 0)
             {
                 Debug.Log("OpenList is empty");
                 break;
@@ -63,8 +66,8 @@ public class DungeonGenerator : MonoBehaviour
             if (currentAmount < totalAmount)
             {
                 //Pick a position
-                int positionIndex = Random.Range(0, openList.Count - 1);
-                GridPosition gridPosition = openList[positionIndex];
+                int positionIndex = Random.Range(0, cellList.Count - 1);
+                GridPosition gridPosition = cellList[positionIndex];
 
                 Vector2 size = GetRatioSize();
 
@@ -75,7 +78,7 @@ public class DungeonGenerator : MonoBehaviour
                 //Verify if the rooms fits on the grid
                 GridPosition roomSize = new GridPosition(gridPosition.x + width, gridPosition.z + height);
                 
-                if (openList.Contains(roomSize));
+                if (cellList.Contains(roomSize));
                 {
                     List<GridPosition> roomPositions = new List<GridPosition>();
                     
@@ -85,19 +88,19 @@ public class DungeonGenerator : MonoBehaviour
                         {
                             GridPosition roomTile = new GridPosition(gridPosition.x + x, gridPosition.z + z);
 
-                            if (openList.Contains(roomTile))
+                            if (cellList.Contains(roomTile))
                             {
                                 roomPositions.Add(roomTile);
-                                openList.Remove(roomTile);
+                                cellList.Remove(roomTile);
                                 
                                 //Ensure 1 tile space between rooms
                                 //Width spacing
                                 if (x == 0)
                                 {
-                                    if (openList.Contains(new GridPosition(gridPosition.x - 1, gridPosition.z + z)))
+                                    if (cellList.Contains(new GridPosition(gridPosition.x - 1, gridPosition.z + z)))
                                     {
                                         GridPosition spacing = new GridPosition(gridPosition.x - 1, gridPosition.z + z);
-                                        openList.Remove(spacing);
+                                        cellList.Remove(spacing);
                                         Debug.Log("Removing negative width at:" + " X: " + (gridPosition.x - 1) + " Y: " + (gridPosition.z + 1));
 
                                     }
@@ -105,10 +108,10 @@ public class DungeonGenerator : MonoBehaviour
 
                                 if (x == width - 1)
                                 {
-                                    if (openList.Contains(new GridPosition(gridPosition.x + x + 1, gridPosition.z + z)))
+                                    if (cellList.Contains(new GridPosition(gridPosition.x + x + 1, gridPosition.z + z)))
                                     {
                                         GridPosition spacing = new GridPosition(gridPosition.x + x + 1, gridPosition.z + z);
-                                        openList.Remove(spacing);
+                                        cellList.Remove(spacing);
                                         Debug.Log("Removing positive width at:" + " X: " + (gridPosition.x + x + 1) + " Y: " + gridPosition.z + z);
 
                                     }
@@ -117,10 +120,10 @@ public class DungeonGenerator : MonoBehaviour
                                 //Height spacing
                                 if (z == 0)
                                 {
-                                    if (openList.Contains(new GridPosition(gridPosition.x + x, gridPosition.z - 1)))
+                                    if (cellList.Contains(new GridPosition(gridPosition.x + x, gridPosition.z - 1)))
                                     {
                                         GridPosition spacing = new GridPosition(gridPosition.x + x, gridPosition.z - 1);
-                                        openList.Remove(spacing);
+                                        cellList.Remove(spacing);
                                         Debug.Log("Removing negative height at:" + " X: " + (gridPosition.x + x) + " Y: " + (gridPosition.z - 1));
 
                                     }
@@ -128,10 +131,10 @@ public class DungeonGenerator : MonoBehaviour
                                 
                                 if (z == height - 1)
                                 {
-                                    if (openList.Contains(new GridPosition(gridPosition.x + x, gridPosition.z + z + 1)))
+                                    if (cellList.Contains(new GridPosition(gridPosition.x + x, gridPosition.z + z + 1)))
                                     {
                                         GridPosition spacing = new GridPosition(gridPosition.x + x, gridPosition.z + z + 1);
-                                        openList.Remove(spacing);
+                                        cellList.Remove(spacing);
                                         Debug.Log("Removing positive height at:" + " X: " + (gridPosition.x + x) + " Y: " + gridPosition.z + 1 + 1);
                                     }
                                 }
@@ -161,6 +164,7 @@ public class DungeonGenerator : MonoBehaviour
 
             foreach (var roomTile in roomGrid)
             {
+                
                 Instantiate(tilePrefab, grid.GetWorldPosition(roomTile), Quaternion.identity);
                 grid.GetGridObject(roomTile).SetTileType(TILETYPE.FLOOR);
             }
@@ -320,23 +324,72 @@ public class DungeonGenerator : MonoBehaviour
 
     public void SpawnHallways()
     {
+        /*List<GridObject> path = new List<GridObject>();
+
+        Edge edge = dungeonPaths[i];
+        
+        GridObject start = grid.GetGridObject(grid.GetGridPosition(edge.vertexA));
+        GridObject end = grid.GetGridObject(grid.GetGridPosition(edge.vertexB));
+        
+        path = pathfinder.FindPath(start, end);
+        
+        foreach (var tile in path)
+        {
+            hallWays.Add(tile.position);
+            if (tile.tileType == TILETYPE.FLOOR)
+            {
+                
+                continue;
+            }
+            
+            tile.SetTileType(TILETYPE.HALLWAY);
+            Instantiate(tileHallPrefab, tile.position, quaternion.identity);
+        }
+
+        i++;*/
+        
         foreach (var edge in dungeonPaths)
         {
             List<GridObject> path = new List<GridObject>();
+            
             GridObject start = grid.GetGridObject(grid.GetGridPosition(edge.vertexA));
             GridObject end = grid.GetGridObject(grid.GetGridPosition(edge.vertexB));
+
+            bool foundDoorway = false;
+            
             path = pathfinder.FindPath(start, end);
 
             foreach (var tile in path)
             {
-                if (tile.tileType != TILETYPE.EMPTY)
+                hallWays.Add(tile.position);
+                
+                if (tile.tileType == TILETYPE.FLOOR || tile.tileType == TILETYPE.WALL || tile.tileType == TILETYPE.DOORWAY)
                 {
+                    if (!foundDoorway)
+                    {
+                        tile.SetTileType(TILETYPE.DOORWAY);
+
+                        foreach (var neighBour in tile.neighbourList)
+                        {
+                            neighBour.SetTileType(TILETYPE.DOORWAY);
+                        }
+                        foundDoorway = true;
+                    }
+                    
                     continue;
                 }
                 
                 tile.SetTileType(TILETYPE.HALLWAY);
                 Instantiate(tileHallPrefab, tile.position, quaternion.identity);
-                hallWays.Add(tile.position);
+                
+                foreach (var neighbour in tile.neighbourList)
+                {
+                    if (neighbour.tileType == TILETYPE.EMPTY)
+                    {
+                        neighbour.SetTileType(TILETYPE.HALLWAY);
+                        Instantiate(tileHallPrefab, neighbour.position, quaternion.identity);
+                    }
+                }
             }
         }
     }

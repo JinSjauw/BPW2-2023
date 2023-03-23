@@ -96,6 +96,7 @@ public class Pathfinding
             path.Add(currentNode.parent);
             currentNode = currentNode.parent;
         }
+        
         path.Reverse();
         
         return path;
@@ -109,17 +110,27 @@ public class Pathfinding
             return 0;
         }
 
-        int distanceX = (int)MathF.Abs(_a.position.x - _b.position.z);
-        int distanceY = (int)MathF.Abs(_a.position.x - _b.position.z);
+        int distanceX = (int)MathF.Abs(_a.position.x - _b.position.x);
+        int distanceY = (int)MathF.Abs(_a.position.z - _b.position.z);
+        
+        /*
         int remaining = Mathf.Abs(distanceX - distanceY);
         
         int score = MOVE_DIAGONAL_COST * Mathf.Min(distanceX, distanceY) + MOVE_STRAIGHT_COST * remaining;
+        */
+        
+        int score = 4 * (distanceX + distanceY);
+
+        if (_a.tileType == TILETYPE.FLOOR)
+        {
+            score += 1;
+        }
 
         if (_a.tileType == TILETYPE.HALLWAY)
         {
-            score =- 5;
+            score -= 3;
         }
-
+        
         return score;
     }
 
