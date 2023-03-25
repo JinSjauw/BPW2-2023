@@ -7,7 +7,7 @@ public enum ROOMTYPE
 {
    NORMAL = 0,
    START = 1,
-   BOSSROOM = 2,
+   END = 2,
    TREASURE = 3,
 }
 
@@ -30,6 +30,10 @@ public class Room
        roomCenter = _roomCenter;
        roomType = _roomType;
        roomGrid = _roomGrid;
+   }
+
+   public Room()
+   {
    }
 
    public void SetSize(int _width, int _height)

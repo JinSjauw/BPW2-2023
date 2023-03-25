@@ -505,6 +505,8 @@ MonoBehaviour:
     type: 3}
   tileHallPrefab: {fileID: 2268539334128204882, guid: f70514f959d4e0a4fa5a9ac4f08d6e4b,
     type: 3}
+  tileWallPrefab: {fileID: 5099346392027905484, guid: 66c89ae9b92536c418843dd50ea3a8c6,
+    type: 3}
   dungeonPaths: []
   delaunayMesh: []
   hallWays: []
