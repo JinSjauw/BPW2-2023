@@ -11,9 +11,14 @@ public class NewBehaviourScript : Editor
         DrawDefaultInspector();
 
         DungeonGenerator generator = (DungeonGenerator)target;
+        if (GUILayout.Button("Generate Dungeon"))
+        {
+            generator.Generate();
+        }
+        
         if (GUILayout.Button("Generate Rooms"))
         {
-            generator.SpawnRooms();
+            generator.GenerateRooms();
         }
 
         if (GUILayout.Button("Generate Delaunay"))
@@ -23,7 +28,7 @@ public class NewBehaviourScript : Editor
         
         if (GUILayout.Button("Generate Hallways"))
         {
-            generator.SpawnHallways();
+            generator.GenerateHallways();
         }
     }
 }

@@ -28,6 +28,13 @@ public class LevelGrid : MonoBehaviour
         //gridSystem.CreateDebugObjects(gridDebugObject);
     }
 
+    private void Start()
+    {
+        DungeonGenerator.Instance.Initialize();
+        //gridSystem.CreateDebugObjects(DungeonGenerator.Instance.Generate(), gridDebugObject);
+        DungeonGenerator.Instance.Generate();
+    }
+
     private void SetNeighbours()
     {
         List<GridObject> nodeList = new List<GridObject>();
