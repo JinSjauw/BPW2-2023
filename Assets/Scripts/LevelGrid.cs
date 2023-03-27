@@ -10,6 +10,8 @@ public class LevelGrid : MonoBehaviour
     [Header("Grid Data")]
     [SerializeField] private Transform gridDebugObject;
     [SerializeField] private int width, height, cellSize;
+    [SerializeField] private bool CreateDebugGrid = false;
+    [SerializeField] private bool GenerateDungeon = false;
     
     private GridSystem<GridObject> gridSystem;
 
@@ -25,11 +27,18 @@ public class LevelGrid : MonoBehaviour
         
         gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> _grid, GridPosition _gridPosition, Vector3 _worldPosition) => new GridObject(_grid, _gridPosition, _worldPosition));
         SetNeighbours();
-        //gridSystem.CreateDebugObjects(gridDebugObject);
+        if (CreateDebugGrid)
+        {
+            gridSystem.CreateDebugObjects(gridDebugObject);
+        }
     }
 
     private void Start()
     {
+        if (!GenerateDungeon)
+        {
+            return;
+        }
         DungeonGenerator.Instance.Initialize();
         //gridSystem.CreateDebugObjects(DungeonGenerator.Instance.Generate(), gridDebugObject);
         DungeonGenerator.Instance.Generate();
