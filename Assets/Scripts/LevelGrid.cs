@@ -105,6 +105,39 @@ public class LevelGrid : MonoBehaviour
         }
     }
     
+    
+    public void SetUnitAtGridObject(GridPosition _gridPosition, Unit _unit)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(_gridPosition);
+        gridObject.SetUnit(_unit);
+    }
+
+    public void SetUnitAtGridPosition(GridPosition _gridPosition, Unit _unit)
+    {
+        _unit.transform.position = GetWorldPosition(_gridPosition);
+    }
+    
+    public Unit GetUnitAtGridPosition(GridPosition _gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(_gridPosition);
+        
+        return gridObject.GetUnit();
+    }
+
+    public void ClearUnitAtGridPosition(GridPosition _gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(_gridPosition);
+        gridObject.SetUnit(null);
+    }
+
+    public void UnitMovedGridPosition(Unit _unit, GridPosition _fromGridPosition, GridPosition _toGridPosition)
+    {
+        ClearUnitAtGridPosition(_fromGridPosition);
+        
+        SetUnitAtGridObject(_toGridPosition, _unit);
+    }
+
+    
     public Vector3 GetTargetGridPosition(Vector3 _worldPosition)
     {
         return GetWorldPosition(GetGridPosition(_worldPosition));

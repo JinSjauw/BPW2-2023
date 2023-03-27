@@ -27,6 +27,9 @@ public class GridObject
 
     public GridObject parent = null;
     public List<GridObject> neighbourList;
+    
+    private Unit currentUnit;
+
 
     public GridObject(GridSystem<GridObject> _gridSystem, GridPosition _gridPosition, Vector3 _position)
     {
@@ -35,6 +38,16 @@ public class GridObject
         position = _position;
         tileType = TILETYPE.EMPTY;
         neighbourList = new List<GridObject>();
+    }
+    
+    public void SetUnit(Unit _unit)
+    {
+        currentUnit = _unit;
+    }
+
+    public Unit GetUnit()
+    {
+        return currentUnit;
     }
     
     public void CalculateFCost()
@@ -49,11 +62,6 @@ public class GridObject
 
     public override string ToString()
     {
-        return gridPosition.ToString();
-    }
-
-    public void Render()
-    {
-        
+        return gridPosition.ToString() + "\r\n" +  currentUnit;
     }
 }
