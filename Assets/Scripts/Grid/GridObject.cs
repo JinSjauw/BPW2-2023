@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum TILETYPE
@@ -60,6 +61,11 @@ public class GridObject
         tileType = _type;
     }
 
+    public bool HasUnit()
+    {
+        return currentUnit != null;
+    }
+    
     public override string ToString()
     {
         return gridPosition.ToString() + "\r\n" +  currentUnit;

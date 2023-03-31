@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MoveAction : BaseAction
 {
@@ -6,20 +8,50 @@ public class MoveAction : BaseAction
     private UnitData unitData;
     private string moveType = "";
     private bool isExecuting = false;
-    
-    public override void SetUnit(Unit _unit, object _obj)
+
+    protected override void Awake()
     {
-        unit = _unit;
-        unitData = _unit.GetUnitData();
-        targetPosition = LevelGrid.Instance.GetTargetGridPosition((Vector3)_obj);
+        base.Awake();
+        unitData = unit.GetUnitData();
+        targetPosition = transform.position;
     }
 
-    public override void Execute()
+    public override void TakeAction(GridPosition _position, Action _onActionComplete)
     {
+        targetPosition = LevelGrid.Instance.GetWorldPosition(_position);
+        onActionComplete = _onActionComplete;
+        isActive = true;
+    }
+
+    public override List<GridPosition> GetValidActionPositionsList()
+    {
+        List<GridPosition> validPositions = new List<GridPosition>();
+        List<GridPosition> tempPositions = new List<GridPosition>();
+        tempPositions = LevelGrid.Instance.GetTilesInCircle(transform.position, unitData.moveDistance);
+        
+        foreach (GridPosition position in tempPositions)
+        {
+            if (!LevelGrid.Instance.HasAnyUnit(position))
+            {
+                validPositions.Add(position);
+            }
+        }
+
+        return validPositions;
+    }
+
+    private void Update()
+    {
+        if (!isActive)
+        {
+            return;
+        }
+        
         if (unit == null)
         {
             Debug.Log($"MoveAction unit is null {this}");
         }
+        
         //Move & look at targetPosition
         Vector3 moveDirection = (targetPosition - unit.transform.position).normalized;
         float distance = Vector3.Distance(targetPosition, unit.transform.position);
@@ -35,6 +67,7 @@ public class MoveAction : BaseAction
 
         if (distance > unitData.stoppingDistance)
         {
+            isActive = true;
             isExecuting = true;
             unitData.unitAnimator.SetBool(moveType, true);
             unit.transform.position += moveDirection * unitData.moveSpeed * Time.deltaTime;    
@@ -45,9 +78,15 @@ public class MoveAction : BaseAction
         }
         else
         {
+            isActive = false;
             isExecuting = false;
-            unitData.isActive = false;
+            onActionComplete();
             unitData.unitAnimator.SetBool(moveType, false);
         }
+    }
+
+    public override string GetActionName()
+    {
+        return "Move";
     }
 }

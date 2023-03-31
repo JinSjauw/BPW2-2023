@@ -9,24 +9,29 @@ public class UnitData
     public Animator unitAnimator;
     public float moveSpeed;
     public float rotateSpeed;
-    public float stoppingDistance;
-    public bool isActive;
+    public float stoppingDistance; 
+    public float moveDistance;
+    //public bool isActive;
 }
 
+[RequireComponent(typeof(MoveAction))]
 public class Unit : MonoBehaviour
 {
     private GridPosition gridPosition;
+    private BaseAction[] actionArray;
     
     [SerializeField] private UnitData unitData;
-
-    private Dictionary<string, BaseAction> actionList;
-    private BaseAction currentAction;
-
-    private Inventory inventory;
     
-    private void Awake() {
-        actionList = new Dictionary<string, BaseAction>();
-        inventory = new Inventory();
+    //private Dictionary<string, BaseAction> actionList;
+    private void Awake()
+    {
+        actionArray = GetComponents<BaseAction>();
+        //Temp adding actions manually
+        /*MoveAction moveAction = new MoveAction();
+        AddAction(moveAction.GetActionName(), moveAction);
+
+        TargetAction targetAction = new TargetAction();
+        AddAction(targetAction.GetActionName(), targetAction);*/
     }
 
     private void Start()
@@ -34,23 +39,10 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
         LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
-
-        //Temp adding actions manually
-        MoveAction moveAction = new MoveAction();
-        AddAction("Move", moveAction);
-
-        TargetAction targetAction = new TargetAction();
-        AddAction("Target", targetAction);
     }
 
     private void Update()
     {
-        //Execute Action
-        if(unitData.isActive)
-        {
-          currentAction.Execute();
-        }
-        
         //Detect new GridPosition
         GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newGridPosition != gridPosition)
@@ -66,24 +58,14 @@ public class Unit : MonoBehaviour
     {
         return unitData;
     }
-    
-    //Move Action
-    public void TakeAction(string _actionName, object _obj)
+
+    public BaseAction[] GetActionArray()
     {
-        if (actionList.ContainsKey(_actionName) && !unitData.isActive)
-        {
-            unitData.isActive = true;
-            currentAction = actionList[_actionName];
-            currentAction.SetUnit(this, _obj);
-        }
-        else
-        {
-            Debug.Log($"Unit {this.name} does not have {_actionName} action available");
-        }
+        return actionArray;
     }
-    
-    public void AddAction(string _actionName, BaseAction _action)
+
+    public MoveAction GetMoveAction()
     {
-        actionList.Add(_actionName, _action);
+        return GetComponent<MoveAction>();
     }
 }
