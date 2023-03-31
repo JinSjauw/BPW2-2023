@@ -43,6 +43,11 @@ public class UnitManager : MonoBehaviour
             return;
         }
 
+        if (!TurnSystem.Instance.IsPlayerTurn())
+        {
+            return;
+        }
+        
         if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
@@ -98,6 +103,11 @@ public class UnitManager : MonoBehaviour
                 if(raycastHit.collider.TryGetComponent<Unit>(out Unit _unit))
                 {
                     if (_unit == selectedUnit)
+                    {
+                        return false;
+                    }
+
+                    if (_unit.IsEnemy())
                     {
                         return false;
                     }

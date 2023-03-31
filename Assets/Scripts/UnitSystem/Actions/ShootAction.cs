@@ -1,22 +1,13 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAction : BaseAction
+public class ShootAction : BaseAction
 {
-    private Vector3 targetPosition;
-    private string moveType = "";
-    private bool isExecuting = false;
     
-    protected override void Awake()
-    {
-        base.Awake();
-        targetPosition = transform.position;
-    }
-
     public override void TakeAction(GridPosition _position, Action _onActionComplete)
     {
-        targetPosition = LevelGrid.Instance.GetWorldPosition(_position);
         onActionComplete = _onActionComplete;
         isActive = true;
     }
@@ -37,7 +28,12 @@ public class MoveAction : BaseAction
 
         return validPositions;
     }
-
+    
+    public override string GetActionName()
+    {
+        return "Shoot";
+    }
+    
     private void Update()
     {
         if (!isActive)
@@ -49,21 +45,8 @@ public class MoveAction : BaseAction
         {
             Debug.Log($"MoveAction unit is null {this}");
         }
-        
-        //Move & look at targetPosition
-        Vector3 moveDirection = (targetPosition - unit.transform.position).normalized;
-        float distance = Vector3.Distance(targetPosition, unit.transform.position);
 
-        if (distance >= 6 && !isExecuting)
-        {
-            moveType = "isRunning";
-        }
-        else if (!isExecuting)
-        {
-            moveType = "isWalking";
-        }
-
-        if (distance > unitData.stoppingDistance)
+        /*if (distance > unitData.stoppingDistance)
         {
             isActive = true;
             isExecuting = true;
@@ -78,16 +61,6 @@ public class MoveAction : BaseAction
             isExecuting = false;
             onActionComplete();
             unitData.unitAnimator.SetBool(moveType, false);
-        }
-    }
-
-    public override int GetActionPointsCost()
-    {
-        return actionCost;
-    }
-
-    public override string GetActionName()
-    {
-        return "Move";
+        }*/
     }
 }

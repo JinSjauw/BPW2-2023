@@ -7,14 +7,14 @@ public abstract class BaseAction : MonoBehaviour
 {
    protected bool isActive = false;
    protected Unit unit;
+   protected UnitData unitData;
    protected Action onActionComplete;
    protected int actionCost = 1;
    protected virtual void Awake()
    {
       unit = GetComponent<Unit>();
+      unitData = unit.GetUnitData();
    }
-   //public abstract void SetUnit(Unit _unit, object _obj);
-   //public abstract void Execute();
    public abstract void TakeAction(GridPosition _position, Action _onActionComplete);
 
    public virtual bool IsValidActionGridPosition(GridPosition _gridPosition)

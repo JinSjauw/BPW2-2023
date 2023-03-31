@@ -17,8 +17,13 @@ public class UnitData
 [RequireComponent(typeof(MoveAction))]
 public class Unit : MonoBehaviour
 {
+    public static event EventHandler OnAnyActionPointsChanged;
+    
     private GridPosition gridPosition;
     private BaseAction[] actionArray;
+
+    [SerializeField] private bool isEnemy;
+    [SerializeField] private int maxActionPoints = 3;
     [SerializeField] private int actionPoints = 3;
     
     [SerializeField] private UnitData unitData;
@@ -35,6 +40,8 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
         LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
+
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
 
     private void Update()
@@ -53,7 +60,24 @@ public class Unit : MonoBehaviour
     private void SpendActionPoints(int _amount)
     {
         actionPoints -= _amount;
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         Debug.Log($"Spent {_amount} AP : {actionPoints} AP left");
+    }
+
+    private void TurnSystem_OnTurnChanged(object _sender, EventArgs e)
+    {
+        if (IsEnemy() && !TurnSystem.Instance.IsPlayerTurn() ||
+            !IsEnemy() && TurnSystem.Instance.IsPlayerTurn())
+        {
+            actionPoints = maxActionPoints;
+        
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public bool IsEnemy()
+    {
+        return isEnemy;
     }
     
     public UnitData GetUnitData()
