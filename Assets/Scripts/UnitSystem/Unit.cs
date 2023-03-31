@@ -11,6 +11,8 @@ public class UnitData
     public float rotateSpeed;
     public float stoppingDistance; 
     public float moveDistance;
+
+    public float attackRange;
     //public bool isActive;
 }
 
@@ -21,7 +23,8 @@ public class Unit : MonoBehaviour
     
     private GridPosition gridPosition;
     private BaseAction[] actionArray;
-
+    private HealthSystem healthSystem;
+    
     [SerializeField] private bool isEnemy;
     [SerializeField] private int maxActionPoints = 3;
     [SerializeField] private int actionPoints = 3;
@@ -30,6 +33,7 @@ public class Unit : MonoBehaviour
     
     private void Awake()
     {
+        healthSystem = GetComponent<HealthSystem>();
         actionArray = GetComponents<BaseAction>();
         unitData.moveDistance = unitData.moveSpeed * actionPoints + .5f;
 
@@ -41,6 +45,7 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
         LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
 
+        healthSystem.OnDeath += HealthSystem_OnDeath;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
 
@@ -75,6 +80,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public void Damage(int _amount)
+    {
+        healthSystem.Damage(_amount);
+    }
+    
     public bool IsEnemy()
     {
         return isEnemy;
@@ -120,6 +130,23 @@ public class Unit : MonoBehaviour
     public int GetActionPoints()
     {
         return actionPoints;
+    }
+
+    public GridPosition GetGridPosition()
+    {
+        return gridPosition;
+    }
+
+    public Vector3 GetWorldPosition()
+    {
+        return new Vector3(gridPosition.x * 2, 0, gridPosition.z * 2);
+    }
+
+    private void HealthSystem_OnDeath(object _sender, EventArgs _e)
+    {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition);
+        Destroy(gameObject);
+        Debug.Log("Dead");
     }
     
 }

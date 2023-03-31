@@ -133,6 +133,11 @@ public class GridSystem<TGridObject>
    {
       return height;
    }
+
+   public void RemoveUnitAtGridPosition(GridPosition _gridPosition)
+   {
+      GetGridObject(_gridPosition).ClearUnit();
+   }
    
    public List<GridPosition> GetGridPositions()
    {

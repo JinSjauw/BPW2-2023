@@ -7,7 +7,10 @@ public class MoveAction : BaseAction
     private Vector3 targetPosition;
     private string moveType = "";
     private bool isExecuting = false;
-    
+
+    public event EventHandler OnMove;
+    public event EventHandler OnStop; 
+
     protected override void Awake()
     {
         base.Awake();
@@ -17,8 +20,8 @@ public class MoveAction : BaseAction
     public override void TakeAction(GridPosition _position, Action _onActionComplete)
     {
         targetPosition = LevelGrid.Instance.GetWorldPosition(_position);
-        onActionComplete = _onActionComplete;
-        isActive = true;
+        ActionStart(_onActionComplete);
+        OnMove?.Invoke(this, EventArgs.Empty);
     }
 
     public override List<GridPosition> GetValidActionPositionsList()
@@ -26,7 +29,7 @@ public class MoveAction : BaseAction
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
         tempPositions = LevelGrid.Instance.GetTilesInCircle(transform.position, unitData.moveDistance);
-        
+
         foreach (GridPosition position in tempPositions)
         {
             if (!LevelGrid.Instance.HasAnyUnit(position))
@@ -54,30 +57,16 @@ public class MoveAction : BaseAction
         Vector3 moveDirection = (targetPosition - unit.transform.position).normalized;
         float distance = Vector3.Distance(targetPosition, unit.transform.position);
 
-        if (distance >= 6 && !isExecuting)
-        {
-            moveType = "isRunning";
-        }
-        else if (!isExecuting)
-        {
-            moveType = "isWalking";
-        }
-
         if (distance > unitData.stoppingDistance)
         {
-            isActive = true;
-            isExecuting = true;
-            unitData.unitAnimator.SetBool(moveType, true);
             unit.transform.position += moveDirection * unitData.moveSpeed * Time.deltaTime;
             unit.transform.rotation = Quaternion.RotateTowards(unit.transform.rotation,
                 Quaternion.LookRotation(moveDirection), Time.deltaTime * unitData.rotateSpeed);
         }
         else
         {
-            isActive = false;
-            isExecuting = false;
-            onActionComplete();
-            unitData.unitAnimator.SetBool(moveType, false);
+            OnStop?.Invoke(this, EventArgs.Empty);
+            ActionComplete();
         }
     }
 

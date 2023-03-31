@@ -44,4 +44,13 @@ public class GridSystemVisual : MonoBehaviour
             tileVisualArray[tile.x, tile.z].Show();
         }
     }
+
+    public void UpdateGridVisual()
+    {
+        HideAllTileVisuals();
+
+        BaseAction selectedAction = UnitManager.Instance.GetSelectedAction();
+        
+        ShowTileList(selectedAction.GetValidActionPositionsList());
+    }
 }

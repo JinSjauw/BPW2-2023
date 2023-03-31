@@ -30,4 +30,16 @@ public abstract class BaseAction : MonoBehaviour
       return actionCost;
    }
    public abstract string GetActionName();
+
+   protected void ActionStart(Action _onActiomComplete)
+   {
+      isActive = true;
+      onActionComplete = _onActiomComplete;
+   }
+
+   protected void ActionComplete()
+   {
+      isActive = false;
+      onActionComplete();
+   }
 }

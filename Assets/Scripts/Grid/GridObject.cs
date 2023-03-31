@@ -29,7 +29,7 @@ public class GridObject
     public GridObject parent = null;
     public List<GridObject> neighbourList;
     
-    private Unit currentUnit;
+    private List<Unit> unitList;
 
 
     public GridObject(GridSystem<GridObject> _gridSystem, GridPosition _gridPosition, Vector3 _position)
@@ -39,16 +39,29 @@ public class GridObject
         position = _position;
         tileType = TILETYPE.EMPTY;
         neighbourList = new List<GridObject>();
+        unitList = new List<Unit>();
     }
     
     public void SetUnit(Unit _unit)
     {
-        currentUnit = _unit;
+        unitList.Add(_unit);
     }
 
     public Unit GetUnit()
     {
-        return currentUnit;
+        if (HasUnit())
+        {
+            return unitList[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void ClearUnit()
+    {
+        unitList.Clear();
     }
     
     public void CalculateFCost()
@@ -63,11 +76,17 @@ public class GridObject
 
     public bool HasUnit()
     {
-        return currentUnit != null;
+        return unitList.Count > 0;
     }
-    
+
     public override string ToString()
     {
+        Unit currentUnit = null;
+        if (unitList.Count > 0)
+        {
+            currentUnit = unitList[0];
+        }
+        
         return gridPosition.ToString() + "\r\n" +  currentUnit;
     }
 }

@@ -25,4 +25,10 @@ public class UnitSelectedVisual : MonoBehaviour
             visual.SetActive(false);
         }
     }
+
+    private void OnDestroy()
+    {
+        UnitManager.Instance.SelectedUnitChanged -= UnitManager_SelectedUnitChanged;
+
+    }
 }

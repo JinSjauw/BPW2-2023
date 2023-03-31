@@ -13,6 +13,11 @@ public class ActionSystemUI : MonoBehaviour
 
     private List<ActionButtonUI> actionButtons;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        actionButtons = new List<ActionButtonUI>();
+    }
+
     void Start()
     {
         UnitManager.Instance.SelectedUnitChanged += UnitManager_SelectedUnitChanged;
@@ -22,7 +27,6 @@ public class ActionSystemUI : MonoBehaviour
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         
         
-        actionButtons = new List<ActionButtonUI>();
         
         CreateActionButtons();
         UpdateSelectedVisual();
@@ -56,6 +60,8 @@ public class ActionSystemUI : MonoBehaviour
         {
             button.UpdateSelectedVisual();
         }
+        
+        gridSystemVisual.UpdateGridVisual();
     }
     
     private void UpdateActionPoints()
@@ -84,6 +90,7 @@ public class ActionSystemUI : MonoBehaviour
     private void TurnSystem_OnTurnChanged(object _sender, EventArgs e)
     {
         UpdateActionPoints();
+        gridSystemVisual.HideAllTileVisuals();
     }
 
     private void Unit_OnAnyActionPointsChanged(object _sender, EventArgs _e)

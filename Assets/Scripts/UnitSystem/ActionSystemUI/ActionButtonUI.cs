@@ -48,13 +48,5 @@ public class ActionButtonUI : MonoBehaviour
     {
         BaseAction selectedAction = UnitManager.Instance.GetSelectedAction();
         selectedVisual.SetActive(selectedAction == action);
-
-        if (selectedAction == action)
-        {
-            if (gridSystemVisual != null)
-            {
-                gridSystemVisual.ShowTileList(action.GetValidActionPositionsList());
-            }
-        }
     }
 }
