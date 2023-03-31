@@ -19,19 +19,15 @@ public class Unit : MonoBehaviour
 {
     private GridPosition gridPosition;
     private BaseAction[] actionArray;
+    [SerializeField] private int actionPoints = 3;
     
     [SerializeField] private UnitData unitData;
     
-    //private Dictionary<string, BaseAction> actionList;
     private void Awake()
     {
         actionArray = GetComponents<BaseAction>();
-        //Temp adding actions manually
-        /*MoveAction moveAction = new MoveAction();
-        AddAction(moveAction.GetActionName(), moveAction);
+        unitData.moveDistance = unitData.moveSpeed * actionPoints + .5f;
 
-        TargetAction targetAction = new TargetAction();
-        AddAction(targetAction.GetActionName(), targetAction);*/
     }
 
     private void Start()
@@ -54,6 +50,12 @@ public class Unit : MonoBehaviour
         }
     }
 
+    private void SpendActionPoints(int _amount)
+    {
+        actionPoints -= _amount;
+        Debug.Log($"Spent {_amount} AP : {actionPoints} AP left");
+    }
+    
     public UnitData GetUnitData()
     {
         return unitData;
@@ -68,4 +70,32 @@ public class Unit : MonoBehaviour
     {
         return GetComponent<MoveAction>();
     }
+
+    public bool TryTakeAction(BaseAction _action)
+    {
+        if (CanTakeAction(_action))
+        {
+            SpendActionPoints(_action.GetActionPointsCost());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool CanTakeAction(BaseAction _action)
+    {
+        if (actionPoints >= _action.GetActionPointsCost())
+        {
+            return true;
+        }
+        
+        return false;
+    }
+
+    public int GetActionPoints()
+    {
+        return actionPoints;
+    }
+    
 }

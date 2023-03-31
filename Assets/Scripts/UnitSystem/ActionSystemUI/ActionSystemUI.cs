@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ActionSystemUI : MonoBehaviour
@@ -8,6 +9,7 @@ public class ActionSystemUI : MonoBehaviour
     [SerializeField] private GridSystemVisual gridSystemVisual;
     [SerializeField] private Transform actionButtonPrefab;
     [SerializeField] private Transform buttonContainer;
+    [SerializeField] private TextMeshProUGUI actionPointCounter;
 
     private List<ActionButtonUI> actionButtons;
     // Start is called before the first frame update
@@ -15,11 +17,13 @@ public class ActionSystemUI : MonoBehaviour
     {
         UnitManager.Instance.SelectedUnitChanged += UnitManager_SelectedUnitChanged;
         UnitManager.Instance.SelectedActionChanged += UnitManager_SelectedActionChanged;
+        UnitManager.Instance.OnActionStarted += UnitManager_OnActionStarted;
         
         actionButtons = new List<ActionButtonUI>();
         
         CreateActionButtons();
         UpdateSelectedVisual();
+        UpdateActionPoints();
     }
 
     private void CreateActionButtons()
@@ -51,14 +55,26 @@ public class ActionSystemUI : MonoBehaviour
         }
     }
     
+    private void UpdateActionPoints()
+    {
+        Unit selectedUnit = UnitManager.Instance.GetSelectedUnit();
+        actionPointCounter.text = "AP : " + selectedUnit.GetActionPoints();
+    }
+    
     private void UnitManager_SelectedUnitChanged(object _sender, EventArgs _e)
     {
         CreateActionButtons();
         UpdateSelectedVisual();
+        UpdateActionPoints();
     }
     
     private void UnitManager_SelectedActionChanged(object _sender, EventArgs _e)
     {
         UpdateSelectedVisual();
+    }
+
+    private void UnitManager_OnActionStarted(object _sender, EventArgs _e)
+    {
+        UpdateActionPoints();
     }
 }

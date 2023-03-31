@@ -8,7 +8,7 @@ public class MoveAction : BaseAction
     private UnitData unitData;
     private string moveType = "";
     private bool isExecuting = false;
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -70,9 +70,7 @@ public class MoveAction : BaseAction
             isActive = true;
             isExecuting = true;
             unitData.unitAnimator.SetBool(moveType, true);
-            unit.transform.position += moveDirection * unitData.moveSpeed * Time.deltaTime;    
-            
-            //unit.transform.forward = Vector3.Lerp(unit.transform.forward, targetPosition, unitData.rotateSpeed * Time.deltaTime);
+            unit.transform.position += moveDirection * unitData.moveSpeed * Time.deltaTime;
             unit.transform.rotation = Quaternion.RotateTowards(unit.transform.rotation,
                 Quaternion.LookRotation(moveDirection), Time.deltaTime * unitData.rotateSpeed);
         }
@@ -83,6 +81,11 @@ public class MoveAction : BaseAction
             onActionComplete();
             unitData.unitAnimator.SetBool(moveType, false);
         }
+    }
+
+    public override int GetActionPointsCost()
+    {
+        return actionCost;
     }
 
     public override string GetActionName()

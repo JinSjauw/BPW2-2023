@@ -8,7 +8,7 @@ public abstract class BaseAction : MonoBehaviour
    protected bool isActive = false;
    protected Unit unit;
    protected Action onActionComplete;
-
+   protected int actionCost = 1;
    protected virtual void Awake()
    {
       unit = GetComponent<Unit>();
@@ -24,5 +24,10 @@ public abstract class BaseAction : MonoBehaviour
    }
    
    public abstract List<GridPosition> GetValidActionPositionsList();
+
+   public virtual int GetActionPointsCost()
+   {
+      return actionCost;
+   }
    public abstract string GetActionName();
 }
