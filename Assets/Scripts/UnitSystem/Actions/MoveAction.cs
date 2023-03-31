@@ -5,8 +5,6 @@ using UnityEngine;
 public class MoveAction : BaseAction
 {
     private Vector3 targetPosition;
-    private string moveType = "";
-    private bool isExecuting = false;
 
     public event EventHandler OnMove;
     public event EventHandler OnStop; 

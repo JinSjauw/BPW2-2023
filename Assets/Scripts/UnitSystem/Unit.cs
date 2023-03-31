@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mono.Cecil;
 using UnityEngine;
 
 [System.Serializable]
@@ -19,6 +20,8 @@ public class UnitData
 [RequireComponent(typeof(MoveAction))]
 public class Unit : MonoBehaviour
 {
+    public static event EventHandler OnAnyUnitSpawned;
+    public static event EventHandler OnAnyUnitDead;
     public static event EventHandler OnAnyActionPointsChanged;
     
     private GridPosition gridPosition;
@@ -47,6 +50,8 @@ public class Unit : MonoBehaviour
 
         healthSystem.OnDeath += HealthSystem_OnDeath;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        
+        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     private void Update()
@@ -147,6 +152,7 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition);
         Destroy(gameObject);
         Debug.Log("Dead");
+        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
     
 }
