@@ -7,8 +7,8 @@ public class ActionExecutingUI : MonoBehaviour
 {
     void Start()
     {
-        UnitManager.Instance.OnActionStarted += UnitManager_OnActionStarted;
-        UnitManager.Instance.OnActionComplete += UnitManager_OnActionComplete;
+        UnitActionManager.Instance.OnActionStarted += UnitManager_OnActionStarted;
+        UnitActionManager.Instance.OnActionComplete += UnitManager_OnActionComplete;
         
         Hide();
     }

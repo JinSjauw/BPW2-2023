@@ -22,12 +22,88 @@ public class Pathfinding
             Debug.Log("ERROR: No level grid");
             return;
         }
+        
         grid = LevelGrid.Instance;
         nodeGrid = grid.GetNodeGrid();
 
     }
 
-    public List<GridObject> FindPath(GridObject _start, GridObject _end)
+    /*public List<GridObject> FindPath(GridObject _start, GridObject _end)
+    {
+        GridObject startNode = _start;
+        GridObject endNode = _end;
+
+        openList = new List<GridObject> { startNode };
+        closedList = new List<GridObject>();
+
+        //Reset Nodes
+        foreach (var node in nodeGrid)
+        {
+            node.gCost = int.MaxValue;
+            node.CalculateFCost();
+            node.parent = null;
+        }
+
+        startNode.gCost = 0;
+        startNode.hCost = CalculateDistance(startNode, endNode);
+        startNode.CalculateFCost();
+
+        while (openList.Count > 0)
+        {
+            GridObject currentNode = GetLowestFcost(openList);
+
+            if (currentNode == endNode)
+            {
+                //Return path here. End has been reached
+                return ReturnPath(startNode, endNode);
+            }
+
+            openList.Remove(currentNode);
+            closedList.Add(currentNode);
+
+            foreach (var neighbour in currentNode.neighbourList)
+            {
+                if (closedList.Contains(neighbour))
+                {
+                    continue;
+                }
+
+                int tentativeGCost = currentNode.gCost + CalculateDistance(currentNode, neighbour);
+                if (tentativeGCost < neighbour.gCost)
+                {
+                    neighbour.parent = currentNode;
+                    neighbour.gCost = tentativeGCost;
+                    neighbour.hCost = CalculateDistance(neighbour, endNode);
+                    neighbour.CalculateFCost();
+
+                    if (!openList.Contains(neighbour))
+                    {
+                        openList.Add(neighbour);
+                    }
+                }
+            }
+        }
+        
+        return null;
+    }*/
+
+    public List<Vector3> GetPath(GridPosition _start, GridPosition _end)
+    {
+        GridObject start = grid.GetGridObject(_start);
+        GridObject end = grid.GetGridObject(_end);
+
+        List<GridPosition> foundPath = FindPath(start, end);
+        List<Vector3> path = new List<Vector3>();
+
+        foreach (GridPosition position in foundPath)
+        {
+            path.Add(grid.GetWorldPosition(position));
+        }
+
+        return path;
+    }
+
+    public List<GridPosition> FindPath(GridObject _start, GridObject _end)
     {
         GridObject startNode = _start;
         GridObject endNode = _end;
@@ -85,15 +161,15 @@ public class Pathfinding
         
         return null;
     }
-
-    public List<GridObject> ReturnPath(GridObject _startNode, GridObject _endNode)
+    
+    public List<GridPosition> ReturnPath(GridObject _startNode, GridObject _endNode)
     {
-        List<GridObject> path = new List<GridObject>();
+        List<GridPosition> path = new List<GridPosition>();
         GridObject currentNode = _endNode;
-        path.Add(currentNode);
+        path.Add(currentNode.gridPosition);
         while (currentNode != _startNode)
         {
-            path.Add(currentNode.parent);
+            path.Add(currentNode.parent.gridPosition);
             currentNode = currentNode.parent;
         }
         

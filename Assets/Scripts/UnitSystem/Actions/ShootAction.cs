@@ -20,7 +20,7 @@ public class ShootAction : BaseAction
         Shooting,
         CoolOff,
     }
-
+    
     private State state;
     private float stateTimer;
     private bool canShoot = true;
@@ -95,11 +95,11 @@ public class ShootAction : BaseAction
         targetUnit.Damage(27);
     }
     
-    public override void TakeAction(GridPosition _position, Action _onActionComplete)
+    public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete)
     {
         ActionStart(_onActionComplete);
 
-        targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(_position);
+        targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(_targetPosition);
         canShoot = true;
         Debug.Log("Aiming");
         state = State.Aiming;
@@ -110,13 +110,19 @@ public class ShootAction : BaseAction
 
     public override List<GridPosition> GetValidActionPositionsList()
     {
+        Vector3 unitPosition = LevelGrid.Instance.GetWorldPosition(unit.GetGridPosition());
+        return GetValidActionPositionsList(unitPosition);
+    }
+    
+    public List<GridPosition> GetValidActionPositionsList(Vector3 _position)
+    {
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
-        tempPositions = LevelGrid.Instance.GetTilesInCircle(transform.position, unitData.attackRange);
+        tempPositions = LevelGrid.Instance.GetTilesInCircle(_position, unitData.attackRange);
         
         foreach (GridPosition position in tempPositions)
         {
-            if (position == LevelGrid.Instance.GetGridPosition(transform.position))
+            if (position == LevelGrid.Instance.GetGridPosition(_position))
             {
                 continue;
             }
@@ -138,6 +144,21 @@ public class ShootAction : BaseAction
         }
 
         return validPositions;
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition _gridPosition)
+    {
+        return new EnemyAIAction
+        {
+            gridPosition = _gridPosition,
+            actionValue = 100,
+        };
+    }
+
+    public int GetTargetCountAtPosition(GridPosition _gridPosition)
+    {
+        Vector3 position = LevelGrid.Instance.GetWorldPosition(_gridPosition);
+        return GetValidActionPositionsList(position).Count;
     }
     
     public override string GetActionName()

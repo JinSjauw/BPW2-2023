@@ -3269,7 +3269,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 392389f826335c54da8b4166adc6fdac, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -3309,11 +3309,11 @@ MonoBehaviour:
   actionPoints: 3
   unitData:
     unitAnimator: {fileID: 1886283401617761126}
-    moveSpeed: 3
+    moveSpeed: 5
     rotateSpeed: 600
-    stoppingDistance: 0.1
+    stoppingDistance: 0.15
     moveDistance: 0
-    attackRange: 4.5
+    attackRange: 8
 --- !u!114 &-9157105443493491002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3342,6 +3342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1e335952f821c541ab28575e23ab5fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  path: []
 --- !u!114 &1051531340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6439,6 +6440,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_UnitWorld
       objectReference: {fileID: 0}
+    - target: {fileID: 1575566997980887824, guid: 951043f100bc4fb4ca76effa78a6dd7d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2645434185174344419, guid: 951043f100bc4fb4ca76effa78a6dd7d,
         type: 3}
       propertyPath: m_Pivot.x
@@ -6542,6 +6548,11 @@ PrefabInstance:
     - target: {fileID: 2645434185174344419, guid: 951043f100bc4fb4ca76effa78a6dd7d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748486101938366546, guid: 951043f100bc4fb4ca76effa78a6dd7d,
+        type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6850555416314967999, guid: 951043f100bc4fb4ca76effa78a6dd7d,

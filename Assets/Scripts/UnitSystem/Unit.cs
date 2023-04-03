@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Mono.Cecil;
 using UnityEngine;
 
 [System.Serializable]
@@ -27,6 +26,9 @@ public class Unit : MonoBehaviour
     private GridPosition gridPosition;
     private BaseAction[] actionArray;
     private HealthSystem healthSystem;
+
+    private ShootAction shootAction;
+    private MoveAction moveAction;
     
     [SerializeField] private bool isEnemy;
     [SerializeField] private int maxActionPoints = 3;
@@ -39,7 +41,6 @@ public class Unit : MonoBehaviour
         healthSystem = GetComponent<HealthSystem>();
         actionArray = GetComponents<BaseAction>();
         unitData.moveDistance = unitData.moveSpeed * actionPoints + .5f;
-
     }
 
     private void Start()
@@ -109,6 +110,10 @@ public class Unit : MonoBehaviour
     {
         return GetComponent<MoveAction>();
     }
+    public ShootAction GetShootAction()
+    {
+        return GetComponent<ShootAction>();
+    }
 
     public bool TryTakeAction(BaseAction _action)
     {
@@ -154,5 +159,6 @@ public class Unit : MonoBehaviour
         Debug.Log("Dead");
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
+    
     
 }

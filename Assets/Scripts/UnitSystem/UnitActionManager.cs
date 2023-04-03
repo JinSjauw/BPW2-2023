@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class UnitManager : MonoBehaviour
+public class UnitActionManager : MonoBehaviour
 {
-    public static UnitManager Instance { get; private set; }
+    public static UnitActionManager Instance { get; private set; }
     public EventHandler SelectedUnitChanged;
     public EventHandler SelectedActionChanged;
     public EventHandler OnActionStarted;
@@ -23,7 +23,7 @@ public class UnitManager : MonoBehaviour
     {
         if (Instance != null)
         {
-            Debug.Log("More than one instance of UnitManager");
+            Debug.Log("More than one instance of UnitActionManager");
             Destroy(gameObject);
             return;
         }

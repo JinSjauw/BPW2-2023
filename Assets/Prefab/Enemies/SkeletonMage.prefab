@@ -2438,6 +2438,7 @@ GameObject:
   - component: {fileID: 320344893224330381}
   - component: {fileID: 1461267897614390600}
   - component: {fileID: 7095195491283341271}
+  - component: {fileID: 2887580770554214809}
   m_Layer: 8
   m_Name: SkeletonMage
   m_TagString: Untagged
@@ -2546,6 +2547,18 @@ MonoBehaviour:
   ragdollPrefab: {fileID: 5884488877471570423, guid: a81342e6beed5584c987acc11d5a7f0b,
     type: 3}
   originalRootBone: {fileID: 5169178372362605103}
+--- !u!114 &2887580770554214809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6548858210896200525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540aac47649796d47b8eedaf89393c80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6637896884850444411
 GameObject:
   m_ObjectHideFlags: 0

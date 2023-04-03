@@ -157,7 +157,7 @@ MonoBehaviour:
   width: 80
   height: 80
   cellSize: 2
-  CreateDebugGrid: 0
+  CreateDebugGrid: 1
   GenerateDungeon: 1
 --- !u!4 &169919
 Transform:

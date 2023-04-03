@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +17,7 @@ public class TargetAction : BaseAction
         unit = _unit;
         //targetUnit = (Unit)_obj;
         targetUnit = (Unit)LevelGrid.Instance.GetUnitAtGridPosition(LevelGrid.Instance.GetGridPosition((Vector3)_obj));
-    }*/
+    }#1#
 
     public override void TakeAction(GridPosition _position, Action _onActionComplete)
     {
@@ -54,4 +54,4 @@ public class TargetAction : BaseAction
     {
         return "Target";
     }
-}
+}*/

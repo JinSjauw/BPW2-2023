@@ -20,9 +20,9 @@ public class ActionSystemUI : MonoBehaviour
 
     void Start()
     {
-        UnitManager.Instance.SelectedUnitChanged += UnitManager_SelectedUnitChanged;
-        UnitManager.Instance.SelectedActionChanged += UnitManager_SelectedActionChanged;
-        UnitManager.Instance.OnActionStarted += UnitManager_OnActionStarted;
+        UnitActionManager.Instance.SelectedUnitChanged += UnitManager_SelectedUnitChanged;
+        UnitActionManager.Instance.SelectedActionChanged += UnitManager_SelectedActionChanged;
+        UnitActionManager.Instance.OnActionStarted += UnitManager_OnActionStarted;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         
@@ -42,7 +42,7 @@ public class ActionSystemUI : MonoBehaviour
         
         actionButtons.Clear();
         
-        Unit selectedUnit = UnitManager.Instance.GetSelectedUnit();
+        Unit selectedUnit = UnitActionManager.Instance.GetSelectedUnit();
         
         foreach (BaseAction action in selectedUnit.GetActionArray())
         {
@@ -66,7 +66,7 @@ public class ActionSystemUI : MonoBehaviour
     
     private void UpdateActionPoints()
     {
-        Unit selectedUnit = UnitManager.Instance.GetSelectedUnit();
+        Unit selectedUnit = UnitActionManager.Instance.GetSelectedUnit();
         actionPointCounter.text = "AP : " + selectedUnit.GetActionPoints();
     }
     

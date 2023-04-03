@@ -365,7 +365,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         foreach (var edge in dungeonPaths)
         {
-            List<GridObject> path = new List<GridObject>();
+            List<GridPosition> path = new List<GridPosition>();
             
             GridObject start = grid.GetGridObject(grid.GetGridPosition(edge.vertexA));
             GridObject end = grid.GetGridObject(grid.GetGridPosition(edge.vertexB));
@@ -373,9 +373,10 @@ public class DungeonGenerator : MonoBehaviour
             path = pathfinder.FindPath(start, end);
 
             //Assign correct tileTypes to path
-            GridObject lastTile = path[0];
-            foreach (var tile in path)
+            GridObject lastTile = grid.GetGridObject(path[0]);
+            for (int i = 0; i < path.Count; i++)
             {
+                GridObject tile = LevelGrid.Instance.GetGridObject(path[i]);
                 if (tile.tileType == TILETYPE.EMPTY)
                 {
                     //Is it a doorway?
@@ -433,8 +434,9 @@ public class DungeonGenerator : MonoBehaviour
                 lastTile = tile;
             }
 
-            foreach (var tile in path)
+            for (int i = 0; i < path.Count; i++ )
             {
+                GridObject tile = grid.GetGridObject(path[i]);
                 Instantiate(tilePrefab, tile.position, quaternion.identity);
                 
                 foreach (var neighbour in tile.neighbourList)

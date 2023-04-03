@@ -32,21 +32,21 @@ public class ActionButtonUI : MonoBehaviour
     
     public void SetButton(BaseAction _action)
     {
-        UnitManager.Instance.OnActionComplete -= UnitManager_OnActionComplete;
-        UnitManager.Instance.OnActionComplete += UnitManager_OnActionComplete;
+        UnitActionManager.Instance.OnActionComplete -= UnitManager_OnActionComplete;
+        UnitActionManager.Instance.OnActionComplete += UnitManager_OnActionComplete;
         
         textMeshPro.text = _action.GetActionName().ToUpper();
         action = _action;
         
         button.onClick.AddListener(() =>
         {
-            UnitManager.Instance.SetSelectedAction(_action);
+            UnitActionManager.Instance.SetSelectedAction(_action);
         });
     }
 
     public void UpdateSelectedVisual()
     {
-        BaseAction selectedAction = UnitManager.Instance.GetSelectedAction();
+        BaseAction selectedAction = UnitActionManager.Instance.GetSelectedAction();
         selectedVisual.SetActive(selectedAction == action);
     }
 }

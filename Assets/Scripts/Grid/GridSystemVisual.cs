@@ -49,7 +49,7 @@ public class GridSystemVisual : MonoBehaviour
     {
         HideAllTileVisuals();
 
-        BaseAction selectedAction = UnitManager.Instance.GetSelectedAction();
+        BaseAction selectedAction = UnitActionManager.Instance.GetSelectedAction();
         
         ShowTileList(selectedAction.GetValidActionPositionsList());
     }

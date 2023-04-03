@@ -15,7 +15,7 @@ public abstract class BaseAction : MonoBehaviour
       unit = GetComponent<Unit>();
       unitData = unit.GetUnitData();
    }
-   public abstract void TakeAction(GridPosition _position, Action _onActionComplete);
+   public abstract void TakeAction(GridPosition _targetPosition, Action _onActionComplete);
 
    public virtual bool IsValidActionGridPosition(GridPosition _gridPosition)
    {
@@ -31,6 +31,31 @@ public abstract class BaseAction : MonoBehaviour
    }
    public abstract string GetActionName();
 
+   public EnemyAIAction GetBestAIAction()
+   {
+      List<EnemyAIAction> enemyAIActionList = new List<EnemyAIAction>();
+
+      List<GridPosition> validPositionsList = GetValidActionPositionsList();
+
+      foreach (var gridPosition in validPositionsList)
+      {
+         EnemyAIAction enemyAIAction = GetEnemyAIAction(gridPosition);
+         enemyAIActionList.Add(enemyAIAction);
+      }
+
+      if (enemyAIActionList.Count > 0)
+      {
+         enemyAIActionList.Sort((EnemyAIAction a, EnemyAIAction b)=> b.actionValue - a.actionValue );
+         return enemyAIActionList[0];
+      }
+      else
+      {
+         return null;
+      }
+   }
+
+   public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
+
    protected void ActionStart(Action _onActiomComplete)
    {
       isActive = true;
@@ -42,4 +67,6 @@ public abstract class BaseAction : MonoBehaviour
       isActive = false;
       onActionComplete();
    }
+   
+   
 }
