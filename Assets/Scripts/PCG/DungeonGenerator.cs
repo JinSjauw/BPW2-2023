@@ -21,7 +21,7 @@ public class DungeonGenerator : MonoBehaviour
 
     private Pathfinding pathfinder;
     private Triangulation triangulation;
-    private List<Edge> dungeonPaths;
+    private List<TriangleEdge> dungeonPaths;
     private List<Triangle> delaunayMesh;
     private List<GridObject> hallWays;
 
@@ -232,9 +232,9 @@ public class DungeonGenerator : MonoBehaviour
         
     }
 
-    public List<Edge> GeneratePath(List<Triangle> _delaunayMesh)
+    public List<TriangleEdge> GeneratePath(List<Triangle> _delaunayMesh)
     {
-        List<Edge> edges = new List<Edge>();
+        List<TriangleEdge> edges = new List<TriangleEdge>();
         List<Vector3> vertices = new List<Vector3>();
         //Convert Triangle to Edge
         foreach (var triangle in _delaunayMesh)
@@ -252,25 +252,25 @@ public class DungeonGenerator : MonoBehaviour
                 vertices.Add(triangle.vertexC);
             }
             
-            if(!edges.Contains(new Edge(triangle.vertexA, triangle.vertexB)))
+            if(!edges.Contains(new TriangleEdge(triangle.vertexA, triangle.vertexB)))
             {
-                edges.Add(new Edge(triangle.vertexA, triangle.vertexB));
+                edges.Add(new TriangleEdge(triangle.vertexA, triangle.vertexB));
             }
 
-            if (!edges.Contains(new Edge(triangle.vertexB, triangle.vertexC)))
+            if (!edges.Contains(new TriangleEdge(triangle.vertexB, triangle.vertexC)))
             {
-                edges.Add(new Edge(triangle.vertexB, triangle.vertexC));
+                edges.Add(new TriangleEdge(triangle.vertexB, triangle.vertexC));
             }
 
-            if (!edges.Contains(new Edge(triangle.vertexC, triangle.vertexA)))
+            if (!edges.Contains(new TriangleEdge(triangle.vertexC, triangle.vertexA)))
             {
-                edges.Add(new Edge(triangle.vertexC, triangle.vertexA));
+                edges.Add(new TriangleEdge(triangle.vertexC, triangle.vertexA));
             }
         }
 
         List<Vector3> visitedList = new List<Vector3>();
-        List<Edge> reachableList = new List<Edge>();
-        List<Edge> path = new List<Edge>();
+        List<TriangleEdge> reachableList = new List<TriangleEdge>();
+        List<TriangleEdge> path = new List<TriangleEdge>();
         //PRIM'S Algorithmn 
         //Pick Start Node - Random
         
@@ -291,7 +291,7 @@ public class DungeonGenerator : MonoBehaviour
         while (visitedList.Count < vertices.Count)
         {
             //Find minimum Edge
-            Edge minimumEdge = reachableList[0];
+            TriangleEdge minimumEdge = reachableList[0];
 
             foreach (var edge in reachableList)
             {
@@ -348,7 +348,7 @@ public class DungeonGenerator : MonoBehaviour
         {
             for (int i = 0; i < pathLoops;)
             {
-                Edge edge = edges[Random.Range(0, edges.Count - 1)];
+                TriangleEdge edge = edges[Random.Range(0, edges.Count - 1)];
                 if (!path.Contains(edge))
                 {
                     path.Add(edge);

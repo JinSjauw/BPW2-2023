@@ -5,12 +5,12 @@ using TMPro;
 using UnityEngine;
 
 [System.Serializable]
-public struct Edge
+public struct TriangleEdge
 {
     public Vector3 vertexA;
     public Vector3 vertexB;
     
-    public Edge(Vector3 _vertexA, Vector3 _vertexB)
+    public TriangleEdge(Vector3 _vertexA, Vector3 _vertexB)
     {
         vertexA = _vertexA;
         vertexB = _vertexB;
@@ -26,26 +26,26 @@ public struct Edge
         return Vector3.Distance(vertexA, vertexB);
     }
     
-    public static bool operator ==(Edge a, Edge b)
+    public static bool operator ==(TriangleEdge a, TriangleEdge b)
     {
         return a.vertexA == b.vertexA && a.vertexB == b.vertexB ||
                 a.vertexA == b.vertexB && a.vertexB == b.vertexA;
     }
     
-    public static bool operator !=(Edge a, Edge b)
+    public static bool operator !=(TriangleEdge a, TriangleEdge b)
     {
         return a.vertexA != b.vertexA && a.vertexB != b.vertexB &&
                 a.vertexA != b.vertexB && a.vertexB != b.vertexA;
     }
 
-    public bool Equals(Edge other)
+    public bool Equals(TriangleEdge other)
     {
         return this == other;
     }
     
     public override bool Equals(object obj)
     {
-        return obj is Edge edge &&
+        return obj is TriangleEdge edge &&
                (vertexA.Equals(edge.vertexA) && vertexB.Equals(edge.vertexB) ||
                 vertexA.Equals(edge.vertexB) && vertexB.Equals(edge.vertexA));
     }
@@ -197,16 +197,16 @@ public class Triangulation
 
     private List<Triangle> AddVertex(Vector3 _vertex, List<Triangle> _triangles)
     {
-        List<Edge> edges = new List<Edge>();
+        List<TriangleEdge> edges = new List<TriangleEdge>();
         
         for (int i = _triangles.Count - 1; i >= 0; i--)
         {
             Triangle triangle = _triangles[i];
             if (triangle.InCircumCircle(_vertex))
             {
-                edges.Add(new Edge(triangle.vertexA, triangle.vertexB));
-                edges.Add(new Edge(triangle.vertexB, triangle.vertexC));
-                edges.Add(new Edge(triangle.vertexC, triangle.vertexA));
+                edges.Add(new TriangleEdge(triangle.vertexA, triangle.vertexB));
+                edges.Add(new TriangleEdge(triangle.vertexB, triangle.vertexC));
+                edges.Add(new TriangleEdge(triangle.vertexC, triangle.vertexA));
                 
                 _triangles.Remove(triangle);
             }
@@ -222,9 +222,9 @@ public class Triangulation
         return _triangles;
     }
 
-    public List<Edge> GetUniqueEdges(List<Edge> _edges)
+    public List<TriangleEdge> GetUniqueEdges(List<TriangleEdge> _edges)
     {
-        List<Edge> uniqueEdges = new List<Edge>();
+        List<TriangleEdge> uniqueEdges = new List<TriangleEdge>();
         for (int i = _edges.Count - 1; i >= 0; i--)
         {
             bool isUnique = true;
