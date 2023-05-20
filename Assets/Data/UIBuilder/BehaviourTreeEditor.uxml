@@ -3,13 +3,21 @@
     <uie:Toolbar>
         <uie:ToolbarMenu display-tooltip-when-elided="true" text="Assets" />
     </uie:Toolbar>
-    <ui:Label text="Inspector" display-tooltip-when-elided="true" style="width: auto;" />
     <SplitView name="SplitView" fixed-pane-initial-dimension="300">
         <ui:VisualElement name="left-panel">
-            <InspectorView />
+            <SplitView orientation="Vertical" fixed-pane-initial-dimension="205">
+                <ui:VisualElement name="inspector-container">
+                    <ui:Label text="Inspector" display-tooltip-when-elided="true" style="width: auto; background-color: rgba(37, 37, 37, 255);" />
+                    <InspectorView />
+                </ui:VisualElement>
+                <ui:VisualElement name="blackboard-container">
+                    <ui:Label text="Blackboard" display-tooltip-when-elided="true" style="background-color: rgba(37, 37, 37, 255);" />
+                    <ui:IMGUIContainer />
+                </ui:VisualElement>
+            </SplitView>
         </ui:VisualElement>
         <ui:VisualElement name="right-panel" style="width: 246px;">
-            <ui:Label text="Behaviour Tree" display-tooltip-when-elided="true" />
+            <ui:Label text="Behaviour Tree" display-tooltip-when-elided="true" style="background-color: rgba(37, 37, 37, 255);" />
             <BehaviourTreeView focusable="true" name="BehaviourTreeView" style="flex-grow: 1;" />
         </ui:VisualElement>
     </SplitView>

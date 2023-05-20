@@ -1,10 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using UnityEditor.UIElements;
 
 public class NodeView : UnityEditor.Experimental.GraphView.Node
 {
@@ -26,6 +25,10 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         CreateInputPorts();
         CreateOutputPorts();
         SetupClasses();
+
+        Label descriptionLabel = this.Q<Label>("description");
+        descriptionLabel.bindingPath = "description";
+        descriptionLabel.Bind(new SerializedObject(node));
     }
 
     private void SetupClasses()
@@ -103,6 +106,11 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         
     }
 
+    private int SortByHorizontalPosition(BehaviourNode left, BehaviourNode right)
+    {
+        return left.position.x < right.position.x ? -1 : 1;
+    }
+    
     public override void SetPosition(Rect newPos)
     {
         base.SetPosition(newPos);
@@ -118,6 +126,41 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         if (OnNodeSelected != null)
         {
             OnNodeSelected.Invoke(this);
+        }
+    }
+
+    public void SortChildren()
+    {
+        CompositeNode composite = node as CompositeNode;
+        if (composite)
+        {
+            composite.children.Sort(SortByHorizontalPosition);
+        }
+    }
+
+    public void UpdateState()
+    {
+        RemoveFromClassList("running");
+        RemoveFromClassList("failure");
+        RemoveFromClassList("success");
+
+        if (Application.isPlaying)
+        {
+            switch (node.state)
+            {
+                case BehaviourNode.State.Running:
+                    if (node.started)
+                    {
+                        AddToClassList("running");
+                    }
+                    break;
+                case BehaviourNode.State.Failure:
+                    AddToClassList("failure");
+                    break;
+                case BehaviourNode.State.Success:
+                    AddToClassList("success");
+                    break;
+            }
         }
     }
 }

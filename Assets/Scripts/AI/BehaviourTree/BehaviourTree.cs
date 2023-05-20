@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu()]
 public class BehaviourTree : ScriptableObject
@@ -9,7 +10,8 @@ public class BehaviourTree : ScriptableObject
     public BehaviourNode rootNode;
     public BehaviourNode.State treeState = BehaviourNode.State.Running;
     public List<BehaviourNode> nodes = new List<BehaviourNode>();
-
+    [FormerlySerializedAs("blackBoard")] public Blackboard blackboard = new Blackboard();
+    
     public BehaviourNode.State Update()
     {
         if (rootNode.state == BehaviourNode.State.Running)
@@ -28,8 +30,11 @@ public class BehaviourTree : ScriptableObject
         
         Undo.RecordObject(this, "Behaviour Tree (CreateNode)");
         nodes.Add(node);
+        if (!Application.isPlaying)
+        {
+            AssetDatabase.AddObjectToAsset(node, this);
+        }
         
-        AssetDatabase.AddObjectToAsset(node, this);
         Undo.RegisterCreatedObjectUndo(node, "Behaviour Tree (CreateNode)");
         AssetDatabase.SaveAssets();
         return node;
@@ -125,10 +130,34 @@ public class BehaviourTree : ScriptableObject
         return children;
     }
 
+    public void Traverse(BehaviourNode node, System.Action<BehaviourNode> visitor)
+    {
+        if (node)
+        {
+            visitor.Invoke(node);
+            var children = GetChildren(node);
+            children.ForEach((n) => Traverse(n, visitor));
+        }
+    }
+
+    public void Bind(Unit unit)
+    {
+        Traverse(rootNode, node =>
+        {
+            node.unit = unit;
+            node.blackboard = blackboard;
+        });
+    }
+    
     public BehaviourTree Clone()
     {
         BehaviourTree tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
+        tree.nodes = new List<BehaviourNode>();
+        Traverse(tree.rootNode, (n) =>
+        {
+            tree.nodes.Add(n);
+        });
         return tree;
     }
 }

@@ -15,7 +15,12 @@ MonoBehaviour:
   state: 2
   started: 0
   guid: 364d1a4941ef95248aee724892704c35
-  position: {x: 140, y: 566}
+  position: {x: 156, y: 502.4001}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
   duration: 1
 --- !u!114 &-2489551211902772102
 MonoBehaviour:
@@ -32,12 +37,17 @@ MonoBehaviour:
   state: 2
   started: 0
   guid: e4408f05e57f8934f918652276ec29d5
-  position: {x: 497, y: 373}
+  position: {x: 504.79996, y: 380.8}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
   children:
-  - {fileID: -370408604549388985}
-  - {fileID: 5966706702085588749}
-  - {fileID: 8534679881779216694}
   - {fileID: -3594110102658042697}
+  - {fileID: 8534679881779216694}
+  - {fileID: 5966706702085588749}
+  - {fileID: -370408604549388985}
 --- !u!114 &-370408604549388985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,6 +64,11 @@ MonoBehaviour:
   started: 0
   guid: da9657b76785d374aa0b555301b86bb5
   position: {x: 799.0894, y: 502.5}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
   messsage: ' test'
 --- !u!114 &11400000
 MonoBehaviour:
@@ -77,6 +92,9 @@ MonoBehaviour:
   - {fileID: 5818527544081988834}
   - {fileID: 8534679881779216694}
   - {fileID: -3594110102658042697}
+  blackboard:
+    moveToPosition: {x: 1, y: 2, z: 3}
+    moveToObject: {fileID: 0}
 --- !u!114 &2205480082746278927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,6 +111,11 @@ MonoBehaviour:
   started: 1
   guid: 4f48831229c994449813e0f243f24861
   position: {x: 497, y: 240}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
   child: {fileID: -2489551211902772102}
 --- !u!114 &5818527544081988834
 MonoBehaviour:
@@ -110,6 +133,11 @@ MonoBehaviour:
   started: 1
   guid: 52128a9e3354b194681b37a14e612db9
   position: {x: 496.9999, y: 148.19247}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
   child: {fileID: 2205480082746278927}
 --- !u!114 &5966706702085588749
 MonoBehaviour:
@@ -127,6 +155,11 @@ MonoBehaviour:
   started: 0
   guid: d1cac933a6790484fad9eb19a6543db2
   position: {x: 563.5, y: 558}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
   duration: 1
 --- !u!114 &8534679881779216694
 MonoBehaviour:
@@ -143,5 +176,10 @@ MonoBehaviour:
   state: 2
   started: 0
   guid: 2b4dfd7e3c992f1428dc887bfd288f7c
-  position: {x: 337.99997, y: 542.5}
+  position: {x: 378.4, y: 565.60004}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
   messsage: ' test 2'

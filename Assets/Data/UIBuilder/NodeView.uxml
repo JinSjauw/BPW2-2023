@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Data/UIBuilder/NodeViewStyle.uss?fileID=7433441132597879392&amp;guid=0eee26698409cd143b9e9cb9ee28e3a2&amp;type=3#NodeViewStyle" />
+    <ui:VisualElement name="node-state" />
     <ui:VisualElement name="node-border" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;">
         <ui:VisualElement name="contents">
             <ui:VisualElement name="top">
