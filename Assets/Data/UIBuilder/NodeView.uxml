@@ -6,14 +6,14 @@
             <ui:VisualElement name="top">
                 <ui:VisualElement name="input" />
                 <ui:VisualElement name="title">
-                    <ui:Label name="title-label" text="SequenceNode" class="unity-text-element unity-label" />
+                    <ui:Label name="title-label" text="SequenceNode" class="unity-text-element unity-label" style="-unity-text-align: upper-center;" />
                     <ui:VisualElement name="title-button-container">
                         <ui:VisualElement name="collapse-button">
                             <ui:VisualElement name="icon" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:Label text="This is the description" display-tooltip-when-elided="true" name="description" />
+                <ui:Label text="This is the description" display-tooltip-when-elided="true" name="description" style="-unity-text-align: upper-left; padding-left: 3px;" />
                 <ui:VisualElement name="divider" class="vertical" style="background-color: rgba(130, 129, 129, 0.6);" />
                 <ui:VisualElement name="output" />
             </ui:VisualElement>

@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SequenceNode : CompositeNode
+public class SelectorNode : CompositeNode
 {
     private int current;
+
     protected override void OnStart()
     {
-        current = 0;
         
     }
 
@@ -24,12 +24,12 @@ public class SequenceNode : CompositeNode
             case State.Running:
                 return State.Running;
             case State.Failure:
-                return State.Failure;
-            case State.Success:
                 current++;
                 break;
+            case State.Success:
+                return State.Success;
         }
 
-        return current == children.Count ? State.Success : State.Running;
+        return current == children.Count ? State.Failure : State.Running;
     }
 }
