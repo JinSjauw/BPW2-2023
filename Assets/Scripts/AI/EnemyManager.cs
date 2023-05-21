@@ -5,19 +5,23 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    private enum State
+    private enum TurnState
     {
         WaitingForTurn,
         TakingTurn,
         Busy
     }
 
-    private State state;
+    private TurnState turnState;
     private float timer;
     
+    [SerializeField] private List<Unit> enemies;
+    private int enemyIndex = 0;
+
     private void Awake()
     {
-        state = State.WaitingForTurn;
+        turnState = TurnState.WaitingForTurn;
+        //enemies = new List<Unit>();
     }
 
     private void Start()
@@ -32,94 +36,54 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
-        switch (state)
+        switch (turnState)
         {
-            case State.WaitingForTurn:
+            case TurnState.WaitingForTurn:
                 break;
-            case State.TakingTurn:
+            case TurnState.TakingTurn:
+                //Timer
                 timer -= Time.deltaTime;
-                if (timer <= 0f)
+                if (timer < 0)
                 {
-                    state = State.Busy;
-                    if (TryTakeEnemyAction(SetStateTakingTurn))
+                    turnState = TurnState.Busy;
+                }
+                break;
+            case TurnState.Busy:
+                //Run BTree
+                BehaviourNode.State enemyState = enemies[enemyIndex].RunTree();
+                if (enemyState == BehaviourNode.State.Success || enemyState == BehaviourNode.State.Failure)
+                {
+                    if (enemies.Count - 1 > enemyIndex)
                     {
-                        state = State.Busy;
+                        enemyIndex++;
+                        SetStateTakingTurn();
                     }
                     else
                     {
                         TurnSystem.Instance.NextTurn();
                     }
                 }
-                break;
-            case State.Busy:
+                
                 break;
         }
     }
+    
+    //Loop through all the enemies in Enemy List
+    //Go to the next after current enemy ends turn
+    //End enemy turns
 
     private void SetStateTakingTurn()
     {
         timer = 0.5f;
-        state = State.TakingTurn;
+        turnState = TurnState.TakingTurn;
     }
     
     private void TurnSystem_OnTurnChanged(object _sender, EventArgs _e)
     {
         if (!TurnSystem.Instance.IsPlayerTurn())
         {
-            state = State.TakingTurn;
-            timer = 1.5f;
+            turnState = TurnState.TakingTurn;
+            timer = 1.0f;
         }
     }
-
-    private bool TryTakeEnemyAction(Action _OnEnemyAcionComplete)
-    {
-        foreach (Unit enemy in UnitManager.Instance.GetEnemiesList())
-        {
-            TryTakeEnemyAction(enemy, _OnEnemyAcionComplete);
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool TryTakeEnemyAction(Unit _enemy, Action _OnEnemyAcionComplete)
-    {
-        EnemyAIAction bestEnemyAIAction = null;
-        BaseAction bestAction = null;
-        
-        foreach (BaseAction action in _enemy.GetActionArray())
-        {
-            if (!_enemy.CanTakeAction(action))
-            {
-                continue;
-            }
-
-            if (bestEnemyAIAction == null)
-            {
-                bestEnemyAIAction = action.GetBestAIAction();
-                bestAction = action;
-            }
-            else
-            {
-                EnemyAIAction testEnemyAIAction = action.GetBestAIAction();
-                if (testEnemyAIAction != null && testEnemyAIAction.actionValue > bestEnemyAIAction.actionValue)
-                {
-                    bestEnemyAIAction = testEnemyAIAction;
-                    bestAction = action;
-                }
-            }
-        }
-
-        if (bestEnemyAIAction != null && _enemy.TryTakeAction(bestAction))
-        {
-            bestAction.TakeAction(bestEnemyAIAction.gridPosition, _OnEnemyAcionComplete);
-        }
-        else
-        {
-            return false;
-        }
-        
-        return false;
-    }
-    
 }

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class UnitActionManager : MonoBehaviour
 {
     public static UnitActionManager Instance { get; private set; }
-    public EventHandler SelectedUnitChanged;
+    /*public EventHandler SelectedUnitChanged;*/
     public EventHandler SelectedActionChanged;
     public EventHandler OnActionStarted;
     public EventHandler OnActionComplete;
@@ -33,7 +33,8 @@ public class UnitActionManager : MonoBehaviour
 
     private void Start()
     {
-        SetSelectedUnit(selectedUnit);
+        SetSelectedAction(selectedUnit.GetMoveAction());
+        //SetSelectedUnit(selectedUnit);
     }
 
     private void Update()
@@ -53,10 +54,10 @@ public class UnitActionManager : MonoBehaviour
             return;
         }
         
-        if (TryHandleUnitSelection())
+        /*if (TryHandleUnitSelection())
         {
             return;
-        }
+        }*/
         
         HandleSelectedAction();
         
@@ -93,7 +94,7 @@ public class UnitActionManager : MonoBehaviour
         OnActionComplete?.Invoke(this, EventArgs.Empty);
     }
     
-    private bool TryHandleUnitSelection()
+    /*private bool TryHandleUnitSelection()
     {
         if (Input.GetMouseButton(0))
         {
@@ -112,13 +113,14 @@ public class UnitActionManager : MonoBehaviour
                         return false;
                     }
                     
-                    SetSelectedUnit(_unit);
+                    //SetSelectedUnit(_unit);
                     return true;
                 }
             }
         }
         return false;
     }
+    */
 
     public void SetSelectedAction(BaseAction _action)
     {
@@ -131,12 +133,12 @@ public class UnitActionManager : MonoBehaviour
         return selectedAction;
     }
     
-    private void SetSelectedUnit(Unit _unit)
+    /*private void SetSelectedUnit(Unit _unit)
     {
         selectedUnit = _unit;
         SetSelectedAction(selectedUnit.GetMoveAction());
         SelectedUnitChanged?.Invoke(this, EventArgs.Empty);
-    }
+    }*/
 
     public Unit GetSelectedUnit()
     {

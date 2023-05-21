@@ -13,10 +13,8 @@ public class UnitData
     public float moveDistance;
 
     public float attackRange;
-    //public bool isActive;
 }
 
-[RequireComponent(typeof(MoveAction))]
 public class Unit : MonoBehaviour
 {
     public static event EventHandler OnAnyUnitSpawned;
@@ -27,19 +25,24 @@ public class Unit : MonoBehaviour
     private BaseAction[] actionArray;
     private HealthSystem healthSystem;
 
-    private ShootAction shootAction;
-    private MoveAction moveAction;
-    
     [SerializeField] private bool isEnemy;
     [SerializeField] private int maxActionPoints = 3;
     [SerializeField] private int actionPoints = 3;
-    
+    [SerializeField] private BehaviourTree BTree;
     [SerializeField] private UnitData unitData;
     
     private void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
-        actionArray = GetComponents<BaseAction>();
+        if (!isEnemy)
+        {
+            actionArray = GetComponents<BaseAction>();
+        }
+        else
+        {
+            BTree = BTree.Clone();
+            BTree.Bind(this);
+        }
         unitData.moveDistance = unitData.moveSpeed * actionPoints + .5f;
     }
 
@@ -86,6 +89,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public BehaviourNode.State RunTree()
+    {
+        return BTree.Update();
+    }
+    
     public void Damage(int _amount)
     {
         healthSystem.Damage(_amount);
@@ -109,10 +117,6 @@ public class Unit : MonoBehaviour
     public MoveAction GetMoveAction()
     {
         return GetComponent<MoveAction>();
-    }
-    public ShootAction GetShootAction()
-    {
-        return GetComponent<ShootAction>();
     }
 
     public bool TryTakeAction(BaseAction _action)
@@ -159,6 +163,4 @@ public class Unit : MonoBehaviour
         Debug.Log("Dead");
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
-    
-    
 }

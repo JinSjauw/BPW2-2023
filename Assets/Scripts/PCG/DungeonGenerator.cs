@@ -363,6 +363,7 @@ public class DungeonGenerator : MonoBehaviour
 
     public void GenerateHallways()
     {
+        pathfinder.SetGrid(grid.GetGridPositions());
         foreach (var edge in dungeonPaths)
         {
             List<GridPosition> path = new List<GridPosition>();

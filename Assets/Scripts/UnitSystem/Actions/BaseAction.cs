@@ -31,7 +31,7 @@ public abstract class BaseAction : MonoBehaviour
    }
    public abstract string GetActionName();
 
-   public EnemyAIAction GetBestAIAction()
+   /*public EnemyAIAction GetBestAIAction()
    {
       List<EnemyAIAction> enemyAIActionList = new List<EnemyAIAction>();
 
@@ -52,9 +52,9 @@ public abstract class BaseAction : MonoBehaviour
       {
          return null;
       }
-   }
+   }*/
 
-   public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
+   /*public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);*/
 
    protected void ActionStart(Action _onActiomComplete)
    {
@@ -67,6 +67,4 @@ public abstract class BaseAction : MonoBehaviour
       isActive = false;
       onActionComplete();
    }
-   
-   
 }

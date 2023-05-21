@@ -146,14 +146,14 @@ public class ShootAction : BaseAction
         return validPositions;
     }
 
-    public override EnemyAIAction GetEnemyAIAction(GridPosition _gridPosition)
+    /*public override EnemyAIAction GetEnemyAIAction(GridPosition _gridPosition)
     {
         return new EnemyAIAction
         {
             gridPosition = _gridPosition,
             actionValue = 100,
         };
-    }
+    }*/
 
     public int GetTargetCountAtPosition(GridPosition _gridPosition)
     {

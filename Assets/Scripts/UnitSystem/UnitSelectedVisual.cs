@@ -11,10 +11,10 @@ public class UnitSelectedVisual : MonoBehaviour
     
     private void Start()
     {
-        UnitActionManager.Instance.SelectedUnitChanged += UnitManager_SelectedUnitChanged;
+        //UnitActionManager.Instance.SelectedUnitChanged += UnitManager_SelectedUnitChanged;
     }
 
-    private void UnitManager_SelectedUnitChanged(object sender, EventArgs empty)
+    /*private void UnitManager_SelectedUnitChanged(object sender, EventArgs empty)
     {
         if (UnitActionManager.Instance.GetSelectedUnit() == unit)
         {
@@ -24,11 +24,11 @@ public class UnitSelectedVisual : MonoBehaviour
         {
             visual.SetActive(false);
         }
-    }
+    }*/
 
     private void OnDestroy()
     {
-        UnitActionManager.Instance.SelectedUnitChanged -= UnitManager_SelectedUnitChanged;
+        //UnitActionManager.Instance.SelectedUnitChanged -= UnitManager_SelectedUnitChanged;
 
     }
 }

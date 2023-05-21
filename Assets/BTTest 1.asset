@@ -15,35 +15,13 @@ MonoBehaviour:
   state: 2
   started: 0
   guid: 364d1a4941ef95248aee724892704c35
-  position: {x: 554.3912, y: 606.4}
+  position: {x: 561.3447, y: 590.39996}
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
     moveToObject: {fileID: 0}
   unit: {fileID: 0}
   description: 
   duration: 1
---- !u!114 &-3388740867982910516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be6dd03daad2f2243b5423ac6dc841ad, type: 3}
-  m_Name: MoveNode
-  m_EditorClassIdentifier: 
-  state: 0
-  started: 0
-  guid: 944a72a5f3e5fbb409afbcd57df3c183
-  position: {x: 768.80005, y: 614.4}
-  blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
-    moveToObject: {fileID: 0}
-  unit: {fileID: 0}
-  description: 
-  moveAction: {fileID: 0}
 --- !u!114 &-2489551211902772102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,7 +46,6 @@ MonoBehaviour:
   children:
   - {fileID: 8534679881779216694}
   - {fileID: -3594110102658042697}
-  - {fileID: -3388740867982910516}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +56,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13bea5b9a3c12014d9f27ff4a7e51d6a, type: 3}
-  m_Name: BTTest
+  m_Name: BTTest 1
   m_EditorClassIdentifier: 
   rootNode: {fileID: 5818527544081988834}
   treeState: 0
@@ -88,7 +65,6 @@ MonoBehaviour:
   - {fileID: 5818527544081988834}
   - {fileID: 8534679881779216694}
   - {fileID: -3594110102658042697}
-  - {fileID: -3388740867982910516}
   blackboard:
     moveToPosition: {x: 1, y: 2, z: 3}
     moveToObject: {fileID: 0}
@@ -135,4 +111,4 @@ MonoBehaviour:
     moveToObject: {fileID: 0}
   unit: {fileID: 0}
   description: 
-  messsage: ' test Skelly Warrior'
+  messsage: ' test Skelly Mage'

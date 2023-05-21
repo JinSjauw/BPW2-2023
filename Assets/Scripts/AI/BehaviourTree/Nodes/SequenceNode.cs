@@ -28,7 +28,7 @@ public class SequenceNode : CompositeNode
                 current++;
                 break;
         }
-
-        return current == children.Count ? State.Success : State.Running;
+        
+        return current >= children.Count ? State.Success : State.Running;
     }
 }

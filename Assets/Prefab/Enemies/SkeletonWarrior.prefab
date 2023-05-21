@@ -626,7 +626,6 @@ GameObject:
   - component: {fileID: 4978591606639766259}
   - component: {fileID: 7215267432394752448}
   - component: {fileID: 7988019354625816306}
-  - component: {fileID: 7988019354625816307}
   - component: {fileID: 1312025277970231015}
   - component: {fileID: -7308936785874916227}
   m_Layer: 8
@@ -713,18 +712,6 @@ MonoBehaviour:
     stoppingDistance: 0.1
     moveDistance: 3.5
     attackRange: 0
---- !u!114 &7988019354625816307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1782438951538960947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1e335952f821c541ab28575e23ab5fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1312025277970231015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -737,6 +724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d167123b5c86e74fbfd57d6a9003dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthMax: 100
   health: 100
 --- !u!114 &-7308936785874916227
 MonoBehaviour:

@@ -26,10 +26,21 @@ public class MoveAction : BaseAction
         {
             pathfinding = new Pathfinding();
         }
-
+        
+        pathfinding.SetGrid(GetValidActionPositionsList());
+        
         moveIndex = 0;
-        path = pathfinding.GetPath(LevelGrid.Instance.GetGridPosition(transform.position),
-           _targetPosition);
+
+        path.Clear();
+        List<GridPosition> foundPath = new List<GridPosition>();
+        foundPath = pathfinding.FindPath(LevelGrid.Instance.GetGridObject((transform.position)),
+           LevelGrid.Instance.GetGridObject(_targetPosition));
+
+        foreach (var gridPosition in foundPath)
+        {
+            path.Add(LevelGrid.Instance.GetWorldPosition(gridPosition));
+        }
+        
         OnMove?.Invoke(this, EventArgs.Empty);
         ActionStart(_onActionComplete);
     }
@@ -86,17 +97,6 @@ public class MoveAction : BaseAction
             OnStop?.Invoke(this, EventArgs.Empty);
             ActionComplete();
         }
-    }
-
-    public override EnemyAIAction GetEnemyAIAction(GridPosition _gridPosition)
-    {
-        int targetCount = unit.GetShootAction().GetTargetCountAtPosition(_gridPosition);
-        
-        return new EnemyAIAction
-        {
-            gridPosition = _gridPosition,
-            actionValue = targetCount * 10,
-        };
     }
     
     public override int GetActionPointsCost()
