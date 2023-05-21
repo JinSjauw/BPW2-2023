@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Serialization;
@@ -10,7 +11,7 @@ public class BehaviourTree : ScriptableObject
     public BehaviourNode rootNode;
     public BehaviourNode.State treeState = BehaviourNode.State.Running;
     public List<BehaviourNode> nodes = new List<BehaviourNode>();
-    [FormerlySerializedAs("blackBoard")] public Blackboard blackboard = new Blackboard();
+    public Blackboard blackboard = new Blackboard();
     
     public BehaviourNode.State Update()
     {
@@ -45,7 +46,6 @@ public class BehaviourTree : ScriptableObject
         Undo.RecordObject(this, "Behaviour Tree (DeleteNode)");
         nodes.Remove(node);
         
-        //AssetDatabase.RemoveObjectFromAsset(node);
         Undo.DestroyObjectImmediate(node);
         
         AssetDatabase.SaveAssets();
@@ -157,6 +157,7 @@ public class BehaviourTree : ScriptableObject
         Traverse(tree.rootNode, (n) =>
         {
             tree.nodes.Add(n);
+            n.Init();
         });
         return tree;
     }

@@ -3225,8 +3225,6 @@ GameObject:
   - component: {fileID: 2679447142990396214}
   - component: {fileID: 1051531327}
   - component: {fileID: -9157105443493491002}
-  - component: {fileID: 1051531331}
-  - component: {fileID: 1051531340}
   - component: {fileID: -7921858131379355034}
   - component: {fileID: 7354531216741418980}
   m_Layer: 7
@@ -3304,9 +3302,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de3e075987d0cb4b924e05ea68acdfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionArray: []
   isEnemy: 0
   maxActionPoints: 3
   actionPoints: 3
+  BTree: {fileID: 0}
   unitData:
     unitAnimator: {fileID: 1886283401617761126}
     moveSpeed: 5
@@ -3330,31 +3330,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1101003841715420793, guid: 2464e109060e9e84bba5c574bcdeaecc,
     type: 3}
   shootPoint: {fileID: 2321437911036137212}
---- !u!114 &1051531331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4436644317462483129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1e335952f821c541ab28575e23ab5fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  path: []
---- !u!114 &1051531340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4436644317462483129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 540aac47649796d47b8eedaf89393c80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-7921858131379355034
 MonoBehaviour:
   m_ObjectHideFlags: 0

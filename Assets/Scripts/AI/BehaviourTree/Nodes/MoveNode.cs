@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MoveNode : ActionNode
 {
     public MoveAction moveAction;
-    
+
     private void OnActionComplete()
     {
         state = State.Success;
     }
+
+    public override void Init()
+    {
+        moveAction = (MoveAction)moveAction.Clone();
+        Debug.Log(moveAction.name);
+    }
+
     protected override void OnStart()
     {
-        moveAction.TakeAction( new GridPosition(0, 0),OnActionComplete);
+        moveAction.SetUnit(unit);
+        moveAction.TakeAction( new GridPosition(0, 0), OnActionComplete);
     }
 
     protected override void OnStop()
@@ -22,6 +31,8 @@ public class MoveNode : ActionNode
 
     protected override State OnUpdate()
     {
+        moveAction.Update();
+        
         return state;
     }
 }

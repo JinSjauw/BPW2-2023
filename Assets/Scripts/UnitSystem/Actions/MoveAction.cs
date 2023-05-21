@@ -4,20 +4,21 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
+[CreateAssetMenu]
 public class MoveAction : BaseAction
 {
     private Vector3 targetPosition;
     private Pathfinding pathfinding;
     private int moveIndex;
-    [SerializeField] private List<Vector3> path;
+    private List<Vector3> path = new List<Vector3>();
 
     public event EventHandler OnMove;
-    public event EventHandler OnStop; 
+    public event EventHandler OnStop;
 
-    protected override void Awake()
+    public override BaseAction Clone()
     {
-        base.Awake();
-        targetPosition = transform.position;
+        MoveAction moveAction = Instantiate(this);
+        return moveAction;
     }
 
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete)
@@ -33,7 +34,7 @@ public class MoveAction : BaseAction
 
         path.Clear();
         List<GridPosition> foundPath = new List<GridPosition>();
-        foundPath = pathfinding.FindPath(LevelGrid.Instance.GetGridObject((transform.position)),
+        foundPath = pathfinding.FindPath(LevelGrid.Instance.GetGridObject((unit.transform.position)),
            LevelGrid.Instance.GetGridObject(_targetPosition));
 
         foreach (var gridPosition in foundPath)
@@ -49,7 +50,7 @@ public class MoveAction : BaseAction
     {
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
-        tempPositions = LevelGrid.Instance.GetTilesInCircle(transform.position, unitData.moveDistance);
+        tempPositions = LevelGrid.Instance.GetTilesInCircle(unit.transform.position, unitData.moveDistance);
 
         foreach (GridPosition position in tempPositions)
         {
@@ -62,7 +63,7 @@ public class MoveAction : BaseAction
         return validPositions;
     }
 
-    private void Update()
+    public override void Update()
     {
         if (!isActive)
         {

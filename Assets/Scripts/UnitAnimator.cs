@@ -4,22 +4,51 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
+[RequireComponent(typeof(Unit))]
 public class UnitAnimator : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private Transform projectilePrefab, shootPoint;
-    private void Awake()
+    private void Start()
     {
-        if (TryGetComponent<MoveAction>(out MoveAction moveAction))
+        Unit unit = GetComponent<Unit>();
+        BehaviourTree tree = unit.GetTree();
+        
+        if (!unit.IsEnemy())
         {
-            moveAction.OnMove += MoveAction_OnMove;
-            moveAction.OnStop += MoveAction_OnStop;
+            foreach (var action in unit.GetActionArray())
+            {
+                MoveAction moveAction = action as MoveAction;
+                if (moveAction != null)
+                {
+                    moveAction.OnMove += MoveAction_OnMove;
+                    moveAction.OnStop += MoveAction_OnStop;
+                
+                    continue;
+                }
+            
+                ShootAction shootAction = action as ShootAction;
+                if (shootAction != null)
+                {
+                    shootAction.OnShoot += ShootAction_OnShoot;
+                }
+            }
         }
+        else if(tree != null && unit.IsEnemy())
+        {
+            tree.nodes.ForEach((n) =>
+            {
+                MoveNode moveNode = n as MoveNode;
+                if (moveNode != null)
+                {
+                    Debug.Log("Subbin enemy eventhandlers!");
+                    moveNode.moveAction.OnMove += MoveAction_OnMove;
+                    moveNode.moveAction.OnStop += MoveAction_OnStop;
+                }
+            });
+        }
+        
 
-        if (TryGetComponent<ShootAction>(out ShootAction shootAction))
-        {
-            shootAction.OnShoot += ShootAction_OnShoot;
-        }
     }
 
     private void MoveAction_OnMove(object _sender, EventArgs _e)

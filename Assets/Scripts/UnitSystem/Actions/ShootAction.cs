@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu]
 public class ShootAction : BaseAction
 {
     
@@ -27,7 +28,8 @@ public class ShootAction : BaseAction
 
     private Unit targetUnit;
     
-    private void Update()
+   
+    public override void Update()
     {
         if (!isActive)
         {
@@ -94,7 +96,7 @@ public class ShootAction : BaseAction
     {
         targetUnit.Damage(27);
     }
-    
+
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete)
     {
         ActionStart(_onActionComplete);

@@ -1,20 +1,25 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System.Collections.Generic;using UnityEngine;
 
-public abstract class BaseAction : MonoBehaviour
+public abstract class BaseAction : ScriptableObject
 {
    protected bool isActive = false;
    protected Unit unit;
    protected UnitData unitData;
    protected Action onActionComplete;
    protected int actionCost = 1;
-   protected virtual void Awake()
+
+   public virtual void SetUnit(Unit _unit)
    {
-      unit = GetComponent<Unit>();
+      unit = _unit;
       unitData = unit.GetUnitData();
    }
+
+   public virtual BaseAction Clone()
+   {
+      return Instantiate(this);
+   }
+   
    public abstract void TakeAction(GridPosition _targetPosition, Action _onActionComplete);
 
    public virtual bool IsValidActionGridPosition(GridPosition _gridPosition)
@@ -31,31 +36,13 @@ public abstract class BaseAction : MonoBehaviour
    }
    public abstract string GetActionName();
 
-   /*public EnemyAIAction GetBestAIAction()
+   public bool IsActive()
    {
-      List<EnemyAIAction> enemyAIActionList = new List<EnemyAIAction>();
+      return isActive;
+   }
 
-      List<GridPosition> validPositionsList = GetValidActionPositionsList();
-
-      foreach (var gridPosition in validPositionsList)
-      {
-         EnemyAIAction enemyAIAction = GetEnemyAIAction(gridPosition);
-         enemyAIActionList.Add(enemyAIAction);
-      }
-
-      if (enemyAIActionList.Count > 0)
-      {
-         enemyAIActionList.Sort((EnemyAIAction a, EnemyAIAction b)=> b.actionValue - a.actionValue );
-         return enemyAIActionList[0];
-      }
-      else
-      {
-         return null;
-      }
-   }*/
-
-   /*public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);*/
-
+   public abstract void Update();
+   
    protected void ActionStart(Action _onActiomComplete)
    {
       isActive = true;

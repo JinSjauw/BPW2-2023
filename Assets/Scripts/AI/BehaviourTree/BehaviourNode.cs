@@ -37,12 +37,14 @@ public abstract class BehaviourNode : ScriptableObject
 
       return state;
    }
-
+   
    public virtual BehaviourNode Clone()
    {
       return Instantiate(this);
    }
 
+   public virtual void Init(){}
+   
    protected abstract void OnStart();
    protected abstract void OnStop();
    protected abstract State OnUpdate();

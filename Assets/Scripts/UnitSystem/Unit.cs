@@ -22,9 +22,9 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyActionPointsChanged;
     
     private GridPosition gridPosition;
-    private BaseAction[] actionArray;
     private HealthSystem healthSystem;
 
+    [SerializeField] private BaseAction[] actionArray;
     [SerializeField] private bool isEnemy;
     [SerializeField] private int maxActionPoints = 3;
     [SerializeField] private int actionPoints = 3;
@@ -34,11 +34,13 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
-        if (!isEnemy)
+    
+        foreach (var action in actionArray)
         {
-            actionArray = GetComponents<BaseAction>();
+            action.SetUnit(this);
         }
-        else
+        
+        if(isEnemy)
         {
             BTree = BTree.Clone();
             BTree.Bind(this);
@@ -89,6 +91,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public BehaviourTree GetTree()
+    {
+        return BTree;
+    }
+    
     public BehaviourNode.State RunTree()
     {
         return BTree.Update();
@@ -114,9 +121,9 @@ public class Unit : MonoBehaviour
         return actionArray;
     }
 
-    public MoveAction GetMoveAction()
+    public BaseAction GetDefaultAction()
     {
-        return GetComponent<MoveAction>();
+        return actionArray[0];
     }
 
     public bool TryTakeAction(BaseAction _action)
