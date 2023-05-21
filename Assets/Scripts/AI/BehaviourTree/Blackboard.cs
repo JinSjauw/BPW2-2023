@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Blackboard
 {
-    public Vector3 moveToPosition;
+    public GridPosition moveToPosition;
+    public Transform playerObject;
     public GameObject moveToObject;
 }

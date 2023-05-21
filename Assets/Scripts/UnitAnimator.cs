@@ -47,8 +47,6 @@ public class UnitAnimator : MonoBehaviour
                 }
             });
         }
-        
-
     }
 
     private void MoveAction_OnMove(object _sender, EventArgs _e)

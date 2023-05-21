@@ -21,7 +21,7 @@ public class MoveNode : ActionNode
     protected override void OnStart()
     {
         moveAction.SetUnit(unit);
-        moveAction.TakeAction( new GridPosition(0, 0), OnActionComplete);
+        moveAction.TakeAction( blackboard.moveToPosition, OnActionComplete);
     }
 
     protected override void OnStop()
