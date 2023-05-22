@@ -2443,7 +2443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5884488877471570423
 Transform:
   m_ObjectHideFlags: 0
@@ -2494,9 +2494,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de3e075987d0cb4b924e05ea68acdfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionArray: []
   isEnemy: 1
   maxActionPoints: 3
   actionPoints: 3
+  BTree: {fileID: 11400000, guid: 6914fe281fd9af24ba0e8a96b23ed749, type: 2}
   unitData:
     unitAnimator: {fileID: 525174721484145549}
     moveSpeed: 2.5

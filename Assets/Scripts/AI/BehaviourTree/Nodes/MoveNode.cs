@@ -20,6 +20,7 @@ public class MoveNode : ActionNode
 
     protected override void OnStart()
     {
+        state = State.Running;
         moveAction.SetUnit(unit);
         moveAction.TakeAction( blackboard.moveToPosition, OnActionComplete);
     }

@@ -23,6 +23,7 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete)
     {
+        Debug.Log($"Target: {_targetPosition}");
         if (pathfinding == null)
         {
             pathfinding = new Pathfinding();
@@ -41,6 +42,11 @@ public class MoveAction : BaseAction
         {
             path.Add(LevelGrid.Instance.GetWorldPosition(gridPosition));
         }
+
+        if (unit.IsEnemy())
+        {
+            path.RemoveAt(path.Count - 1);
+        }
         
         OnMove?.Invoke(this, EventArgs.Empty);
         ActionStart(_onActionComplete);
@@ -58,6 +64,12 @@ public class MoveAction : BaseAction
             {
                 validPositions.Add(position);
             }
+            else if (unit.IsEnemy() && !LevelGrid.Instance.GetUnitAtGridPosition(position).IsEnemy())
+            {
+                validPositions.Add(position);
+            }
+            
+            
         }
 
         return validPositions;

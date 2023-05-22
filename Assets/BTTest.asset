@@ -15,9 +15,12 @@ MonoBehaviour:
   state: 2
   started: 0
   guid: 364d1a4941ef95248aee724892704c35
-  position: {x: 554.3912, y: 606.4}
+  position: {x: 742.11456, y: 709.6}
   blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
     moveToObject: {fileID: 0}
   unit: {fileID: 0}
   description: 
@@ -37,9 +40,12 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 944a72a5f3e5fbb409afbcd57df3c183
-  position: {x: 775.55304, y: 610.4001}
+  position: {x: 962.9147, y: 713.6}
   blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
     moveToObject: {fileID: 0}
   unit: {fileID: 0}
   description: 
@@ -59,9 +65,12 @@ MonoBehaviour:
   state: 2
   started: 0
   guid: e4408f05e57f8934f918652276ec29d5
-  position: {x: 524, y: 401.6791}
+  position: {x: 636.51465, y: 499.19995}
   blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
     moveToObject: {fileID: 0}
   unit: {fileID: 0}
   description: 
@@ -69,6 +78,34 @@ MonoBehaviour:
   - {fileID: 8534679881779216694}
   - {fileID: -3594110102658042697}
   - {fileID: -3388740867982910516}
+--- !u!114 &-164823400879270510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fed80245f4b98e4e94c52f5330c58c7, type: 3}
+  m_Name: DetectNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 3df542bdeec5e8448b4f9c93578cfee8
+  position: {x: 395.19995, y: 507.19998}
+  blackboard:
+    moveToPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  detectRadius: 6
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,8 +126,13 @@ MonoBehaviour:
   - {fileID: 8534679881779216694}
   - {fileID: -3594110102658042697}
   - {fileID: -3388740867982910516}
+  - {fileID: -164823400879270510}
+  - {fileID: 7252341536867489308}
   blackboard:
-    moveToPosition: {x: 1, y: 2, z: 3}
+    moveToPosition:
+      x: 1
+      z: 3
+    playerTransform: {fileID: 0}
     moveToObject: {fileID: 0}
 --- !u!114 &5818527544081988834
 MonoBehaviour:
@@ -107,13 +149,43 @@ MonoBehaviour:
   state: 0
   started: 1
   guid: 52128a9e3354b194681b37a14e612db9
-  position: {x: 516, y: 252.98499}
+  position: {x: 532, y: 273.4}
   blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
     moveToObject: {fileID: 0}
   unit: {fileID: 0}
   description: 
-  child: {fileID: -2489551211902772102}
+  child: {fileID: 7252341536867489308}
+--- !u!114 &7252341536867489308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7833c17e92b2d0d4e843de716e37e7b2, type: 3}
+  m_Name: SequenceNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 82aa977d9c5483f40869adc8820d1570
+  position: {x: 537.5999, y: 366.60397}
+  blackboard:
+    moveToPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
+  children:
+  - {fileID: -164823400879270510}
+  - {fileID: -2489551211902772102}
 --- !u!114 &8534679881779216694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,9 +201,12 @@ MonoBehaviour:
   state: 2
   started: 0
   guid: 2b4dfd7e3c992f1428dc887bfd288f7c
-  position: {x: 342.55005, y: 602.9501}
+  position: {x: 530.1146, y: 705.6}
   blackboard:
-    moveToPosition: {x: 0, y: 0, z: 0}
+    moveToPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
     moveToObject: {fileID: 0}
   unit: {fileID: 0}
   description: 

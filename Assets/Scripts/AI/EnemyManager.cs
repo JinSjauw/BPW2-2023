@@ -16,12 +16,12 @@ public class EnemyManager : MonoBehaviour
     private float timer;
     
     [SerializeField] private List<Unit> enemies;
+    private Unit currentEnemy;
     private int enemyIndex = 0;
 
     private void Awake()
     {
         turnState = TurnState.WaitingForTurn;
-        //enemies = new List<Unit>();
     }
 
     private void Start()
@@ -36,6 +36,8 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
+        currentEnemy = enemies[enemyIndex];
+        
         switch (turnState)
         {
             case TurnState.WaitingForTurn:
@@ -50,7 +52,7 @@ public class EnemyManager : MonoBehaviour
                 break;
             case TurnState.Busy:
                 //Run BTree
-                BehaviourNode.State enemyState = enemies[enemyIndex].RunTree();
+                BehaviourNode.State enemyState = currentEnemy.RunTree();
                 if (enemyState == BehaviourNode.State.Success || enemyState == BehaviourNode.State.Failure)
                 {
                     if (enemies.Count - 1 > enemyIndex)
@@ -58,12 +60,15 @@ public class EnemyManager : MonoBehaviour
                         enemyIndex++;
                         SetStateTakingTurn();
                     }
-                    else
+                    else if(enemyIndex >= enemies.Count - 1)
                     {
                         TurnSystem.Instance.NextTurn();
                     }
+                    else
+                    {
+                        SetStateTakingTurn();
+                    }
                 }
-                
                 break;
         }
     }
@@ -82,6 +87,12 @@ public class EnemyManager : MonoBehaviour
     {
         if (!TurnSystem.Instance.IsPlayerTurn())
         {
+            foreach (var enemy in enemies)
+            {
+                enemy.SetTreeState(BehaviourNode.State.Running);
+            }
+
+            enemyIndex = 0;
             turnState = TurnState.TakingTurn;
             timer = 1.0f;
         }

@@ -79,7 +79,7 @@ public class Pathfinding
         {
             GridObject currentNode = GetLowestFcost(openList);
 
-            if (currentNode == endNode)
+            if (currentNode.gridPosition == endNode.gridPosition)
             {
                 //Return path here. End has been reached
                 return ReturnPath(startNode, endNode);

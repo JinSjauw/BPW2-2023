@@ -100,6 +100,11 @@ public class Unit : MonoBehaviour
     {
         return BTree.Update();
     }
+
+    public void SetTreeState(BehaviourNode.State _state)
+    {
+        BTree.rootNode.state = _state;
+    }
     
     public void Damage(int _amount)
     {
