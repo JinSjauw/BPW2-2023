@@ -68,8 +68,6 @@ public class MoveAction : BaseAction
             {
                 validPositions.Add(position);
             }
-            
-            
         }
 
         return validPositions;

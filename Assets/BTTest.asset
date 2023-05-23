@@ -40,7 +40,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 944a72a5f3e5fbb409afbcd57df3c183
-  position: {x: 962.9147, y: 713.6}
+  position: {x: 975, y: 718}
   blackboard:
     moveToPosition:
       x: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
   state: 0
   started: 0
   guid: 3df542bdeec5e8448b4f9c93578cfee8
-  position: {x: 395.19995, y: 507.19998}
+  position: {x: 398, y: 507}
   blackboard:
     moveToPosition:
       x: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
-  detectRadius: 6
+  detectRadius: 18
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   state: 2
   started: 0
   guid: 2b4dfd7e3c992f1428dc887bfd288f7c
-  position: {x: 530.1146, y: 705.6}
+  position: {x: 540, y: 718}
   blackboard:
     moveToPosition:
       x: 0

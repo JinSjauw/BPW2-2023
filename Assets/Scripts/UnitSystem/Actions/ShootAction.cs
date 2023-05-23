@@ -6,7 +6,6 @@ using UnityEngine;
 [CreateAssetMenu]
 public class ShootAction : BaseAction
 {
-    
     public event EventHandler<OnShootEventArgs> OnShoot;
 
     public class OnShootEventArgs : EventArgs
@@ -113,10 +112,38 @@ public class ShootAction : BaseAction
     public override List<GridPosition> GetValidActionPositionsList()
     {
         Vector3 unitPosition = LevelGrid.Instance.GetWorldPosition(unit.GetGridPosition());
-        return GetValidActionPositionsList(unitPosition);
+        
+        List<GridPosition> validPositions = new List<GridPosition>();
+        List<GridPosition> tempPositions = new List<GridPosition>();
+        tempPositions = LevelGrid.Instance.GetTilesInCircle(unitPosition, unitData.attackRange);
+        
+        foreach (GridPosition position in tempPositions)
+        {
+            if (position == LevelGrid.Instance.GetGridPosition(unitPosition))
+            {
+                continue;
+            }
+            
+            if (!LevelGrid.Instance.HasAnyUnit(position))
+            {
+                continue;
+            }
+
+            Unit target = LevelGrid.Instance.GetUnitAtGridPosition(position);
+            
+            if (target.IsEnemy() == unit.IsEnemy())
+            {
+                //Check is units are of the same type
+                continue;
+            }
+            
+            validPositions.Add(position);
+        }
+
+        return validPositions;
     }
     
-    public List<GridPosition> GetValidActionPositionsList(Vector3 _position)
+    /*public List<GridPosition> GetValidActionPositionsList(Vector3 _position)
     {
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
@@ -146,23 +173,8 @@ public class ShootAction : BaseAction
         }
 
         return validPositions;
-    }
-
-    /*public override EnemyAIAction GetEnemyAIAction(GridPosition _gridPosition)
-    {
-        return new EnemyAIAction
-        {
-            gridPosition = _gridPosition,
-            actionValue = 100,
-        };
     }*/
 
-    public int GetTargetCountAtPosition(GridPosition _gridPosition)
-    {
-        Vector3 position = LevelGrid.Instance.GetWorldPosition(_gridPosition);
-        return GetValidActionPositionsList(position).Count;
-    }
-    
     public override string GetActionName()
     {
         return "Shoot";
