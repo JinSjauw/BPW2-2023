@@ -20,7 +20,7 @@ public abstract class BaseAction : ScriptableObject
       return Instantiate(this);
    }
    
-   public abstract void TakeAction(GridPosition _targetPosition, Action _onActionComplete);
+   public abstract void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail);
 
    public virtual bool IsValidActionGridPosition(GridPosition _gridPosition)
    {

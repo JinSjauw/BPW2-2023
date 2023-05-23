@@ -42,6 +42,14 @@ public struct GridPosition : IEquatable<GridPosition>
              z == position.z;
    }
 
+   public float Distance(GridPosition other)
+   {
+      Vector2 a = new Vector2(x, z);
+      Vector2 b = new Vector2(other.x, other.z);
+
+      return Vector2.Distance(a, b);
+   }
+
    public override int GetHashCode()
    {
       return HashCode.Combine(x, z);

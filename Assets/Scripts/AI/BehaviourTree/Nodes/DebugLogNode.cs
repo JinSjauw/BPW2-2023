@@ -11,11 +11,11 @@ public class DebugLogNode : ActionNode
 
     protected override void OnStop()
     {
-        Debug.Log($"OnStop{messsage}");
+        
     }
 
-    protected override State OnUpdate()
+    protected override BehaviourState OnUpdate()
     {
-        return State.Success;
+        return BehaviourState.Success;
     }
 }

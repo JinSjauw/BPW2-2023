@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd42550c11e9c14884583a1657339d1, type: 3}
   m_Name: WaitNode
   m_EditorClassIdentifier: 
-  state: 2
+  behaviourState: 0
   started: 0
   guid: 364d1a4941ef95248aee724892704c35
-  position: {x: 742.11456, y: 709.6}
+  position: {x: 917, y: 799}
   blackboard:
-    moveToPosition:
+    targetPosition:
       x: 0
       z: 0
     playerTransform: {fileID: 0}
@@ -37,12 +37,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be6dd03daad2f2243b5423ac6dc841ad, type: 3}
   m_Name: MoveNode
   m_EditorClassIdentifier: 
-  state: 0
+  behaviourState: 0
   started: 0
   guid: 944a72a5f3e5fbb409afbcd57df3c183
-  position: {x: 975, y: 718}
+  position: {x: 1150, y: 807}
   blackboard:
-    moveToPosition:
+    targetPosition:
       x: 0
       z: 0
     playerTransform: {fileID: 0}
@@ -62,12 +62,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7833c17e92b2d0d4e843de716e37e7b2, type: 3}
   m_Name: SequenceNode
   m_EditorClassIdentifier: 
-  state: 2
+  behaviourState: 0
   started: 0
   guid: e4408f05e57f8934f918652276ec29d5
-  position: {x: 636.51465, y: 499.19995}
+  position: {x: 850.0001, y: 652}
   blackboard:
-    moveToPosition:
+    targetPosition:
       x: 0
       z: 0
     playerTransform: {fileID: 0}
@@ -90,12 +90,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fed80245f4b98e4e94c52f5330c58c7, type: 3}
   m_Name: DetectNode
   m_EditorClassIdentifier: 
-  state: 0
+  behaviourState: 0
   started: 0
   guid: 3df542bdeec5e8448b4f9c93578cfee8
-  position: {x: 398, y: 507}
+  position: {x: 239.7211, y: 560.5}
   blackboard:
-    moveToPosition:
+    targetPosition:
       x: 0
       z: 0
     playerTransform: {fileID: 0}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: BTTest
   m_EditorClassIdentifier: 
   rootNode: {fileID: 5818527544081988834}
-  treeState: 0
+  treeBehaviourState: 0
   nodes:
   - {fileID: -2489551211902772102}
   - {fileID: 5818527544081988834}
@@ -128,12 +128,41 @@ MonoBehaviour:
   - {fileID: -3388740867982910516}
   - {fileID: -164823400879270510}
   - {fileID: 7252341536867489308}
+  - {fileID: 1283681530679873661}
+  - {fileID: 8046286187681883346}
   blackboard:
-    moveToPosition:
-      x: 1
-      z: 3
+    targetPosition:
+      x: 0
+      z: 0
     playerTransform: {fileID: 0}
     moveToObject: {fileID: 0}
+--- !u!114 &1283681530679873661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39a521c6917f7bf41b18e4fc4496200b, type: 3}
+  m_Name: SelectorNode
+  m_EditorClassIdentifier: 
+  behaviourState: 0
+  started: 0
+  guid: 0770e88edca6f7f4fa37a515403c86cc
+  position: {x: 647.99994, y: 525}
+  blackboard:
+    targetPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
+  children:
+  - {fileID: 8046286187681883346}
+  - {fileID: -2489551211902772102}
 --- !u!114 &5818527544081988834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,12 +175,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7199278b3b59a2646b91ff15cd98a1b1, type: 3}
   m_Name: RootNode
   m_EditorClassIdentifier: 
-  state: 0
+  behaviourState: 0
   started: 1
   guid: 52128a9e3354b194681b37a14e612db9
   position: {x: 532, y: 273.4}
   blackboard:
-    moveToPosition:
+    targetPosition:
       x: 0
       z: 0
     playerTransform: {fileID: 0}
@@ -171,12 +200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7833c17e92b2d0d4e843de716e37e7b2, type: 3}
   m_Name: SequenceNode
   m_EditorClassIdentifier: 
-  state: 0
+  behaviourState: 0
   started: 0
   guid: 82aa977d9c5483f40869adc8820d1570
-  position: {x: 537.5999, y: 366.60397}
+  position: {x: 543.99994, y: 375}
   blackboard:
-    moveToPosition:
+    targetPosition:
       x: 0
       z: 0
     playerTransform: {fileID: 0}
@@ -185,7 +214,32 @@ MonoBehaviour:
   description: 
   children:
   - {fileID: -164823400879270510}
-  - {fileID: -2489551211902772102}
+  - {fileID: 1283681530679873661}
+--- !u!114 &8046286187681883346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03548bd131a520547b4925f817142f4b, type: 3}
+  m_Name: MeleeNode
+  m_EditorClassIdentifier: 
+  behaviourState: 0
+  started: 0
+  guid: 2465e4b78e859044cbd2a734cf0edb4b
+  position: {x: 539.9999, y: 660}
+  blackboard:
+    targetPosition:
+      x: 0
+      z: 0
+    playerTransform: {fileID: 0}
+    moveToObject: {fileID: 0}
+  unit: {fileID: 0}
+  description: 
+  meleeAction: {fileID: 11400000, guid: 0cf0ae5dfd5ab1c48a094e7b0f542e95, type: 2}
 --- !u!114 &8534679881779216694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,12 +252,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4730b39c08a249b59f76c4ea40d2400f, type: 3}
   m_Name: DebugLogNode
   m_EditorClassIdentifier: 
-  state: 2
+  behaviourState: 0
   started: 0
   guid: 2b4dfd7e3c992f1428dc887bfd288f7c
-  position: {x: 540, y: 718}
+  position: {x: 715, y: 807}
   blackboard:
-    moveToPosition:
+    targetPosition:
       x: 0
       z: 0
     playerTransform: {fileID: 0}

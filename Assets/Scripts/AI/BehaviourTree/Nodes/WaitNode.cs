@@ -17,13 +17,13 @@ public class WaitNode : ActionNode
        
     }
 
-    protected override State OnUpdate()
+    protected override BehaviourState OnUpdate()
     {
         if (Time.time - startTime > duration)
         {
-            return State.Success;
+            return BehaviourState.Success;
         }
 
-        return State.Running;
+        return BehaviourState.Running;
     }
 }

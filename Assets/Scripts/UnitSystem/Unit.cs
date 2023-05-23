@@ -10,7 +10,7 @@ public class UnitData
     public float moveSpeed;
     public float rotateSpeed;
     public float stoppingDistance; 
-    public float moveDistance;
+    public int moveDistance;
 
     public float attackRange;
 }
@@ -45,7 +45,6 @@ public class Unit : MonoBehaviour
             BTree = BTree.Clone();
             BTree.Bind(this);
         }
-        unitData.moveDistance = unitData.moveSpeed * actionPoints + .5f;
     }
 
     private void Start()
@@ -56,7 +55,7 @@ public class Unit : MonoBehaviour
 
         healthSystem.OnDeath += HealthSystem_OnDeath;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-        
+        UpdateMoveDistance();
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
     }
 
@@ -68,12 +67,12 @@ public class Unit : MonoBehaviour
         {
             //Changed grid position
             LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
-
+            UpdateMoveDistance();
             gridPosition = newGridPosition;
         }
     }
 
-    private void SpendActionPoints(int _amount)
+    public void SpendActionPoints(int _amount)
     {
         actionPoints -= _amount;
         OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
@@ -86,8 +85,8 @@ public class Unit : MonoBehaviour
             !IsEnemy() && TurnSystem.Instance.IsPlayerTurn())
         {
             actionPoints = maxActionPoints;
-        
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            UpdateMoveDistance();
         }
     }
 
@@ -96,14 +95,14 @@ public class Unit : MonoBehaviour
         return BTree;
     }
     
-    public BehaviourNode.State RunTree()
+    public BehaviourNode.BehaviourState RunTree()
     {
         return BTree.Update();
     }
 
-    public void SetTreeState(BehaviourNode.State _state)
+    public void SetTreeState(BehaviourNode.BehaviourState behaviourState)
     {
-        BTree.rootNode.state = _state;
+        BTree.rootNode.behaviourState = behaviourState;
     }
     
     public void Damage(int _amount)
@@ -131,6 +130,11 @@ public class Unit : MonoBehaviour
         return actionArray[0];
     }
 
+    public void UpdateMoveDistance()
+    {
+        unitData.moveDistance = (int)unitData.moveSpeed * actionPoints;
+    }
+    
     public bool TryTakeAction(BaseAction _action)
     {
         if (CanTakeAction(_action))

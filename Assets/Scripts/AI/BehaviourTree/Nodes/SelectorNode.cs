@@ -8,28 +8,32 @@ public class SelectorNode : CompositeNode
 
     protected override void OnStart()
     {
-        
+        Debug.Log("In Selector");
+        current = 0;
     }
 
     protected override void OnStop()
     {
+        Debug.Log("Stopped Selector");
         
     }
 
-    protected override State OnUpdate()
+    protected override BehaviourState OnUpdate()
     {
         var child = children[current];
-        switch (child.Update())
+        BehaviourState state = child.Update();
+        //Debug.Log($"Name: {child.name} : {state}");
+        switch (state)
         {
-            case State.Running:
-                return State.Running;
-            case State.Failure:
+            case BehaviourState.Running:
+                return BehaviourState.Running;
+            case BehaviourState.Failure:
                 current++;
                 break;
-            case State.Success:
-                return State.Success;
+            case BehaviourState.Success:
+                return BehaviourState.Success;
         }
 
-        return current == children.Count ? State.Failure : State.Running;
+        return current >= children.Count ? BehaviourState.Failure : BehaviourState.Running;
     }
 }

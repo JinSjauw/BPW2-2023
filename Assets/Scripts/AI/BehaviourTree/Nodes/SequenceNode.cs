@@ -15,20 +15,20 @@ public class SequenceNode : CompositeNode
         
     }
 
-    protected override State OnUpdate()
+    protected override BehaviourState OnUpdate()
     {
         var child = children[current];
         switch (child.Update())
         {
-            case State.Running:
-                return State.Running;
-            case State.Failure:
-                return State.Failure;
-            case State.Success:
+            case BehaviourState.Running:
+                return BehaviourState.Running;
+            case BehaviourState.Failure:
+                return BehaviourState.Failure;
+            case BehaviourState.Success:
                 current++;
                 break;
         }
         
-        return current >= children.Count ? State.Success : State.Running;
+        return current >= children.Count ? BehaviourState.Success : BehaviourState.Running;
     }
 }

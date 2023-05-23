@@ -5,21 +5,21 @@ using UnityEngine;
 
 public abstract class BehaviourNode : ScriptableObject
 {
-   public enum State
+   public enum BehaviourState
    {
       Running,
       Failure,
       Success
    }
 
-   [HideInInspector] public State state = State.Running;
+   [HideInInspector] public BehaviourState behaviourState = BehaviourState.Running;
    [HideInInspector] public bool started = false;
    [HideInInspector] public string guid;
    [HideInInspector] public Vector2 position;
    [HideInInspector] public Blackboard blackboard;
    [HideInInspector] public Unit unit;
    [TextArea] public string description;
-   public State Update()
+   public BehaviourState Update()
    {
       if (!started)
       {
@@ -27,15 +27,15 @@ public abstract class BehaviourNode : ScriptableObject
          started = true;
       }
 
-      state = OnUpdate();
+      behaviourState = OnUpdate();
 
-      if (state == State.Failure || state == State.Success)
+      if (behaviourState == BehaviourState.Failure || behaviourState == BehaviourState.Success)
       {
          OnStop();
          started = false;
       }
 
-      return state;
+      return behaviourState;
    }
    
    public virtual BehaviourNode Clone()
@@ -47,6 +47,6 @@ public abstract class BehaviourNode : ScriptableObject
    
    protected abstract void OnStart();
    protected abstract void OnStop();
-   protected abstract State OnUpdate();
+   protected abstract BehaviourState OnUpdate();
 
 }

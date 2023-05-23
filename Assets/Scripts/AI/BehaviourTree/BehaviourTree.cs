@@ -9,18 +9,18 @@ using UnityEngine.Serialization;
 public class BehaviourTree : ScriptableObject
 {
     public BehaviourNode rootNode;
-    public BehaviourNode.State treeState = BehaviourNode.State.Running;
+    public BehaviourNode.BehaviourState treeBehaviourState = BehaviourNode.BehaviourState.Running;
     public List<BehaviourNode> nodes = new List<BehaviourNode>();
     public Blackboard blackboard = new Blackboard();
     
-    public BehaviourNode.State Update()
+    public BehaviourNode.BehaviourState Update()
     {
-        if (rootNode.state == BehaviourNode.State.Running)
+        if (rootNode.behaviourState == BehaviourNode.BehaviourState.Running)
         {
-            treeState = rootNode.Update();
+            treeBehaviourState = rootNode.Update();
         }
 
-        return treeState;
+        return treeBehaviourState;
     }
 
     public BehaviourNode CreateNode(System.Type type)

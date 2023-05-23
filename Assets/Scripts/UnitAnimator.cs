@@ -32,6 +32,12 @@ public class UnitAnimator : MonoBehaviour
                 {
                     shootAction.OnShoot += ShootAction_OnShoot;
                 }
+                
+                MeleeAction meleeAction = action as MeleeAction;
+                if (meleeAction != null)
+                {
+                    meleeAction.OnMelee += MeleeAction_OnMelee;
+                }
             }
         }
         else if(tree != null && unit.IsEnemy())
@@ -44,6 +50,11 @@ public class UnitAnimator : MonoBehaviour
                     Debug.Log("Subbin enemy eventhandlers!");
                     moveNode.moveAction.OnMove += MoveAction_OnMove;
                     moveNode.moveAction.OnStop += MoveAction_OnStop;
+                }
+                MeleeNode meleeNode = n as MeleeNode;
+                if (meleeNode != null)
+                {
+                    meleeNode.meleeAction.OnMelee += MeleeAction_OnMelee;
                 }
             });
         }
@@ -70,5 +81,10 @@ public class UnitAnimator : MonoBehaviour
        shootAtTarget.y = shootPoint.transform.position.y;
        
        projectile.Init(shootAtTarget);
+    }
+
+    private void MeleeAction_OnMelee(object _sender, EventArgs _e)
+    {
+        animator.SetTrigger("isMeleeing");
     }
 }

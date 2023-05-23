@@ -21,22 +21,40 @@ public class MoveAction : BaseAction
         return moveAction;
     }
 
-    public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete)
+    public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {
         Debug.Log($"Target: {_targetPosition}");
         if (pathfinding == null)
         {
             pathfinding = new Pathfinding();
         }
+
+        List<GridPosition> validPositionsList = GetValidActionPositionsList();
+        GridPosition destination = _targetPosition;
         
-        pathfinding.SetGrid(GetValidActionPositionsList());
+        if (!validPositionsList.Contains(_targetPosition))
+        {
+            //Get closest node to the target position
+            GridPosition closest = unit.GetGridPosition();
+            foreach (var position in validPositionsList)
+            {
+                if (position.Distance(_targetPosition) < closest.Distance(_targetPosition))
+                {
+                    closest = position;
+                }
+            }
+            destination = closest;
+        }
+        
+        pathfinding.SetGrid(validPositionsList);
         
         moveIndex = 0;
 
         path.Clear();
+
         List<GridPosition> foundPath = new List<GridPosition>();
         foundPath = pathfinding.FindPath(LevelGrid.Instance.GetGridObject((unit.transform.position)),
-           LevelGrid.Instance.GetGridObject(_targetPosition));
+           LevelGrid.Instance.GetGridObject(destination));
 
         foreach (var gridPosition in foundPath)
         {
@@ -106,6 +124,7 @@ public class MoveAction : BaseAction
         if (moveIndex >= path.Count)
         {
             OnStop?.Invoke(this, EventArgs.Empty);
+            unit.UpdateMoveDistance();
             ActionComplete();
         }
     }

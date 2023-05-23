@@ -96,7 +96,7 @@ public class ShootAction : BaseAction
         targetUnit.Damage(27);
     }
 
-    public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete)
+    public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {
         ActionStart(_onActionComplete);
 
@@ -142,38 +142,6 @@ public class ShootAction : BaseAction
 
         return validPositions;
     }
-    
-    /*public List<GridPosition> GetValidActionPositionsList(Vector3 _position)
-    {
-        List<GridPosition> validPositions = new List<GridPosition>();
-        List<GridPosition> tempPositions = new List<GridPosition>();
-        tempPositions = LevelGrid.Instance.GetTilesInCircle(_position, unitData.attackRange);
-        
-        foreach (GridPosition position in tempPositions)
-        {
-            if (position == LevelGrid.Instance.GetGridPosition(_position))
-            {
-                continue;
-            }
-            
-            if (!LevelGrid.Instance.HasAnyUnit(position))
-            {
-                continue;
-            }
-
-            Unit target = LevelGrid.Instance.GetUnitAtGridPosition(position);
-            
-            if (target.IsEnemy() == unit.IsEnemy())
-            {
-                //Check is units are of the same type
-                continue;
-            }
-            
-            validPositions.Add(position);
-        }
-
-        return validPositions;
-    }*/
 
     public override string GetActionName()
     {

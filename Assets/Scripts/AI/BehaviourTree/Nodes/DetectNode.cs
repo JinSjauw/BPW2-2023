@@ -19,7 +19,7 @@ public class DetectNode : ActionNode
         Debug.Log($"Detected {blackboard.playerTransform.name} !!");
     }
 
-    protected override State OnUpdate()
+    protected override BehaviourState OnUpdate()
     {
         //if player comes in detect radius
         //set target to player
@@ -29,19 +29,19 @@ public class DetectNode : ActionNode
 
         if (blackboard.playerTransform != null)
         {
-            blackboard.moveToPosition = LevelGrid.Instance.GetGridPosition(blackboard.playerTransform.position);
+            blackboard.targetPosition = LevelGrid.Instance.GetGridPosition(blackboard.playerTransform.position);
             
-            return State.Success;
+            return BehaviourState.Success;
         }
         
         Collider[] hits = Physics.OverlapSphere(unit.transform.position, detectRadius, targetLayer);
         if(hits.Length > 0)
         {
             blackboard.playerTransform = hits[0].transform.root;
-            blackboard.moveToPosition = LevelGrid.Instance.GetGridPosition(blackboard.playerTransform.position);
-            state = State.Success;
+            blackboard.targetPosition = LevelGrid.Instance.GetGridPosition(blackboard.playerTransform.position);
+            behaviourState = BehaviourState.Success;
         }
 
-        return state;
+        return behaviourState;
     }
 }

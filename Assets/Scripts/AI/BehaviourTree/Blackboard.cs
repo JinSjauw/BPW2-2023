@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 [System.Serializable]
 public class Blackboard
 {
-    public GridPosition moveToPosition;
+    public GridPosition targetPosition;
     [FormerlySerializedAs("playerObject")] public Transform playerTransform;
     public GameObject moveToObject;
 }

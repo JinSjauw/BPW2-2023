@@ -27,6 +27,17 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
+    }
+
+    private void Unit_OnAnyUnitDead(object _sender, EventArgs e)
+    {
+        Unit unit = _sender as Unit;
+
+        if (unit.IsEnemy())
+        {
+            enemies.Remove(unit);
+        }
     }
 
     private void Update()
@@ -35,7 +46,13 @@ public class EnemyManager : MonoBehaviour
         {
             return;
         }
-
+        
+        if(enemies.Count <= 0)
+        {
+            //Not in combat
+            TurnSystem.Instance.NextTurn();
+        }
+        
         currentEnemy = enemies[enemyIndex];
         
         switch (turnState)
@@ -52,15 +69,18 @@ public class EnemyManager : MonoBehaviour
                 break;
             case TurnState.Busy:
                 //Run BTree
-                BehaviourNode.State enemyState = currentEnemy.RunTree();
-                if (enemyState == BehaviourNode.State.Success || enemyState == BehaviourNode.State.Failure)
+                BehaviourNode.BehaviourState enemyBehaviourState = currentEnemy.RunTree();
+                if (enemyBehaviourState == BehaviourNode.BehaviourState.Success || enemyBehaviourState == BehaviourNode.BehaviourState.Failure)
                 {
                     if (enemies.Count - 1 > enemyIndex)
                     {
-                        enemyIndex++;
+                        if (currentEnemy.GetActionPoints() <= 0)
+                        {
+                            enemyIndex++;
+                        }
                         SetStateTakingTurn();
                     }
-                    else if(enemyIndex >= enemies.Count - 1)
+                    else if(enemyIndex > enemies.Count - 1)
                     {
                         TurnSystem.Instance.NextTurn();
                     }
@@ -72,15 +92,12 @@ public class EnemyManager : MonoBehaviour
                 break;
         }
     }
-    
-    //Loop through all the enemies in Enemy List
-    //Go to the next after current enemy ends turn
-    //End enemy turns
 
     private void SetStateTakingTurn()
     {
-        timer = 0.5f;
+        timer = 1.5f;
         turnState = TurnState.TakingTurn;
+        currentEnemy.SetTreeState(BehaviourNode.BehaviourState.Running);
     }
     
     private void TurnSystem_OnTurnChanged(object _sender, EventArgs _e)
@@ -89,7 +106,7 @@ public class EnemyManager : MonoBehaviour
         {
             foreach (var enemy in enemies)
             {
-                enemy.SetTreeState(BehaviourNode.State.Running);
+                enemy.SetTreeState(BehaviourNode.BehaviourState.Running);
             }
 
             enemyIndex = 0;

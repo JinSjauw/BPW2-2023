@@ -76,7 +76,7 @@ public class UnitActionManager : MonoBehaviour
                 return;
             }
             SetRunning();
-            selectedAction.TakeAction(mouseGridPosition, ClearRunning);
+            selectedAction.TakeAction(mouseGridPosition, ClearRunning, null);
         }
     }
     

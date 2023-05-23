@@ -16,7 +16,7 @@ public class RootNode : BehaviourNode
         
     }
 
-    protected override State OnUpdate()
+    protected override BehaviourState OnUpdate()
     {
         return child.Update();
     }

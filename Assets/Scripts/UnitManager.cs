@@ -59,17 +59,4 @@ public class UnitManager : MonoBehaviour
             allyList.Remove(unit);
         }
     }
-
-    public List<Unit> GetUnitList()
-    {
-        return unitList;
-    }
-    public List<Unit> GetAllyList()
-    {
-        return allyList;
-    }
-    public List<Unit> GetEnemiesList()
-    {
-        return enemiesList;
-    }
 }
