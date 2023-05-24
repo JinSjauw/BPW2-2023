@@ -27,7 +27,7 @@ public class MeleeAction : BaseAction
         {
             Debug.Log($"Unit: {unit.name} : Distance " + unit.GetGridPosition().Distance(targetUnit.GetGridPosition()));
             
-            if (Vector3.Distance(unit.transform.position, targetUnit.transform.position) > range + 1.5f)
+            if (Vector3.Distance(unit.transform.position, targetUnit.transform.position) > range)
             {
                 targetUnit = null;
                 _onActionFail();
@@ -46,12 +46,22 @@ public class MeleeAction : BaseAction
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
         tempPositions = LevelGrid.Instance.GetTilesInCircle(unit.transform.position, range);
-
-        if (tempPositions.Contains(targetUnit.GetGridPosition()) && unit.IsEnemy())
-        {
-            return tempPositions;
-        }
         
+        if(tempPositions.Count <= 0)
+        {
+            Debug.Log("No valid targets");
+            return null;
+        }
+
+
+        if (unit.IsEnemy())
+        {
+            if (tempPositions.Contains(targetUnit.GetGridPosition()))
+            {
+                return tempPositions;
+            }
+        }
+
         foreach (GridPosition position in tempPositions)
         {
             Unit target = LevelGrid.Instance.GetUnitAtGridPosition(position);

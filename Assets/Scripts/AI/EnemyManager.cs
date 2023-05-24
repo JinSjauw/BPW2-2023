@@ -53,7 +53,16 @@ public class EnemyManager : MonoBehaviour
             TurnSystem.Instance.NextTurn();
         }
         
-        currentEnemy = enemies[enemyIndex];
+        
+        if(enemyIndex > enemies.Count - 1)
+        {
+            TurnSystem.Instance.NextTurn();
+        }
+        else
+        {
+            currentEnemy = enemies[enemyIndex];
+        }
+        
         
         switch (turnState)
         {
@@ -72,17 +81,13 @@ public class EnemyManager : MonoBehaviour
                 BehaviourNode.BehaviourState enemyBehaviourState = currentEnemy.RunTree();
                 if (enemyBehaviourState == BehaviourNode.BehaviourState.Success || enemyBehaviourState == BehaviourNode.BehaviourState.Failure)
                 {
-                    if (enemies.Count - 1 > enemyIndex)
+                    if (enemies.Count - 1 >= enemyIndex)
                     {
                         if (currentEnemy.GetActionPoints() <= 0)
                         {
                             enemyIndex++;
                         }
                         SetStateTakingTurn();
-                    }
-                    else if(enemyIndex > enemies.Count - 1)
-                    {
-                        TurnSystem.Instance.NextTurn();
                     }
                     else
                     {
