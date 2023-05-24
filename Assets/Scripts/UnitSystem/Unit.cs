@@ -20,7 +20,8 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
     public static event EventHandler OnAnyActionPointsChanged;
-    
+    public event EventHandler isHit; 
+
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
 
@@ -107,6 +108,7 @@ public class Unit : MonoBehaviour
     
     public void Damage(int _amount)
     {
+        isHit?.Invoke(this, EventArgs.Empty);
         healthSystem.Damage(_amount);
     }
     

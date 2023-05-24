@@ -12,6 +12,8 @@ public class UnitAnimator : MonoBehaviour
     {
         Unit unit = GetComponent<Unit>();
         BehaviourTree tree = unit.GetTree();
+
+        unit.isHit += Unit_IsHit;
         
         if (!unit.IsEnemy())
         {
@@ -57,6 +59,11 @@ public class UnitAnimator : MonoBehaviour
                 }
             });
         }
+    }
+
+    private void Unit_IsHit(object sender, EventArgs e)
+    {
+        animator.SetTrigger("isHit");
     }
 
     private void MoveAction_OnMove(object _sender, EventArgs _e)

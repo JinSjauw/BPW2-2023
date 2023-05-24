@@ -26,7 +26,6 @@ public class ShootAction : BaseAction
         shootAtTarget.y += 1.5f;
        
         projectile.Init(targetUnit, shootAtTarget);
-        targetUnit.Damage(27);
     }
 
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
