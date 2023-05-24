@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe99c6f646a78fb4b85517a4eca42dae, type: 3}
   m_Name: MeleeAction
   m_EditorClassIdentifier: 
-  width: 0
-  depth: 0
-  range: 2
   delay: 0.4

@@ -8,7 +8,6 @@ using UnityEngine;
 public class UnitAnimator : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform projectilePrefab, shootPoint;
     private void Start()
     {
         Unit unit = GetComponent<Unit>();
@@ -70,17 +69,9 @@ public class UnitAnimator : MonoBehaviour
         animator.SetBool("isMoving", false);
     }
     
-    private void ShootAction_OnShoot(object _sender, ShootAction.OnShootEventArgs _e)
+    private void ShootAction_OnShoot(object _sender, EventArgs _e)
     {
         animator.SetTrigger("isShooting");
-
-       Transform projectileTransform = Instantiate(projectilePrefab, shootPoint.position, quaternion.identity);
-       Projectile projectile = projectileTransform.GetComponent<Projectile>();
-
-       Vector3 shootAtTarget = _e.targetUnit.GetWorldPosition();
-       shootAtTarget.y = shootPoint.transform.position.y;
-       
-       projectile.Init(shootAtTarget);
     }
 
     private void MeleeAction_OnMelee(object _sender, EventArgs _e)

@@ -7,10 +7,6 @@ using UnityEngine;
 public class MeleeAction : BaseAction
 {
     public event EventHandler OnMelee;
-
-    public int width;
-    public int depth;
-    public int range;
     public float delay = .4f;
 
     private float timer;
@@ -27,7 +23,7 @@ public class MeleeAction : BaseAction
         {
             Debug.Log($"Unit: {unit.name} : Distance " + unit.GetGridPosition().Distance(targetUnit.GetGridPosition()));
             
-            if (Vector3.Distance(unit.transform.position, targetUnit.transform.position) > range)
+            if (Vector3.Distance(unit.transform.position, targetUnit.transform.position) > unitData.attackRange)
             {
                 targetUnit = null;
                 _onActionFail();
@@ -45,14 +41,13 @@ public class MeleeAction : BaseAction
         //Show available Grid positions for melee attack
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
-        tempPositions = LevelGrid.Instance.GetTilesInCircle(unit.transform.position, range);
+        tempPositions = LevelGrid.Instance.GetTilesInCircle(unit.transform.position, unitData.attackRange);
         
         if(tempPositions.Count <= 0)
         {
             Debug.Log("No valid targets");
             return null;
         }
-
 
         if (unit.IsEnemy())
         {

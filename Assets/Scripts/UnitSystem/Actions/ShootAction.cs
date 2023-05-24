@@ -1,112 +1,53 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 [CreateAssetMenu]
 public class ShootAction : BaseAction
 {
-    public event EventHandler<OnShootEventArgs> OnShoot;
-
-    public class OnShootEventArgs : EventArgs
-    {
-        public Unit targetUnit;
-        public Unit shootingUnit;
-    }
+    public event EventHandler OnShoot;
     
-    public enum State
-    {
-        Aiming,
-        Shooting,
-        CoolOff,
-    }
+    [SerializeField] private Transform projectilePrefab;
     
-    private State state;
-    private float stateTimer;
-    private bool canShoot = true;
-
     private Unit targetUnit;
-    
-   
-    public override void Update()
-    {
-        if (!isActive)
-        {
-            return;
-        }
-
-        stateTimer -= Time.deltaTime;
-        
-        switch (state)
-        {
-            case State.Aiming:
-                break;
-            case State.Shooting:
-                if (canShoot)
-                {               
-                    OnShoot?.Invoke(this, new OnShootEventArgs
-                    {
-                        targetUnit = targetUnit,
-                        shootingUnit = unit
-                    });
-                    Shoot();
-                    canShoot = false;
-                }
-                break;
-            case State.CoolOff:
-                break;
-        }
-        
-        //Rotate towards target
-        Vector3 direction = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
-        unit.transform.rotation = Quaternion.RotateTowards(unit.transform.rotation, 
-            Quaternion.LookRotation(direction), Time.deltaTime * unitData.rotateSpeed);
-
-        
-        if (stateTimer <= 0f)
-        {
-            NextState();
-        }
-    }
-
-    private void NextState()
-    {
-        switch (state)
-        {
-            case State.Aiming:
-                state = State.Shooting;
-                float shootingStateTime = 0.2f;
-                stateTimer = shootingStateTime;
-                break;
-            case State.Shooting:
-                state = State.CoolOff;
-                float coolOffStateTime = 0.4f;
-                stateTimer = coolOffStateTime;
-                break;
-            case State.CoolOff:
-                ActionComplete();
-                break;
-        }
-        
-        Debug.Log(state);
-    }
+    [SerializeField] private float delay;
+    private float timer;
 
     private void Shoot()
     {
+        Vector3 unitPosition = unit.transform.position;
+        Vector3 projectileOrigin = new Vector3(unitPosition.x, unitPosition.y + 1.5f, unitPosition.z);
+        Transform projectileTransform = Instantiate(projectilePrefab, projectileOrigin, quaternion.identity);
+        Projectile projectile = projectileTransform.GetComponent<Projectile>();
+
+        Vector3 shootAtTarget = targetUnit.GetWorldPosition();
+        shootAtTarget.y += 1.5f;
+       
+        projectile.Init(targetUnit, shootAtTarget);
         targetUnit.Damage(27);
     }
 
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {
-        ActionStart(_onActionComplete);
-
+        timer = delay;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(_targetPosition);
-        canShoot = true;
+        if (unit.IsEnemy())
+        {
+            Debug.Log($"Unit: {unit.name} : Distance " + unit.GetGridPosition().Distance(targetUnit.GetGridPosition()));
+            
+            if (Vector3.Distance(unit.transform.position, targetUnit.transform.position) > unitData.attackRange)
+            {
+                targetUnit = null;
+                _onActionFail();
+
+                return;
+            }
+        }
+        OnShoot?.Invoke(this, EventArgs.Empty);
+        ActionStart(_onActionComplete);
         Debug.Log("Aiming");
-        state = State.Aiming;
-        float aimingStateTime = 1f;
-        stateTimer = aimingStateTime;
-    
     }
 
     public override List<GridPosition> GetValidActionPositionsList()
@@ -116,6 +57,12 @@ public class ShootAction : BaseAction
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
         tempPositions = LevelGrid.Instance.GetTilesInCircle(unitPosition, unitData.attackRange);
+
+        if (tempPositions.Count <= 0)
+        {
+            Debug.Log("No available Targets");
+            return null;
+        }
         
         foreach (GridPosition position in tempPositions)
         {
@@ -143,6 +90,34 @@ public class ShootAction : BaseAction
         return validPositions;
     }
 
+    public override void Update()
+    {
+        if (!isActive)
+        {
+            return;
+        }
+
+        //Rotate towards target
+        Vector3 direction = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
+        unit.transform.rotation = Quaternion.RotateTowards(unit.transform.rotation, 
+            Quaternion.LookRotation(direction), Time.deltaTime * unitData.rotateSpeed);
+        
+        //Delay 
+        timer -= Time.deltaTime;
+        Debug.Log($"Timer {timer}");
+
+        //Shoot projectile
+        if (timer < 0)
+        {
+            timer = delay;
+            Debug.Log($"Shooting!");
+            Shoot();
+            ActionComplete();
+        }
+        
+
+    }
+    
     public override string GetActionName()
     {
         return "Shoot";

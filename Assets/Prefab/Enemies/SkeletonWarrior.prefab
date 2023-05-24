@@ -628,6 +628,8 @@ GameObject:
   - component: {fileID: 7988019354625816306}
   - component: {fileID: 1312025277970231015}
   - component: {fileID: -7308936785874916227}
+  - component: {fileID: 1931307688}
+  - component: {fileID: 990022069}
   m_Layer: 8
   m_Name: SkeletonWarrior
   m_TagString: Untagged
@@ -667,7 +669,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: c43957b39bd994a4e96e49361e662931, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -702,16 +704,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de3e075987d0cb4b924e05ea68acdfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionArray: []
   isEnemy: 1
-  maxActionPoints: 3
-  actionPoints: 3
+  maxActionPoints: 2
+  actionPoints: 2
+  BTree: {fileID: 11400000, guid: dc01728409a241e4e9722b58f3c6d1a7, type: 2}
   unitData:
     unitAnimator: {fileID: 4978591606639766259}
-    moveSpeed: 4.5
+    moveSpeed: 5
     rotateSpeed: 600
     stoppingDistance: 0.1
-    moveDistance: 3.5
-    attackRange: 0
+    moveDistance: 3
+    attackRange: 3
 --- !u!114 &1312025277970231015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -741,6 +745,32 @@ MonoBehaviour:
   ragdollPrefab: {fileID: 1438810353826590857, guid: adf9c1e4f22b51d428363584536ca8d4,
     type: 3}
   originalRootBone: {fileID: 1032009492361592317}
+--- !u!114 &1931307688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782438951538960947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed41fdaa1202824386c3cf4009c545e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4978591606639766259}
+--- !u!114 &990022069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782438951538960947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed41fdaa1202824386c3cf4009c545e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4978591606639766259}
 --- !u!1 &1837110983538112386
 GameObject:
   m_ObjectHideFlags: 0

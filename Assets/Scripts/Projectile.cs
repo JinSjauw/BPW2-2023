@@ -10,9 +10,11 @@ public class Projectile : MonoBehaviour
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Transform projectileVFXPrefab;
     private Vector3 target;
+    private Unit targetUnit;
         
-    public void Init(Vector3 _target)
+    public void Init(Unit _targetUnit, Vector3 _target)
     {
+        targetUnit = _targetUnit;
         target = _target;
     }
 
@@ -32,6 +34,7 @@ public class Projectile : MonoBehaviour
             trailRenderer.transform.parent = null;
             Instantiate(projectileVFXPrefab, target, Quaternion.identity);
             Destroy(gameObject);
+            targetUnit.Damage(25);
         }
     }
 }
