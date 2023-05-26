@@ -23,12 +23,13 @@ public class ActionSystemUI : MonoBehaviour
         //UnitActionManager.Instance.SelectedUnitChanged += UnitManager_SelectedUnitChanged;
         UnitActionManager.Instance.SelectedActionChanged += UnitManager_SelectedActionChanged;
         UnitActionManager.Instance.OnActionStarted += UnitManager_OnActionStarted;
+        UnitActionManager.Instance.OnPlayerSpawn += Init;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
-
-        CreateActionButtons();
-        UpdateSelectedVisual();
-        UpdateActionPoints();
+        
+        
+        
+        
     }
 
     private void CreateActionButtons()
@@ -74,6 +75,13 @@ public class ActionSystemUI : MonoBehaviour
         UpdateSelectedVisual();
         UpdateActionPoints();
     }*/
+    
+    private void Init(object _sender, EventArgs _e)
+    {
+        CreateActionButtons();
+        UpdateSelectedVisual();
+        UpdateActionPoints();
+    }
     
     private void UnitManager_SelectedActionChanged(object _sender, EventArgs _e)
     {

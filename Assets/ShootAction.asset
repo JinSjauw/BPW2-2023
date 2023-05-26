@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540aac47649796d47b8eedaf89393c80, type: 3}
   m_Name: ShootAction
   m_EditorClassIdentifier: 
+  actionCost: 2
   projectilePrefab: {fileID: 1101003841715420793, guid: 2464e109060e9e84bba5c574bcdeaecc,
     type: 3}
   delay: 1.4

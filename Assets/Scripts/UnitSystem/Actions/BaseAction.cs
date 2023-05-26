@@ -7,7 +7,7 @@ public abstract class BaseAction : ScriptableObject
    protected Unit unit;
    protected UnitData unitData;
    protected Action onActionComplete;
-   protected int actionCost = 1;
+   [SerializeField] protected int actionCost = 1;
 
    public virtual void SetUnit(Unit _unit)
    {

@@ -26,22 +26,6 @@ public class Pathfinding
         grid = LevelGrid.Instance;
     }
     
-    /*public List<Vector3> GetPath(GridPosition _start, GridPosition _end, List<GridPosition> _nodeGrid)
-    {
-        GridObject start = grid.GetGridObject(_start);
-        GridObject end = grid.GetGridObject(_end);
-        
-        List<GridPosition> foundPath = FindPath(start, end);
-        List<Vector3> path = new List<Vector3>();
-
-        foreach (GridPosition position in foundPath)
-        {
-            path.Add(grid.GetWorldPosition(position));
-        }
-
-        return path;
-    }*/
-
     public void SetGrid(List<GridPosition> _nodeGrid)
     {
         List<GridObject> tempList = new List<GridObject>();
@@ -156,7 +140,7 @@ public class Pathfinding
 
         if (_a.tileType == TILETYPE.HALLWAY)
         {
-            score -= 3;
+            score -= 1;
         }
         
         return score;

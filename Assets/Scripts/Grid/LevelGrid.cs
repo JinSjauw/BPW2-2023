@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelGrid : MonoBehaviour
@@ -12,7 +13,8 @@ public class LevelGrid : MonoBehaviour
     [SerializeField] private int width, height, cellSize;
     [SerializeField] private bool CreateDebugGrid = false;
     [SerializeField] private bool GenerateDungeon = false;
-    
+    [SerializeField] private List<GridPosition> walkableList;
+
     private GridSystem<GridObject> gridSystem;
 
     private void Awake()
@@ -41,7 +43,12 @@ public class LevelGrid : MonoBehaviour
         }
         DungeonGenerator.Instance.Initialize();
         //gridSystem.CreateDebugObjects(DungeonGenerator.Instance.Generate(), gridDebugObject);
-        DungeonGenerator.Instance.Generate();
+        walkableList = DungeonGenerator.Instance.Generate();
+    }
+
+    public List<GridPosition> GetWalkableList()
+    {
+        return walkableList;
     }
 
     public void SetUnitAtGridObject(GridPosition _gridPosition, Unit _unit)
@@ -94,10 +101,20 @@ public class LevelGrid : MonoBehaviour
     {
         return GetWorldPosition(GetGridPosition(_worldPosition));
     }
+
+    public List<GridPosition> GetWalkableTilesInCircle(Vector3 _center, float _radius)
+    {
+        List<GridPosition> validTiles = gridSystem.GetTilesInCircle(_center, _radius);
+
+        List<GridPosition> resultList = validTiles.Where(x => walkableList.Contains(x)).ToList();
+
+        return resultList;
+    }
+    
     public bool insideCircle(Vector3 _center, Vector3 _tile, float _radius) => gridSystem.insideCircle(_center, _tile, _radius);
 
     public void RemoveUnitAtGridPosition(GridPosition _gridPosition) => gridSystem.RemoveUnitAtGridPosition(_gridPosition);
-    public List<GridPosition> GetTilesInCircle(Vector3 _center, float radius) => gridSystem.GetTilesInCircle(_center, radius);
+    public List<GridPosition> GetTilesInCircle(Vector3 _center, float _radius) => gridSystem.GetTilesInCircle(_center, _radius);
     public GridPosition GetGridPosition(Vector3 _worldPosition) => gridSystem.GetGridPosition(_worldPosition);
     public Vector3 GetWorldPosition(GridPosition _gridPosition) => gridSystem.GetWorldPosition(_gridPosition);
     public GridObject GetGridObject(GridPosition _gridPosition) => gridSystem.GetGridObject(_gridPosition);

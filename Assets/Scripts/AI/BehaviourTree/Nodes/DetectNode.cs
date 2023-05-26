@@ -21,12 +21,6 @@ public class DetectNode : ActionNode
 
     protected override BehaviourState OnUpdate()
     {
-        //if player comes in detect radius
-        //set target to player
-
-        //Sphere overlapcast periodically
-        //Return all objects on the playerlayer
-
         if (blackboard.playerTransform != null)
         {
             blackboard.targetPosition = LevelGrid.Instance.GetGridPosition(blackboard.playerTransform.position);

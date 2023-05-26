@@ -6,12 +6,10 @@ using UnityEngine;
 [System.Serializable]
 public class UnitData
 {
-    public Animator unitAnimator;
     public float moveSpeed;
     public float rotateSpeed;
     public float stoppingDistance; 
     public int moveDistance;
-
     public float attackRange;
 }
 

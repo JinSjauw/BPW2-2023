@@ -74,7 +74,7 @@ public class MoveAction : BaseAction
     {
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
-        tempPositions = LevelGrid.Instance.GetTilesInCircle(unit.transform.position, unitData.moveDistance);
+        tempPositions = LevelGrid.Instance.GetWalkableTilesInCircle(unit.transform.position, unitData.moveDistance);
 
         foreach (GridPosition position in tempPositions)
         {

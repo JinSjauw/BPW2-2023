@@ -87,6 +87,6 @@ public class GridObject
             currentUnit = unitList[0];
         }
         
-        return gridPosition.ToString() + "\r\n" +  currentUnit;
+        return gridPosition.ToString() + "\r\n" +  currentUnit + " " + tileType;
     }
 }

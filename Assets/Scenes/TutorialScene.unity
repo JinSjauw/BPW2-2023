@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -339,6 +339,7 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
+  cameraTransform: {fileID: 1535364079}
 --- !u!1 &347039724
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,43 +759,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586349373}
   m_CullTransparentMesh: 1
---- !u!1 &647297363 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6548858210896200525, guid: 508e8621f6244494184b51602288cfac,
-    type: 3}
-  m_PrefabInstance: {fileID: 320344893224330378}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &647297366 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 320344893224330380, guid: 508e8621f6244494184b51602288cfac,
     type: 3}
   m_PrefabInstance: {fileID: 320344893224330378}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647297363}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4de3e075987d0cb4b924e05ea68acdfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &647297367 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 525174721484145549, guid: 508e8621f6244494184b51602288cfac,
-    type: 3}
-  m_PrefabInstance: {fileID: 320344893224330378}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &647297369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 647297363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ed41fdaa1202824386c3cf4009c545e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 647297367}
 --- !u!1 &690898770
 GameObject:
   m_ObjectHideFlags: 0
@@ -32500,6 +32476,7 @@ MonoBehaviour:
   cellSize: 2
   CreateDebugGrid: 1
   GenerateDungeon: 0
+  walkableList: []
 --- !u!4 &1154728751
 Transform:
   m_ObjectHideFlags: 0
@@ -34098,17 +34075,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 320344893224330380, guid: 508e8621f6244494184b51602288cfac,
-        type: 3}
-      propertyPath: BTree
-      value: 
-      objectReference: {fileID: 11400000, guid: 41ce949c9c1afaf499ce188239f3c329,
-        type: 2}
-    - target: {fileID: 320344893224330380, guid: 508e8621f6244494184b51602288cfac,
-        type: 3}
-      propertyPath: unitData.attackRange
-      value: 18
-      objectReference: {fileID: 0}
     - target: {fileID: 5884488877471570423, guid: 508e8621f6244494184b51602288cfac,
         type: 3}
       propertyPath: m_RootOrder
@@ -34168,11 +34134,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkeletonMage
-      objectReference: {fileID: 0}
-    - target: {fileID: 6548858210896200525, guid: 508e8621f6244494184b51602288cfac,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 508e8621f6244494184b51602288cfac, type: 3}

@@ -8,12 +8,14 @@ using UnityEngine.EventSystems;
 public class UnitActionManager : MonoBehaviour
 {
     public static UnitActionManager Instance { get; private set; }
+    public EventHandler OnPlayerSpawn;
     public EventHandler SelectedActionChanged;
     public EventHandler OnActionStarted;
     public EventHandler OnActionComplete;
 
     [SerializeField] private Unit selectedUnit;
     [SerializeField] private LayerMask unitLayer;
+    [SerializeField] private Transform cameraTransform;
 
     private BaseAction selectedAction;
     private bool isRunning = false;
@@ -106,5 +108,13 @@ public class UnitActionManager : MonoBehaviour
     public Unit GetSelectedUnit()
     {
         return selectedUnit;
+    }
+
+    public void SetSelectedUnit(Unit _unit)
+    {
+        selectedUnit = _unit;
+        SetSelectedAction(selectedUnit.GetDefaultAction());
+        cameraTransform.position = selectedUnit.transform.position;
+        OnPlayerSpawn?.Invoke(this, EventArgs.Empty);
     }
 }

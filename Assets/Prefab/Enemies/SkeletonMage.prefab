@@ -2437,13 +2437,14 @@ GameObject:
   - component: {fileID: 320344893224330380}
   - component: {fileID: 1461267897614390600}
   - component: {fileID: 7095195491283341271}
+  - component: {fileID: 647297369}
   m_Layer: 8
   m_Name: SkeletonMage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5884488877471570423
 Transform:
   m_ObjectHideFlags: 0
@@ -2498,14 +2499,14 @@ MonoBehaviour:
   isEnemy: 1
   maxActionPoints: 3
   actionPoints: 3
-  BTree: {fileID: 11400000, guid: 6914fe281fd9af24ba0e8a96b23ed749, type: 2}
+  BTree: {fileID: 11400000, guid: 41ce949c9c1afaf499ce188239f3c329, type: 2}
   unitData:
     unitAnimator: {fileID: 525174721484145549}
     moveSpeed: 2.5
     rotateSpeed: 300
     stoppingDistance: 0.1
-    moveDistance: 2.5
-    attackRange: 0
+    moveDistance: 2
+    attackRange: 8
 --- !u!114 &1461267897614390600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2535,6 +2536,19 @@ MonoBehaviour:
   ragdollPrefab: {fileID: 5884488877471570423, guid: a81342e6beed5584c987acc11d5a7f0b,
     type: 3}
   originalRootBone: {fileID: 5169178372362605103}
+--- !u!114 &647297369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6548858210896200525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed41fdaa1202824386c3cf4009c545e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 525174721484145549}
 --- !u!1 &6637896884850444411
 GameObject:
   m_ObjectHideFlags: 0

@@ -3302,7 +3302,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de3e075987d0cb4b924e05ea68acdfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionArray: []
+  actionArray:
+  - {fileID: 11400000, guid: 0cf0ae5dfd5ab1c48a094e7b0f542e95, type: 2}
+  - {fileID: 11400000, guid: 6874c367b2bd5b6428cd5b588f02b468, type: 2}
   isEnemy: 0
   maxActionPoints: 3
   actionPoints: 3
@@ -3327,9 +3329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1886283401617761126}
-  projectilePrefab: {fileID: 1101003841715420793, guid: 2464e109060e9e84bba5c574bcdeaecc,
-    type: 3}
-  shootPoint: {fileID: 2321437911036137212}
 --- !u!114 &-7921858131379355034
 MonoBehaviour:
   m_ObjectHideFlags: 0
