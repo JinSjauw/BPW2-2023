@@ -569,7 +569,6 @@ public class DungeonGenerator : MonoBehaviour
                         //Left
                         Instantiate(tileWallPrefab, neighbour.position, Quaternion.Euler(0, 90, 0));
                         neighbour.SetTileType(TILETYPE.WALL);
-                        walkableList.Remove(neighbour.gridPosition);
                     }
                         
                     if(neighbour.gridPosition == new GridPosition(tile.gridPosition.x + 1 , tile.gridPosition.z))
@@ -577,8 +576,6 @@ public class DungeonGenerator : MonoBehaviour
                         //Right
                         Instantiate(tileWallPrefab, neighbour.position, Quaternion.Euler(0, 270, 0));
                         neighbour.SetTileType(TILETYPE.WALL);
-                        walkableList.Remove(neighbour.gridPosition);
-
                     }
                         
                     if(neighbour.gridPosition == new GridPosition(tile.gridPosition.x, tile.gridPosition.z + 1))
@@ -586,7 +583,6 @@ public class DungeonGenerator : MonoBehaviour
                         //Up
                         Instantiate(tileWallPrefab, neighbour.position, Quaternion.Euler(0, 180, 0));
                         neighbour.SetTileType(TILETYPE.WALL);
-                        walkableList.Remove(neighbour.gridPosition);
                     }
                         
                     if(neighbour.gridPosition == new GridPosition(tile.gridPosition.x, tile.gridPosition.z - 1))
@@ -594,7 +590,6 @@ public class DungeonGenerator : MonoBehaviour
                         //Down
                         Instantiate(tileWallPrefab, neighbour.position, Quaternion.Euler(0, 0, 0));
                         neighbour.SetTileType(TILETYPE.WALL);
-                        walkableList.Remove(neighbour.gridPosition);
                     }
                 }
             }
@@ -616,7 +611,6 @@ public class DungeonGenerator : MonoBehaviour
             int gcd = GCD(width, height);
 
             ratio = ((float)width / gcd) / ((float)height / gcd);
-            //Debug.Log("The Ratio between" + width + " : " + height + " Ratio: " + ratio);
         }
 
         return new Vector2(width, height);

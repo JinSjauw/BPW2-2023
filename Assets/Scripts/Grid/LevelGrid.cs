@@ -104,11 +104,27 @@ public class LevelGrid : MonoBehaviour
 
     public List<GridPosition> GetWalkableTilesInCircle(Vector3 _center, float _radius)
     {
-        List<GridPosition> validTiles = gridSystem.GetTilesInCircle(_center, _radius);
+        List<GridPosition> inRangeList = gridSystem.GetTilesInCircle(_center, _radius);
+        
+        List<GridPosition> validList = inRangeList.Where(x => walkableList.Contains(x)).ToList();
+        List<GridPosition> unWalkableList = new List<GridPosition>();
+        //Go through this list to check if tile is reachable from the center
+        //Raycast to check for wall
+        Vector3 origin = _center;
+        origin.y += 1f;
+        foreach (var tile in validList)
+        {
+            Vector3 direction = new Vector3(tile.x - origin.x, origin.y, tile.z - origin.z).normalized; 
+            if(Physics.Raycast(origin, direction, 100, LayerMask.GetMask("Walls")))
+            {
+                unWalkableList.Add(tile);
+                Debug.Log($"Hit Wall! {tile}");
+            }
+        }
 
-        List<GridPosition> resultList = validTiles.Where(x => walkableList.Contains(x)).ToList();
+        validList.Except(unWalkableList);
 
-        return resultList;
+        return validList;
     }
     
     public bool insideCircle(Vector3 _center, Vector3 _tile, float _radius) => gridSystem.insideCircle(_center, _tile, _radius);
