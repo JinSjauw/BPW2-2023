@@ -13,6 +13,12 @@ public class MeleeAction : BaseAction
     private Unit targetUnit;
     private int damage = 40;
     
+    public override BaseAction Clone()
+    {
+        MeleeAction meleeAction = Instantiate(this);
+        damage = unit.GetUnitData().meleeDamage;
+        return meleeAction;
+    }
     
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {

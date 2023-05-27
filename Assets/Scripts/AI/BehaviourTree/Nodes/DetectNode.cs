@@ -6,8 +6,6 @@ public class DetectNode : ActionNode
 {
     public LayerMask targetLayer;
     public float detectRadius;
-    private float timer = 0.3f;
-    
     
     protected override void OnStart()
     {

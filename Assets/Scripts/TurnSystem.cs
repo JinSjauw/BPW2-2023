@@ -24,6 +24,16 @@ public class TurnSystem : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        EnemyManager.OnCombatEnd += EnemyManager_OnCombatEnd;
+    }
+
+    private void EnemyManager_OnCombatEnd(object sender, EventArgs e)
+    {
+        turnNumber = 1;
+    }
+
     public void NextTurn()
     {
         turnNumber++;

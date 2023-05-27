@@ -12,12 +12,16 @@ public class EnemyManager : MonoBehaviour
         Busy
     }
 
+    public static event EventHandler OnCombatStart;
+    public static event EventHandler OnCombatEnd;
+    
     private TurnState turnState;
     private float timer;
     
     [SerializeField] private List<Unit> enemies;
     private Unit currentEnemy;
     private int enemyIndex = 0;
+    private bool isActive = false;
 
     private void Awake()
     {
@@ -28,6 +32,24 @@ public class EnemyManager : MonoBehaviour
     {
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
+        Unit.OnAnyUnitAlert += Unit_OnAnyUnitAlert;
+    }
+
+    private void Unit_OnAnyUnitAlert(object _sender, EventArgs e)
+    {
+        Unit unit = _sender as Unit;
+        
+        if (unit.IsEnemy())
+        {
+            enemies.Add(unit);
+            unit.SetState(Unit.UnitState.COMBAT);
+        }
+
+        if (!isActive)
+        {
+            isActive = true;
+            OnCombatStart?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void Unit_OnAnyUnitDead(object _sender, EventArgs e)
@@ -38,22 +60,33 @@ public class EnemyManager : MonoBehaviour
         {
             enemies.Remove(unit);
         }
-    }
-
-    private void Update()
-    {
-        if (TurnSystem.Instance.IsPlayerTurn())
-        {
-            return;
-        }
         
         if(enemies.Count <= 0)
         {
             //Not in combat
-            TurnSystem.Instance.NextTurn();
+            if (!TurnSystem.Instance.IsPlayerTurn())
+            {
+                TurnSystem.Instance.NextTurn();
+            }
+
+            isActive = false;
+            OnCombatEnd?.Invoke(this,EventArgs.Empty);
         }
         
+    }
+
+    private void Update()
+    {
+        if (!isActive)
+        {
+            return;
+        }
         
+        if (TurnSystem.Instance.IsPlayerTurn())
+        {
+            return;
+        }
+
         if(enemyIndex > enemies.Count - 1)
         {
             TurnSystem.Instance.NextTurn();

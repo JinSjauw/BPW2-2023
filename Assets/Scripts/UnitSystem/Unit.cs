@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class UnitData
@@ -11,18 +12,30 @@ public class UnitData
     public float stoppingDistance; 
     public int moveDistance;
     public float attackRange;
+    public int meleeDamage;
+    public int rangeDamage;
 }
 
 public class Unit : MonoBehaviour
 {
+    
+    public enum UnitState
+    {
+        IDLE,
+        COMBAT,
+    }
+    
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
     public static event EventHandler OnAnyActionPointsChanged;
-    public event EventHandler isHit; 
-
+    public static event EventHandler OnAnyUnitAlert;
+    
+    public event EventHandler isHit;
+    
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
-
+    private UnitState unitState;
+    
     [SerializeField] private BaseAction[] actionArray;
     [SerializeField] private bool isEnemy;
     [SerializeField] private int maxActionPoints = 3;
@@ -33,7 +46,7 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
-    
+        
         foreach (var action in actionArray)
         {
             action.SetUnit(this);
@@ -44,18 +57,28 @@ public class Unit : MonoBehaviour
             BTree = BTree.Clone();
             BTree.Bind(this);
         }
+        unitState = UnitState.IDLE;
     }
 
     private void Start()
     {
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        EnemyManager.OnCombatEnd += EnemyManager_OnCombatEnd;
+        healthSystem.OnDeath += HealthSystem_OnDeath;
+        
+        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
+        
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
         LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
-
-        healthSystem.OnDeath += HealthSystem_OnDeath;
-        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        
         UpdateMoveDistance();
-        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void EnemyManager_OnCombatEnd(object sender, EventArgs e)
+    {
+        actionPoints = maxActionPoints;
+        unitState = UnitState.IDLE;
     }
 
     private void Update()
@@ -70,14 +93,15 @@ public class Unit : MonoBehaviour
             gridPosition = newGridPosition;
         }
     }
-
-    public void SpendActionPoints(int _amount)
+    
+    private void HealthSystem_OnDeath(object _sender, EventArgs _e)
     {
-        actionPoints -= _amount;
-        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-        Debug.Log($"Spent {_amount} AP : {actionPoints} AP left");
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition);
+        Destroy(gameObject);
+        Debug.Log("Dead");
+        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
-
+    
     private void TurnSystem_OnTurnChanged(object _sender, EventArgs e)
     {
         if (IsEnemy() && !TurnSystem.Instance.IsPlayerTurn() ||
@@ -137,6 +161,11 @@ public class Unit : MonoBehaviour
     
     public bool TryTakeAction(BaseAction _action)
     {
+        if (unitState == UnitState.IDLE)
+        {
+            return true;
+        }
+        
         if (CanTakeAction(_action))
         {
             SpendActionPoints(_action.GetActionPointsCost());
@@ -157,6 +186,14 @@ public class Unit : MonoBehaviour
         return false;
     }
 
+    public void SpendActionPoints(int _amount)
+    {
+        actionPoints -= _amount;
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        Debug.Log($"Spent {_amount} AP : {actionPoints} AP left");
+    }
+
+    
     public int GetActionPoints()
     {
         return actionPoints;
@@ -172,11 +209,21 @@ public class Unit : MonoBehaviour
         return new Vector3(gridPosition.x * 2, 0, gridPosition.z * 2);
     }
 
-    private void HealthSystem_OnDeath(object _sender, EventArgs _e)
+    public void Alert()
     {
-        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition);
-        Destroy(gameObject);
-        Debug.Log("Dead");
-        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+        if (unitState == UnitState.IDLE)
+        {
+            OnAnyUnitAlert?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public UnitState GetState()
+    {
+        return unitState;
+    }
+    
+    public void SetState(UnitState _state)
+    {
+        unitState = _state;
     }
 }

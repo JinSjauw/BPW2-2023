@@ -48,7 +48,7 @@ public class UnitAnimator : MonoBehaviour
                 MoveNode moveNode = n as MoveNode;
                 if (moveNode != null)
                 {
-                    Debug.Log("Subbin enemy eventhandlers!");
+                    //Debug.Log("Subbin enemy eventhandlers!");
                     moveNode.moveAction.OnMove += MoveAction_OnMove;
                     moveNode.moveAction.OnStop += MoveAction_OnStop;
                 }

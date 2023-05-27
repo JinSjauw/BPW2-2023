@@ -630,6 +630,7 @@ GameObject:
   - component: {fileID: -7308936785874916227}
   - component: {fileID: 1931307688}
   - component: {fileID: 990022069}
+  - component: {fileID: 5176794341162362697}
   m_Layer: 8
   m_Name: SkeletonWarrior
   m_TagString: Untagged
@@ -710,12 +711,13 @@ MonoBehaviour:
   actionPoints: 2
   BTree: {fileID: 11400000, guid: dc01728409a241e4e9722b58f3c6d1a7, type: 2}
   unitData:
-    unitAnimator: {fileID: 4978591606639766259}
     moveSpeed: 5
     rotateSpeed: 600
     stoppingDistance: 0.1
     moveDistance: 3
     attackRange: 3
+    meleeDamage: 25
+    magicDamage: 0
 --- !u!114 &1312025277970231015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -728,8 +730,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d167123b5c86e74fbfd57d6a9003dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMax: 100
-  health: 100
+  healthMax: 160
+  health: 160
 --- !u!114 &-7308936785874916227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,6 +773,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4978591606639766259}
+--- !u!114 &5176794341162362697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782438951538960947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4049796c66a78b94caf2cf17182805a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectRadius: 16
 --- !u!1 &1837110983538112386
 GameObject:
   m_ObjectHideFlags: 0

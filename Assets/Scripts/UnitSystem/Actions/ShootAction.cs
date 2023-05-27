@@ -14,28 +14,30 @@ public class ShootAction : BaseAction
     private Unit targetUnit;
     [SerializeField] private float delay;
     private float timer;
+    private int damage;
 
     private void Shoot()
     {
         Vector3 unitPosition = unit.transform.position;
         Vector3 projectileOrigin = new Vector3(unitPosition.x, unitPosition.y + 1.5f, unitPosition.z);
-        Transform projectileTransform = Instantiate(projectilePrefab, projectileOrigin, quaternion.identity);
+        Transform projectileTransform = Instantiate(projectilePrefab, projectileOrigin, Quaternion.identity);
         Projectile projectile = projectileTransform.GetComponent<Projectile>();
 
         Vector3 shootAtTarget = targetUnit.GetWorldPosition();
         shootAtTarget.y += 1.5f;
        
-        projectile.Init(targetUnit, shootAtTarget);
+        projectile.Init(targetUnit, shootAtTarget, damage);
     }
 
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {
         timer = delay;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(_targetPosition);
+        damage = unit.GetUnitData().rangeDamage;
+
         if (unit.IsEnemy())
         {
-            Debug.Log($"Unit: {unit.name} : Distance " + unit.GetGridPosition().Distance(targetUnit.GetGridPosition()));
-            
+            //Debug.Log($"Unit: {unit.name} : Distance " + unit.GetGridPosition().Distance(targetUnit.GetGridPosition()));
             if (Vector3.Distance(unit.transform.position, targetUnit.transform.position) > unitData.attackRange)
             {
                 targetUnit = null;

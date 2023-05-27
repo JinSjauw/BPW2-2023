@@ -114,17 +114,28 @@ public class LevelGrid : MonoBehaviour
         origin.y += 1f;
         foreach (var tile in validList)
         {
-            Vector3 direction = new Vector3(tile.x - origin.x, origin.y, tile.z - origin.z).normalized; 
-            if(Physics.Raycast(origin, direction, 100, LayerMask.GetMask("Walls")))
+            Vector3 tileWorldPosition = GetWorldPosition(tile);
+            tileWorldPosition.y += 1f;
+            Vector3 direction = new Vector3(tileWorldPosition.x - origin.x, origin.y, tileWorldPosition.z - origin.z).normalized;
+            float distance = Vector3.Distance(new Vector3(tileWorldPosition.x, origin.y, tileWorldPosition.z), origin);
+            if(Physics.Raycast(origin, direction, distance, LayerMask.GetMask("Walls")))
             {
                 unWalkableList.Add(tile);
-                Debug.Log($"Hit Wall! {tile}");
+                //Debug.Log($"Hit Wall! {tileWorldPosition} Origin: {origin} Distance: {distance}");
             }
         }
 
-        validList.Except(unWalkableList);
+        List<GridPosition> result = new List<GridPosition>();
 
-        return validList;
+        foreach (var tile in validList)
+        {
+            if (!unWalkableList.Contains(tile))
+            {
+                result.Add(tile);
+            }
+        }
+
+        return result;
     }
     
     public bool insideCircle(Vector3 _center, Vector3 _tile, float _radius) => gridSystem.insideCircle(_center, _tile, _radius);

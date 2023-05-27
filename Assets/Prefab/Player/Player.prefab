@@ -3310,12 +3310,13 @@ MonoBehaviour:
   actionPoints: 3
   BTree: {fileID: 0}
   unitData:
-    unitAnimator: {fileID: 1886283401617761126}
     moveSpeed: 5
     rotateSpeed: 600
     stoppingDistance: 0.15
     moveDistance: 0
-    attackRange: 8
+    attackRange: 4
+    meleeDamage: 50
+    rangeDamage: 0
 --- !u!114 &-9157105443493491002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3356,8 +3357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d167123b5c86e74fbfd57d6a9003dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMax: 100
-  health: 100
+  healthMax: 200
+  health: 200
 --- !u!1 &4466313796622207751
 GameObject:
   m_ObjectHideFlags: 0

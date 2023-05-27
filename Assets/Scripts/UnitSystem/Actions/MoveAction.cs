@@ -23,7 +23,6 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {
-        Debug.Log($"Target: {_targetPosition}");
         if (pathfinding == null)
         {
             pathfinding = new Pathfinding();
@@ -38,11 +37,17 @@ public class MoveAction : BaseAction
             GridPosition closest = unit.GetGridPosition();
             foreach (var position in validPositionsList)
             {
+                if (LevelGrid.Instance.GetGridObject(position).HasUnit())
+                {
+                    continue;
+                }
+                
                 if (position.Distance(_targetPosition) < closest.Distance(_targetPosition))
                 {
                     closest = position;
                 }
             }
+            
             destination = closest;
         }
         
