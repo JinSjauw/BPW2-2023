@@ -8,13 +8,12 @@ using UnityEngine;
 public class MoveAction : BaseAction
 {
     private Vector3 targetPosition;
-    private Pathfinding pathfinding;
     private int moveIndex;
     private List<Vector3> path = new List<Vector3>();
 
     public event EventHandler OnMove;
     public event EventHandler OnStop;
-
+    
     public override BaseAction Clone()
     {
         MoveAction moveAction = Instantiate(this);
@@ -23,16 +22,11 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {
-        if (pathfinding == null)
-        {
-            pathfinding = new Pathfinding();
-        }
-
         List<GridPosition> validPositionsList = GetValidActionPositionsList();
         GridPosition destination = _targetPosition;
         
         path.Clear();
-        pathfinding.SetGrid(validPositionsList);
+        unit.pathfinding.SetGrid(validPositionsList);
 
         if (!validPositionsList.Contains(_targetPosition))
         {
@@ -56,7 +50,7 @@ public class MoveAction : BaseAction
         moveIndex = 0;
 
         List<GridPosition> foundPath = new List<GridPosition>();
-        foundPath = pathfinding.FindPath(LevelGrid.Instance.GetGridObject((unit.transform.position)),
+        foundPath = unit.pathfinding.FindPath(LevelGrid.Instance.GetGridObject((unit.transform.position)),
            LevelGrid.Instance.GetGridObject(destination));
 
         foreach (var gridPosition in foundPath)
@@ -77,9 +71,24 @@ public class MoveAction : BaseAction
     {
         List<GridPosition> validPositions = new List<GridPosition>();
         List<GridPosition> tempPositions = new List<GridPosition>();
-        tempPositions = LevelGrid.Instance.GetWalkableTilesInCircle(unit.transform.position, unitData.moveDistance);
+        List<GridPosition> inCirclePosition = new List<GridPosition>();
+        //tempPositions = LevelGrid.Instance.GetWalkableTilesInCircle(unit.transform.position, unitData.moveDistance);
+        
+        tempPositions = unit.pathfinding.FindPossiblePaths(LevelGrid.Instance.GetWalkableList(),
+            LevelGrid.Instance.GetGridPosition(unit.transform.position), unitData.moveDistance);
 
-        foreach (GridPosition position in tempPositions)
+        foreach (var tile in tempPositions)
+        {
+            if (LevelGrid.Instance.insideCircle(unit.transform.position, 
+                    LevelGrid.Instance.GetWorldPosition(tile), unitData.moveDistance))
+            {
+                inCirclePosition.Add(tile);
+            }
+        }
+
+        Debug.Log(tempPositions.Count);
+        
+        foreach (GridPosition position in inCirclePosition)
         {
             if (!LevelGrid.Instance.HasAnyUnit(position))
             {
@@ -127,7 +136,7 @@ public class MoveAction : BaseAction
         if (moveIndex >= path.Count)
         {
             OnStop?.Invoke(this, EventArgs.Empty);
-            unit.UpdateMoveDistance();
+            //unit.UpdateMoveDistance();
             ActionComplete();
         }
     }

@@ -9,8 +9,7 @@ public class Pathfinding
     //CONST
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
-
-    private LevelGrid grid;
+    
     private List<GridObject> nodeGrid;
     private List<GridObject> openList;
     private List<GridObject> closedList;
@@ -20,18 +19,54 @@ public class Pathfinding
         if (LevelGrid.Instance == null)
         {
             Debug.Log("ERROR: No level grid");
-            return;
         }
-        
-        grid = LevelGrid.Instance;
     }
+    
+    //Breadth First Search
+
+    public List<GridPosition> FindPossiblePaths(List<GridPosition> _nodeGrid, GridPosition _origin, float _maxDistance)
+    {
+        Dictionary<GridObject, int> visited = new Dictionary<GridObject, int>();
+        Queue<GridObject> unvisited = new Queue<GridObject>();
+
+        GridObject origin = LevelGrid.Instance.GetGridObject(_origin);
+
+        visited[origin] = 0;
+        unvisited.Enqueue(origin);
+        int distance = 0;
+        
+        while (unvisited.Count > 0 && distance < _maxDistance)
+        {
+            GridObject current = unvisited.Dequeue();
+            foreach (var neighbour in current.neighbourList)
+            {
+                if (!visited.ContainsKey(neighbour) && _nodeGrid.Contains(neighbour.gridPosition))
+                {
+                    unvisited.Enqueue(neighbour);
+                    visited[neighbour] = 1 + visited[current];
+                }
+            }
+            distance = visited[current];
+        }
+
+        List<GridPosition> validTiles = new List<GridPosition>();
+
+        foreach (var tile in visited)
+        {
+            validTiles.Add(tile.Key.gridPosition);
+        }
+
+        return validTiles;
+    }
+
+    //A* Pathfinding
     
     public void SetGrid(List<GridPosition> _nodeGrid)
     {
         List<GridObject> tempList = new List<GridObject>();
         foreach (var node in _nodeGrid)
         {
-            GridObject gridObj = grid.GetGridObject(node);
+            GridObject gridObj = LevelGrid.Instance.GetGridObject(node);
             tempList.Add(gridObj);
         }
 

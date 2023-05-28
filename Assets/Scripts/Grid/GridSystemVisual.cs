@@ -52,5 +52,6 @@ public class GridSystemVisual : MonoBehaviour
         BaseAction selectedAction = UnitActionManager.Instance.GetSelectedAction();
         
         ShowTileList(selectedAction.GetValidActionPositionsList());
+        Debug.Log(selectedAction.GetValidActionPositionsList().Count);
     }
 }

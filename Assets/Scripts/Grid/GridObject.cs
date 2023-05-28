@@ -16,7 +16,7 @@ public enum TILETYPE
 public class GridObject
 {
     private GridSystem<GridObject> gridSystem;
-        //public Node gridNode;
+    //public Node gridNode;
     public GridPosition gridPosition { get; private set; }
     public TILETYPE tileType { get; private set; }
 
@@ -25,7 +25,7 @@ public class GridObject
     public int fCost;
     public int gCost;
     public int hCost;
-
+    
     public GridObject parent = null;
     public List<GridObject> neighbourList;
     

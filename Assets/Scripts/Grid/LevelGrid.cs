@@ -122,17 +122,17 @@ public class LevelGrid : MonoBehaviour
                 validList.Add(tile);
             }
         }
-        
-        validList.Sort();
-        
+
         List<GridPosition> result = new List<GridPosition>();
         result = validList;
+        
         
         
         //Pathfind towards the end zone tiles && check if it can reach
         //if it cant go a tile back
         //show only tiles that are reachable
         
+        //Breadth first Search
         
         /*List<GridPosition> unWalkableList = new List<GridPosition>();
         //Go through this list to check if tile is reachable from the center

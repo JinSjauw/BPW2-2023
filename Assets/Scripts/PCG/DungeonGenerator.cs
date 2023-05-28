@@ -99,7 +99,7 @@ public class DungeonGenerator : MonoBehaviour
                 GridPosition gridSpawnPosition = roomGrid[Random.Range(0, roomGrid.Count - 1)];
                 TILETYPE tileType = grid.GetGridObject(gridSpawnPosition).tileType;
                 
-                Debug.Log($"Gridposition: {gridSpawnPosition} index: {i} ");
+                //Debug.Log($"Gridposition: {gridSpawnPosition} index: {i} ");
                 
                 if (occupiedList.Contains(gridSpawnPosition) || tileType != TILETYPE.FLOOR)
                 {
@@ -111,7 +111,7 @@ public class DungeonGenerator : MonoBehaviour
                 
                 if (walkableList.Remove(gridSpawnPosition))
                 {
-                    Debug.Log($"REMOVED: Gridposition: {gridSpawnPosition} index: {i} ");
+                    //Debug.Log($"REMOVED: Gridposition: {gridSpawnPosition} index: {i} ");
                     Instantiate(furniturePrefab, spawnPosition, Quaternion.identity);
                     occupiedList.Add(gridSpawnPosition);
                     i++;

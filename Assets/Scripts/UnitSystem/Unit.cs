@@ -10,7 +10,7 @@ public class UnitData
     public float moveSpeed;
     public float rotateSpeed;
     public float stoppingDistance; 
-    public int moveDistance;
+    public float moveDistance;
     public float attackRange;
     public int meleeDamage;
     public int rangeDamage;
@@ -29,9 +29,9 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitDead;
     public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler OnAnyUnitAlert;
-    
     public event EventHandler isHit;
-    
+    public Pathfinding pathfinding;
+
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
     private UnitState unitState;
@@ -46,17 +46,18 @@ public class Unit : MonoBehaviour
     private void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
+        pathfinding = new Pathfinding();
         
         foreach (var action in actionArray)
         {
             action.SetUnit(this);
         }
-        
         if(isEnemy)
         {
             BTree = BTree.Clone();
             BTree.Bind(this);
         }
+
         unitState = UnitState.IDLE;
     }
 
@@ -71,8 +72,8 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
         LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
-        
-        UpdateMoveDistance();
+
+        //UpdateMoveDistance();
     }
 
     private void EnemyManager_OnCombatEnd(object sender, EventArgs e)
@@ -89,7 +90,7 @@ public class Unit : MonoBehaviour
         {
             //Changed grid position
             LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
-            UpdateMoveDistance();
+            //UpdateMoveDistance();
             gridPosition = newGridPosition;
         }
     }
@@ -97,7 +98,7 @@ public class Unit : MonoBehaviour
     private void HealthSystem_OnDeath(object _sender, EventArgs _e)
     {
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
         Debug.Log("Dead");
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
@@ -109,7 +110,7 @@ public class Unit : MonoBehaviour
         {
             actionPoints = maxActionPoints;
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-            UpdateMoveDistance();
+            //UpdateMoveDistance();
         }
     }
 
@@ -154,11 +155,11 @@ public class Unit : MonoBehaviour
         return actionArray[0];
     }
 
-    public void UpdateMoveDistance()
+    /*public void UpdateMoveDistance()
     {
-        unitData.moveDistance = (int)unitData.moveSpeed * actionPoints;
-    }
-    
+        unitData.moveDistance = 3 * actionPoints;
+    }*/
+
     public bool TryTakeAction(BaseAction _action)
     {
         if (unitState == UnitState.IDLE)

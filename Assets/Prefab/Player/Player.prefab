@@ -3313,7 +3313,7 @@ MonoBehaviour:
     moveSpeed: 5
     rotateSpeed: 600
     stoppingDistance: 0.15
-    moveDistance: 0
+    moveDistance: 12
     attackRange: 4
     meleeDamage: 50
     rangeDamage: 0

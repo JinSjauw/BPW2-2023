@@ -2505,7 +2505,7 @@ MonoBehaviour:
     moveSpeed: 2.5
     rotateSpeed: 300
     stoppingDistance: 0.1
-    moveDistance: 2
+    moveDistance: 6
     attackRange: 8
     meleeDamage: 4
     rangeDamage: 20
@@ -2563,7 +2563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4049796c66a78b94caf2cf17182805a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectRadius: 16
+  detectRadius: 12
 --- !u!1 &6637896884850444411
 GameObject:
   m_ObjectHideFlags: 0
