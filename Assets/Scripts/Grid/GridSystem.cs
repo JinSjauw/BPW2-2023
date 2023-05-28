@@ -109,6 +109,16 @@ public class GridSystem<TGridObject>
       }
    }
 
+   public void CreateWalkableDebugObjects(Transform _debugPrefab, List<GridPosition> _list)
+   {
+      foreach (var tile in _list)
+      {
+         Transform debugTransform = GameObject.Instantiate(_debugPrefab, GetWorldPosition(tile), Quaternion.identity);
+         GridDebugObject gridDebugObject = debugTransform.GetComponent<GridDebugObject>();
+         gridDebugObject.SetGridObject(GetGridObject(tile));
+      }
+   }
+
    public void CreateDebugObjects(List<GridPosition> _list, Transform _debugPrefab)
    {
       foreach (var gridPosition in _list)

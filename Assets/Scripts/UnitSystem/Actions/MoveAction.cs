@@ -31,6 +31,9 @@ public class MoveAction : BaseAction
         List<GridPosition> validPositionsList = GetValidActionPositionsList();
         GridPosition destination = _targetPosition;
         
+        path.Clear();
+        pathfinding.SetGrid(validPositionsList);
+
         if (!validPositionsList.Contains(_targetPosition))
         {
             //Get closest node to the target position
@@ -50,12 +53,7 @@ public class MoveAction : BaseAction
             
             destination = closest;
         }
-        
-        pathfinding.SetGrid(validPositionsList);
-        
         moveIndex = 0;
-
-        path.Clear();
 
         List<GridPosition> foundPath = new List<GridPosition>();
         foundPath = pathfinding.FindPath(LevelGrid.Instance.GetGridObject((unit.transform.position)),

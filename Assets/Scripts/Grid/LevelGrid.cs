@@ -29,21 +29,28 @@ public class LevelGrid : MonoBehaviour
         
         gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> _grid, GridPosition _gridPosition, Vector3 _worldPosition) => new GridObject(_grid, _gridPosition, _worldPosition));
         SetNeighbours();
-        if (CreateDebugGrid)
+        /*if (CreateDebugGrid)
         {
-            gridSystem.CreateDebugObjects(gridDebugObject);
-        }
+            //gridSystem.CreateDebugObjects(gridDebugObject);
+            gridSystem.CreateWalkableDebugObjects(gridDebugObject, walkableList);
+        }*/
     }
 
     private void Start()
     {
         if (!GenerateDungeon)
         {
+            walkableList = gridSystem.GetGridPositions();
             return;
         }
         DungeonGenerator.Instance.Initialize();
         //gridSystem.CreateDebugObjects(DungeonGenerator.Instance.Generate(), gridDebugObject);
         walkableList = DungeonGenerator.Instance.Generate();
+        if (CreateDebugGrid)
+        {
+            //gridSystem.CreateDebugObjects(gridDebugObject);
+            gridSystem.CreateWalkableDebugObjects(gridDebugObject, walkableList);
+        }
     }
 
     public List<GridPosition> GetWalkableList()
@@ -104,10 +111,30 @@ public class LevelGrid : MonoBehaviour
 
     public List<GridPosition> GetWalkableTilesInCircle(Vector3 _center, float _radius)
     {
-        List<GridPosition> inRangeList = gridSystem.GetTilesInCircle(_center, _radius);
+        List<GridPosition> inCircleList = gridSystem.GetTilesInCircle(_center, _radius);
+
+        List<GridPosition> validList = new List<GridPosition>();
+
+        foreach (var tile in inCircleList)
+        {
+            if (walkableList.Contains(tile))
+            {
+                validList.Add(tile);
+            }
+        }
         
-        List<GridPosition> validList = inRangeList.Where(x => walkableList.Contains(x)).ToList();
-        List<GridPosition> unWalkableList = new List<GridPosition>();
+        validList.Sort();
+        
+        List<GridPosition> result = new List<GridPosition>();
+        result = validList;
+        
+        
+        //Pathfind towards the end zone tiles && check if it can reach
+        //if it cant go a tile back
+        //show only tiles that are reachable
+        
+        
+        /*List<GridPosition> unWalkableList = new List<GridPosition>();
         //Go through this list to check if tile is reachable from the center
         //Raycast to check for wall
         Vector3 origin = _center;
@@ -121,7 +148,7 @@ public class LevelGrid : MonoBehaviour
             if(Physics.Raycast(origin, direction, distance, LayerMask.GetMask("Walls")))
             {
                 unWalkableList.Add(tile);
-                //Debug.Log($"Hit Wall! {tileWorldPosition} Origin: {origin} Distance: {distance}");
+                Debug.Log($"Hit Wall! {tileWorldPosition} Origin: {origin} Distance: {distance}");
             }
         }
 
@@ -133,7 +160,7 @@ public class LevelGrid : MonoBehaviour
             {
                 result.Add(tile);
             }
-        }
+        }*/
 
         return result;
     }

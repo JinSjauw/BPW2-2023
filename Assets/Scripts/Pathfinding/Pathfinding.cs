@@ -74,7 +74,7 @@ public class Pathfinding
 
             foreach (var neighbour in currentNode.neighbourList)
             {
-                if (closedList.Contains(neighbour))
+                if (closedList.Contains(neighbour) || !nodeGrid.Contains(neighbour))
                 {
                     continue;
                 }

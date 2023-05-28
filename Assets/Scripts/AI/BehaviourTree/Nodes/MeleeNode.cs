@@ -20,7 +20,6 @@ public class MeleeNode : ActionNode
     public override void Init()
     {
         meleeAction = (MeleeAction)meleeAction.Clone();
-        Debug.Log(meleeAction.name);
     }
 
     protected override void OnStart()

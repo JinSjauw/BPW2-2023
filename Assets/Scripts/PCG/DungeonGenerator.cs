@@ -86,7 +86,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         //spawn player on the startroom position
         Instantiate(playerPrefab, grid.GetWorldPosition(startRoom.roomCenter), Quaternion.identity);
-       
+        
         foreach (var room in roomList)
         {
             List<GridPosition> occupiedList = new List<GridPosition>();
@@ -94,10 +94,13 @@ public class DungeonGenerator : MonoBehaviour
             
             //Spawn furniture
             int furnitureAmount = Random.Range(2, 7);
-            for (int i = 0; i < furnitureAmount;)
+            for (int i = 0; i <= furnitureAmount;)
             {
                 GridPosition gridSpawnPosition = roomGrid[Random.Range(0, roomGrid.Count - 1)];
                 TILETYPE tileType = grid.GetGridObject(gridSpawnPosition).tileType;
+                
+                Debug.Log($"Gridposition: {gridSpawnPosition} index: {i} ");
+                
                 if (occupiedList.Contains(gridSpawnPosition) || tileType != TILETYPE.FLOOR)
                 {
                     continue;
@@ -105,12 +108,14 @@ public class DungeonGenerator : MonoBehaviour
                 
                 Vector3 spawnPosition = grid.GetWorldPosition(gridSpawnPosition);
                 GameObject furniturePrefab = furniturePrefabsList[Random.Range(0, furniturePrefabsList.Count - 1)];
-
-                Instantiate(furniturePrefab, spawnPosition, Quaternion.identity);
-                occupiedList.Add(gridSpawnPosition);
-                walkableList.Remove(gridSpawnPosition);
                 
-                i++;
+                if (walkableList.Remove(gridSpawnPosition))
+                {
+                    Debug.Log($"REMOVED: Gridposition: {gridSpawnPosition} index: {i} ");
+                    Instantiate(furniturePrefab, spawnPosition, Quaternion.identity);
+                    occupiedList.Add(gridSpawnPosition);
+                    i++;
+                }
             }
 
             if (room == startRoom)
@@ -280,7 +285,10 @@ public class DungeonGenerator : MonoBehaviour
             {
                 Instantiate(tilePrefab, grid.GetWorldPosition(roomTile), Quaternion.identity);
                 grid.GetGridObject(roomTile).SetTileType(TILETYPE.FLOOR);
-                walkableList.Add(roomTile);
+                if (!walkableList.Contains(roomTile))
+                {
+                    walkableList.Add(roomTile);    
+                }
             }
         }
     }
@@ -523,7 +531,10 @@ public class DungeonGenerator : MonoBehaviour
                 foreach (var neighbour in tile.neighbourList)
                 {
                     Instantiate(tilePrefab, neighbour.position, quaternion.identity);
-                    walkableList.Add(neighbour.gridPosition);
+                    if (!walkableList.Contains(neighbour.gridPosition))
+                    {
+                        walkableList.Add(neighbour.gridPosition);
+                    }
                 }
             }
         }

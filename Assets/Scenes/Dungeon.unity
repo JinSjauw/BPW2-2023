@@ -412,12 +412,10 @@ MonoBehaviour:
   furniturePrefabsList:
   - {fileID: 2673821626700453619, guid: 7f4391ea3d0c7524bb9730c090ecda30, type: 3}
   - {fileID: 2145873907727157317, guid: 03abcee384f10e94191d6b662c74364b, type: 3}
-  - {fileID: 7607692504136974859, guid: afa58f8457a77ff488957d7041a3bcb4, type: 3}
   - {fileID: 4372473032821395705, guid: f8236ff43ace661498aa3adb7ffc8cdc, type: 3}
   - {fileID: 8376769965981961159, guid: e63cecbdeffe18c458163a84cca68e1c, type: 3}
   - {fileID: 8358870228500367451, guid: 43201346cce3b2f4b9485c2c609bc61a, type: 3}
   - {fileID: 8908034871203002546, guid: 6fdeb4b43d1e45543855002accbeff8e, type: 3}
-  - {fileID: 980774016179655460, guid: 3d0adab0c49f7bf46a902860edad2692, type: 3}
   - {fileID: 8372765771678715831, guid: 57ca89446fcdde04e92dd1cfd6afd9ef, type: 3}
   enemyWarriorPrefab: {fileID: 1782438951538960947, guid: a2d91539cfb7e484d9e15267022e740d,
     type: 3}
@@ -1229,7 +1227,7 @@ MonoBehaviour:
   width: 70
   height: 70
   cellSize: 2
-  CreateDebugGrid: 0
+  CreateDebugGrid: 1
   GenerateDungeon: 1
   walkableList: []
 --- !u!4 &1154728751
