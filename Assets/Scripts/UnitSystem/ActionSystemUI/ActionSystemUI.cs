@@ -26,10 +26,10 @@ public class ActionSystemUI : MonoBehaviour
         UnitActionManager.Instance.OnPlayerSpawn += Init;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
-
-        /*CreateActionButtons();
+        
+        CreateActionButtons();
         UpdateSelectedVisual();
-        UpdateActionPoints();*/
+        UpdateActionPoints();
     }
 
     private void CreateActionButtons()

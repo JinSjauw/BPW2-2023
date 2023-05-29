@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -13,7 +14,7 @@ public class UnitActionManager : MonoBehaviour
     public EventHandler SelectedActionChanged;
     public EventHandler OnActionStarted;
     public EventHandler OnActionComplete;
-    public EventHandler<InventoryEventArgs> RequestInventory;
+    public EventHandler RequestInventory;
 
     [SerializeField] private Unit selectedUnit;
     [SerializeField] private LayerMask unitLayer;
@@ -71,19 +72,29 @@ public class UnitActionManager : MonoBehaviour
             return;
         }
 
-        HandleSelectedAction();
+        HandleInput();
         
     }
 
     private void OpenInventory()
     {
-        RequestInventory?.Invoke(this, new InventoryEventArgs(selectedUnit));
+        Debug.Log("Opening Inventory!");
+        RequestInventory?.Invoke(this, EventArgs.Empty);
     }
     
-    private void HandleSelectedAction()
+    private void HandleInput()
     {
         if (Input.GetMouseButton(0))
         {
+            //Detect if mouse is over Loot
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000, LayerMask.GetMask("Loot")))
+            {
+                ItemWorld worldItem = hit.collider.GetComponent<ItemWorld>();
+                selectedUnit.GetInventory().AddItem(worldItem.GetItem());
+                Destroy(worldItem.gameObject);
+            }
+            
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(Mouse.GetPosition());
 
             if (!selectedAction.IsValidActionGridPosition(mouseGridPosition))

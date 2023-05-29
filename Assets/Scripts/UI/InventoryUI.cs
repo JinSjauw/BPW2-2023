@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,13 @@ public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private Transform itemSlotContainer;
     [SerializeField] private Transform itemSlotTemplate;
+    [SerializeField] private Transform inventoryContainer;
     private Inventory inventory;
-
+    private bool state = false;
     private void Awake()
     {
-        itemSlotContainer = transform.Find("ItemSlotContainer");
+        inventoryContainer = transform.Find("InventoryContainer");
+        itemSlotContainer = inventoryContainer.Find("ItemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("ItemSlot");
     }
 
@@ -31,23 +34,41 @@ public class InventoryUI : MonoBehaviour
         Debug.Log(unit.name);
         SetInventory(unit.GetInventory());
     }
-
-
-    private void UnitActionManager_RequestInventory(object sender, InventoryEventArgs e)
+    
+    private void UnitActionManager_RequestInventory(object sender, EventArgs e)
     {
+        state = !state;
         //Open inventory;
-        RefreshInventory();
+        if (state)
+        {
+            RefreshInventory();
+        }
+        
+        inventoryContainer.gameObject.SetActive(state);
     }
 
     public void SetInventory(Inventory _inventory)
     {
         inventory = _inventory;
+        inventory.OnItemsListChanged += Inventory_OnItemsListChanged;
         Debug.Log("Items count: " + _inventory.GetItemList().Count);
+        RefreshInventory();
+    }
+
+    private void Inventory_OnItemsListChanged(object sender, EventArgs e)
+    {
+        Debug.Log(inventory.GetItemList().Count);
         RefreshInventory();
     }
 
     private void RefreshInventory()
     {
+        foreach (Transform child in itemSlotContainer)
+        {
+            if(child == itemSlotTemplate) { continue; }
+            Destroy(child.gameObject);
+        }
+        
         int x = 0;
         int y = 0;
 

@@ -86,7 +86,7 @@ public class MoveAction : BaseAction
             }
         }
 
-        Debug.Log(tempPositions.Count);
+        //Debug.Log(tempPositions.Count);
         
         foreach (GridPosition position in inCirclePosition)
         {

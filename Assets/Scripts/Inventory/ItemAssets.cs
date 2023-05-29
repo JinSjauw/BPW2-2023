@@ -22,6 +22,20 @@ public class ItemAssets : ScriptableObject
 
         return sprite;
     }
+
+    public Transform GetWorldPrefab(Item.ItemType _prefabType)
+    {
+        Transform prefab = null;
+        foreach (var data in spriteAssets)
+        {
+            if (data.itemType == _prefabType)
+            {
+                prefab = data.worldPrefab;
+            }
+        }
+
+        return prefab;
+    }
 }
 
 [System.Serializable]
@@ -29,4 +43,5 @@ public class SpriteData
 {
     public Item.ItemType itemType;
     public Sprite sprite;
+    public Transform worldPrefab;
 }

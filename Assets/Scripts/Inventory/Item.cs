@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Item
 {
     public enum ItemType
@@ -15,8 +16,9 @@ public class Item
     }
     
     public ItemType itemType;
-    public int amount;
+    //public int amount;
     public Sprite itemSprite;
+    public Transform worldPrefab;
 
     private ItemAssets itemAssets;
     
@@ -25,10 +27,6 @@ public class Item
         itemType = _itemType;
         itemAssets = Resources.Load("ItemsAsset") as ItemAssets;
         itemSprite = itemAssets.GetSprite(itemType);
+        worldPrefab = itemAssets.GetWorldPrefab(itemType);
     }
-    
-    
-
-    
-    
 }
