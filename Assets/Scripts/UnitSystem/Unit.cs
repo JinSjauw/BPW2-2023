@@ -24,7 +24,8 @@ public class Unit : MonoBehaviour
         IDLE,
         COMBAT,
     }
-    
+
+    public static event EventHandler OnPlayerUnitSpawn; 
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
     public static event EventHandler OnAnyActionPointsChanged;
@@ -35,6 +36,7 @@ public class Unit : MonoBehaviour
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
     private UnitState unitState;
+    private Inventory inventory;
     
     [SerializeField] private BaseAction[] actionArray;
     [SerializeField] private bool isEnemy;
@@ -42,7 +44,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private int actionPoints = 3;
     [SerializeField] private BehaviourTree BTree;
     [SerializeField] private UnitData unitData;
-    
+
     private void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
@@ -68,6 +70,12 @@ public class Unit : MonoBehaviour
         healthSystem.OnDeath += HealthSystem_OnDeath;
         
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
+        
+        if (!isEnemy)
+        {
+            inventory = new Inventory();
+            OnPlayerUnitSpawn?.Invoke(this, EventArgs.Empty);
+        }
         
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
@@ -114,6 +122,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public Inventory GetInventory()
+    {
+        return inventory;
+    }
+    
     public BehaviourTree GetTree()
     {
         return BTree;

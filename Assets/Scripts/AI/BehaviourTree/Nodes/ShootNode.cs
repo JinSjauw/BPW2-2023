@@ -20,7 +20,7 @@ public class ShootNode : ActionNode
     public override void Init()
     {
         shootAction = (ShootAction)shootAction.Clone();
-        Debug.Log(shootAction.name);
+        //Debug.Log(shootAction.name);
     }
 
     protected override void OnStart()

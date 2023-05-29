@@ -8,10 +8,12 @@ using UnityEngine.EventSystems;
 public class UnitActionManager : MonoBehaviour
 {
     public static UnitActionManager Instance { get; private set; }
+    
     public EventHandler OnPlayerSpawn;
     public EventHandler SelectedActionChanged;
     public EventHandler OnActionStarted;
     public EventHandler OnActionComplete;
+    public EventHandler<InventoryEventArgs> RequestInventory;
 
     [SerializeField] private Unit selectedUnit;
     [SerializeField] private LayerMask unitLayer;
@@ -34,11 +36,21 @@ public class UnitActionManager : MonoBehaviour
 
     private void Start()
     {
-        SetSelectedAction(selectedUnit.GetDefaultAction());
+        if (selectedUnit != null)
+        {
+            SetSelectedAction(selectedUnit.GetDefaultAction());   
+        }
     }
 
     private void Update()
     {
+        //Check for input for inventory
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            //Invoke inventory event and pass the selected unit in the eventArgs
+            OpenInventory();
+        }
+
         if (isRunning)
         {
             if (selectedAction != null && selectedAction.IsActive())
@@ -63,6 +75,11 @@ public class UnitActionManager : MonoBehaviour
         
     }
 
+    private void OpenInventory()
+    {
+        RequestInventory?.Invoke(this, new InventoryEventArgs(selectedUnit));
+    }
+    
     private void HandleSelectedAction()
     {
         if (Input.GetMouseButton(0))
@@ -116,5 +133,15 @@ public class UnitActionManager : MonoBehaviour
         SetSelectedAction(selectedUnit.GetDefaultAction());
         cameraTransform.position = selectedUnit.transform.position;
         OnPlayerSpawn?.Invoke(this, EventArgs.Empty);
+    }
+}
+
+public class InventoryEventArgs : EventArgs
+{
+    public Unit unit;
+    
+    public InventoryEventArgs(Unit _unit)
+    {
+        unit = _unit;
     }
 }

@@ -16,7 +16,7 @@ public class MoveNode : ActionNode
     public override void Init()
     {
         moveAction = (MoveAction)moveAction.Clone();
-        Debug.Log(moveAction.name);
+        //Debug.Log(moveAction.name);
     }
 
     protected override void OnStart()

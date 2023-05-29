@@ -50,8 +50,14 @@ public class GridSystemVisual : MonoBehaviour
         HideAllTileVisuals();
 
         BaseAction selectedAction = UnitActionManager.Instance.GetSelectedAction();
+
+        if (selectedAction == null)
+        {
+            Debug.Log("selectedAction is NULL");
+            return;
+        }
         
         ShowTileList(selectedAction.GetValidActionPositionsList());
-        Debug.Log(selectedAction.GetValidActionPositionsList().Count);
+        //Debug.Log(selectedAction.GetValidActionPositionsList().Count);
     }
 }

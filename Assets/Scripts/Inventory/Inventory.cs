@@ -10,13 +10,20 @@ public class Inventory
     {
         itemList = new List<Item>();
 
-        AddItem(new Item { itemType = Item.ItemType.Sword, amount = 1 });
-
-    Debug.Log(itemList.Count);
+        AddItem(new Item(Item.ItemType.Sword));
+        AddItem(new Item(Item.ItemType.Chest));
+        AddItem(new Item(Item.ItemType.Helmet));
+        
+        Debug.Log("Items: " + itemList.Count);
     }
 
     public void AddItem(Item _item)
     {
         itemList.Add(_item);
+    }
+
+    public List<Item> GetItemList()
+    {
+        return itemList;
     }
 }

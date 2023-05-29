@@ -27,9 +27,9 @@ public class ActionSystemUI : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
 
-        CreateActionButtons();
+        /*CreateActionButtons();
         UpdateSelectedVisual();
-        UpdateActionPoints();
+        UpdateActionPoints();*/
     }
 
     private void CreateActionButtons()
@@ -42,6 +42,12 @@ public class ActionSystemUI : MonoBehaviour
         actionButtons.Clear();
         
         Unit selectedUnit = UnitActionManager.Instance.GetSelectedUnit();
+
+        if (selectedUnit == null)
+        {
+            Debug.Log("Selected Unit is NULL");
+            return;
+        }
         
         foreach (BaseAction action in selectedUnit.GetActionArray())
         {
