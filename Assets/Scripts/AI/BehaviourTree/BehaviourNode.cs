@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 
 public abstract class BehaviourNode : ScriptableObject
@@ -44,7 +45,12 @@ public abstract class BehaviourNode : ScriptableObject
    }
 
    public virtual void Init(){}
-   
+
+   public virtual void SetUnit(Unit _unit)
+   {
+      unit = _unit;
+   }
+
    protected abstract void OnStart();
    protected abstract void OnStop();
    protected abstract BehaviourState OnUpdate();

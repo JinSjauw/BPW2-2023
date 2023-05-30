@@ -31,7 +31,7 @@ public class InventoryUI : MonoBehaviour
     private void Unit_OnPlayerUnitSpawn(object sender, EventArgs e)
     {
         Unit unit = sender as Unit;
-        Debug.Log(unit.name);
+        Debug.Log("Inventory from: " + unit.name);
         SetInventory(unit.GetInventory());
     }
     
@@ -73,7 +73,7 @@ public class InventoryUI : MonoBehaviour
         int y = 0;
 
         float itemSlotCellSize = 80f;
-        
+        Debug.Log(inventory);
         foreach (var item in inventory.GetItemList())
         {
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
