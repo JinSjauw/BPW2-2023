@@ -39,4 +39,9 @@ public class HealthSystem : MonoBehaviour
    {
       return (float)health / healthMax;
    }
+
+   public void Heal(int _amount)
+   {
+      health += _amount;
+   }
 }

@@ -7,7 +7,10 @@ public class GridSystemVisual : MonoBehaviour
 {
     [SerializeField] private Transform tileVisualPrefab;
     private TileVisualSingle[,] tileVisualArray;
-    
+
+    public static event EventHandler OnVisualActive;
+    public static event EventHandler OnVisualOff;
+
     private void Start()
     {
         tileVisualArray = new TileVisualSingle[
@@ -28,6 +31,8 @@ public class GridSystemVisual : MonoBehaviour
 
     public void HideAllTileVisuals()
     {
+        OnVisualOff?.Invoke(this, EventArgs.Empty);
+
         for (int x = 0; x < LevelGrid.Instance.GetWidth(); x++)
         {
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
@@ -39,6 +44,7 @@ public class GridSystemVisual : MonoBehaviour
 
     public void ShowTileList(List<GridPosition> _gridPositions)
     {
+        OnVisualActive?.Invoke(this, EventArgs.Empty);
         foreach (GridPosition tile in _gridPositions)
         {
             tileVisualArray[tile.x, tile.z].Show();

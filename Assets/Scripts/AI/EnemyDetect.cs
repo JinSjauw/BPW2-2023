@@ -46,7 +46,7 @@ public class EnemyDetect : MonoBehaviour
                 
                 if (!hitUnit.IsEnemy())
                 {
-                    Debug.Log("Detected Player");
+                    //Debug.Log("Detected Player");
                     hitUnit.SetState(Unit.UnitState.COMBAT);
                     unit.Alert();
                 }

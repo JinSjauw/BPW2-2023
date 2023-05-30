@@ -144,13 +144,12 @@ public class BehaviourTree : ScriptableObject
     {
         Traverse(rootNode, node =>
         {
-            node.SetUnit(unit);
+            //node.SetUnit(unit);
             node.blackboard = blackboard;
-            node.Init();
         });
     }
     
-    public BehaviourTree Clone()
+    public BehaviourTree Clone(Unit unit)
     {
         BehaviourTree tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
@@ -158,6 +157,8 @@ public class BehaviourTree : ScriptableObject
         Traverse(tree.rootNode, (n) =>
         {
             tree.nodes.Add(n);
+            n.Init();
+            n.SetUnit(unit);
         });
         return tree;
     }

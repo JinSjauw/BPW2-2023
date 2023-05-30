@@ -9,14 +9,13 @@ public class Item
     {
         Sword, 
         Helmet,
-        Shoulder,
         Pants,
-        Shoes,
         Chest,
+        RedPotion,
+        YellowPotion,
     }
     
     public ItemType itemType;
-    //public int amount;
     public Sprite itemSprite;
     public Transform worldPrefab;
 

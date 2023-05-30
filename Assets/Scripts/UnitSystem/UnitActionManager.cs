@@ -22,6 +22,7 @@ public class UnitActionManager : MonoBehaviour
 
     private BaseAction selectedAction;
     private bool isRunning = false;
+    private bool CanAct = false;
     
     private void Awake()
     {
@@ -41,6 +42,19 @@ public class UnitActionManager : MonoBehaviour
         {
             SetSelectedAction(selectedUnit.GetDefaultAction());   
         }
+
+        GridSystemVisual.OnVisualActive += GridSystemVisual_OnVisualActive;
+        GridSystemVisual.OnVisualOff += GridSystemVisual_OnVisualOff;
+    }
+
+    private void GridSystemVisual_OnVisualOff(object sender, EventArgs e)
+    {
+        CanAct = false;
+    }
+
+    private void GridSystemVisual_OnVisualActive(object sender, EventArgs e)
+    {
+        CanAct = true;
     }
 
     private void Update()
@@ -71,7 +85,7 @@ public class UnitActionManager : MonoBehaviour
         {
             return;
         }
-
+        
         HandleInput();
         
     }
@@ -93,6 +107,11 @@ public class UnitActionManager : MonoBehaviour
                 ItemWorld worldItem = hit.collider.GetComponent<ItemWorld>();
                 selectedUnit.GetInventory().AddItem(worldItem.GetItem());
                 Destroy(worldItem.gameObject);
+            }
+
+            if (!CanAct)
+            {
+                return;
             }
             
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(Mouse.GetPosition());
@@ -144,15 +163,5 @@ public class UnitActionManager : MonoBehaviour
         SetSelectedAction(selectedUnit.GetDefaultAction());
         cameraTransform.position = selectedUnit.transform.position;
         OnPlayerSpawn?.Invoke(this, EventArgs.Empty);
-    }
-}
-
-public class InventoryEventArgs : EventArgs
-{
-    public Unit unit;
-    
-    public InventoryEventArgs(Unit _unit)
-    {
-        unit = _unit;
     }
 }

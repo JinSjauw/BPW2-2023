@@ -74,14 +74,7 @@ public class ActionSystemUI : MonoBehaviour
         Unit selectedUnit = UnitActionManager.Instance.GetSelectedUnit();
         actionPointCounter.text = "AP : " + selectedUnit.GetActionPoints();
     }
-    
-    /*private void UnitManager_SelectedUnitChanged(object _sender, EventArgs _e)
-    {
-        CreateActionButtons();
-        UpdateSelectedVisual();
-        UpdateActionPoints();
-    }*/
-    
+
     private void Init(object _sender, EventArgs _e)
     {
         CreateActionButtons();

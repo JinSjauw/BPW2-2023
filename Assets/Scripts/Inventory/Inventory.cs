@@ -9,11 +9,12 @@ public class Inventory
     public event EventHandler OnItemsListChanged;
     
     private List<Item> itemList;
-
-    public Inventory()
+    private Action<Item> UseItemAction;
+    
+    public Inventory(Action<Item> _UseItemAction)
     {
         itemList = new List<Item>();
-
+        UseItemAction = _UseItemAction;
         Debug.Log("Items: " + itemList.Count);
     }
 
@@ -24,8 +25,20 @@ public class Inventory
         OnItemsListChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    public void RemoveItem(Item _item)
+    {
+        Debug.Log("Removed Item: " + _item.worldPrefab.name);
+        itemList.Remove(_item);
+        OnItemsListChanged?.Invoke(this, EventArgs.Empty);
+    }
+    
     public List<Item> GetItemList()
     {
         return itemList;
+    }
+
+    public void UseItem(Item _item)
+    {
+        UseItemAction(_item);
     }
 }

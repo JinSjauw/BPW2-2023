@@ -24,8 +24,7 @@ public class Unit : MonoBehaviour
         IDLE,
         COMBAT,
     }
-
-    public static event EventHandler OnPlayerUnitSpawn; 
+    
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
     public static event EventHandler OnAnyActionPointsChanged;
@@ -56,7 +55,7 @@ public class Unit : MonoBehaviour
         }
         if(isEnemy)
         {
-            BTree = BTree.Clone();
+            BTree = BTree.Clone(this);
             BTree.Bind(this);
         }
 
@@ -69,13 +68,13 @@ public class Unit : MonoBehaviour
         EnemyManager.OnCombatEnd += EnemyManager_OnCombatEnd;
         healthSystem.OnDeath += HealthSystem_OnDeath;
         
-        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
-        
         if (!isEnemy)
         {
-            inventory = new Inventory();
-            OnPlayerUnitSpawn?.Invoke(this, EventArgs.Empty);
+            inventory = new Inventory(UseItem);
+            Debug.Log("Inventory: " + inventory + "from: " + gameObject.name);
         }
+        
+        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
         
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
@@ -83,13 +82,7 @@ public class Unit : MonoBehaviour
 
         //UpdateMoveDistance();
     }
-
-    private void EnemyManager_OnCombatEnd(object sender, EventArgs e)
-    {
-        actionPoints = maxActionPoints;
-        unitState = UnitState.IDLE;
-    }
-
+    
     private void Update()
     {
         //Detect new GridPosition
@@ -98,9 +91,36 @@ public class Unit : MonoBehaviour
         {
             //Changed grid position
             LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
-            //UpdateMoveDistance();
             gridPosition = newGridPosition;
         }
+    }
+
+    private void UseItem(Item _item)
+    {
+        switch (_item.itemType)
+        {
+            case(Item.ItemType.Sword):
+                break;
+            case(Item.ItemType.Helmet):
+                break;
+            case(Item.ItemType.Chest):
+                break;
+            case(Item.ItemType.Pants):
+                break;
+            case(Item.ItemType.RedPotion):
+                healthSystem.Heal(40);
+                break;
+            case(Item.ItemType.YellowPotion):
+                actionPoints += 1;
+                break;
+        }
+        inventory.RemoveItem(_item);
+    }
+    
+    private void EnemyManager_OnCombatEnd(object sender, EventArgs e)
+    {
+        actionPoints = maxActionPoints;
+        unitState = UnitState.IDLE;
     }
     
     private void HealthSystem_OnDeath(object _sender, EventArgs _e)
@@ -167,11 +187,6 @@ public class Unit : MonoBehaviour
     {
         return actionArray[0];
     }
-
-    /*public void UpdateMoveDistance()
-    {
-        unitData.moveDistance = 3 * actionPoints;
-    }*/
 
     public bool TryTakeAction(BaseAction _action)
     {

@@ -9,12 +9,12 @@ public class TreeRunner : MonoBehaviour
     
     private void Start()
     {
-        tree = tree.Clone();
-        tree.Bind(GetComponent<Unit>());
+        /*tree = tree.Clone();
+        tree.Bind(GetComponent<Unit>());*/
     }
 
     private void Update()
     {
-        tree.Update();
+        //tree.Update();
     }
 }
