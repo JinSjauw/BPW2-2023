@@ -10,11 +10,13 @@ public class Inventory
     
     private List<Item> itemList;
     private Action<Item> UseItemAction;
+    private Action<Item> UnequipItemAction;
     
-    public Inventory(Action<Item> _UseItemAction)
+    public Inventory(Action<Item> _UseItemAction, Action<Item> _UnequipItemAction)
     {
         itemList = new List<Item>();
         UseItemAction = _UseItemAction;
+        UnequipItemAction = _UnequipItemAction;
         Debug.Log("Items: " + itemList.Count);
     }
 
@@ -40,5 +42,10 @@ public class Inventory
     public void UseItem(Item _item)
     {
         UseItemAction(_item);
+    }
+
+    public void Unequip(Item _item)
+    {
+        UnequipItemAction(_item);
     }
 }

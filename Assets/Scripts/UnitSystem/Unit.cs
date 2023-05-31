@@ -75,7 +75,7 @@ public class Unit : MonoBehaviour
         
         if (!isEnemy)
         {
-            inventory = new Inventory(UseItem);
+            inventory = new Inventory(UseItem, UnequipItem);
             Debug.Log("Inventory: " + inventory + "from: " + gameObject.name);
         }
         
@@ -113,7 +113,6 @@ public class Unit : MonoBehaviour
                 {
                     part.gameObject.SetActive(true);
                 }
-                Debug.Log("Equipping Chest Armor!");
                 break;
             case(Item.ItemType.Pants):
                 foreach (Transform part in pants)
@@ -126,9 +125,37 @@ public class Unit : MonoBehaviour
                 break;
             case(Item.ItemType.YellowPotion):
                 actionPoints += 1;
+                OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
                 break;
         }
-        inventory.RemoveItem(_item);
+    }
+
+    private void UnequipItem(Item _item)
+    {
+        switch (_item.itemType)
+        {
+            case(Item.ItemType.Sword):
+                sword2h.gameObject.SetActive(false);
+                break;
+            case(Item.ItemType.Helmet):
+                helmet.gameObject.SetActive(false);
+                break;
+            case(Item.ItemType.Chest):
+                foreach (Transform part in chest)
+                {
+                    part.gameObject.SetActive(false);
+                }
+                break;
+            case(Item.ItemType.Pants):
+                foreach (Transform part in pants)
+                {
+                    part.gameObject.SetActive(false);
+                }
+                break;
+            default:
+                Debug.Log("Invalid Item");
+                break;
+        }
     }
     
     private void EnemyManager_OnCombatEnd(object sender, EventArgs e)

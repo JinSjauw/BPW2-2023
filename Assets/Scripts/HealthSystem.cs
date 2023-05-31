@@ -6,7 +6,7 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
    public event EventHandler OnDeath;
-   public event EventHandler OnDamaged;
+   public event EventHandler OnHealthChanged;
 
    [SerializeField] private int healthMax = 100;
    [SerializeField] private int health;
@@ -19,7 +19,7 @@ public class HealthSystem : MonoBehaviour
    public void Damage(int _damage)
    {
       health -= _damage;
-      OnDamaged?.Invoke(this, EventArgs.Empty);
+      OnHealthChanged?.Invoke(this, EventArgs.Empty);
         
       if (health <= 0)
       {
@@ -43,5 +43,6 @@ public class HealthSystem : MonoBehaviour
    public void Heal(int _amount)
    {
       health += _amount;
+      OnHealthChanged?.Invoke(this, EventArgs.Empty);
    }
 }

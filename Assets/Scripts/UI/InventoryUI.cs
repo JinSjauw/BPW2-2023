@@ -4,22 +4,27 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class InventoryUI : MonoBehaviour
 {
+    public static event EventHandler OnOpenInventory;
+    
     [SerializeField] private Transform itemSlotContainer;
     [SerializeField] private Transform itemSlotTemplate;
     [SerializeField] private Transform inventoryContainer;
+    [SerializeField] private Transform equipmentContainer;
     private Inventory inventory;
     private Transform dropPoint;
     private bool state = false;
     private void Awake()
     {
         inventoryContainer = transform.Find("InventoryContainer");
+        equipmentContainer = transform.Find("EquipmentContainer");
         itemSlotContainer = inventoryContainer.Find("ItemSlotContainer");
-        itemSlotTemplate = itemSlotContainer.Find("ItemSlot");
+        itemSlotTemplate = itemSlotContainer.Find("ItemSlotTemplate");
         
         //Sub to opening the inventory
         UnitActionManager.Instance.RequestInventory += UnitActionManager_RequestInventory;
@@ -44,10 +49,12 @@ public class InventoryUI : MonoBehaviour
         //Open inventory;
         if (state)
         {
+            OnOpenInventory?.Invoke(this, EventArgs.Empty);
             RefreshInventory();
         }
         
         inventoryContainer.gameObject.SetActive(state);
+        equipmentContainer.gameObject.SetActive(state);
     }
 
     public void SetInventory(Inventory _inventory)
@@ -84,35 +91,37 @@ public class InventoryUI : MonoBehaviour
             Image itemIcon = itemSlotRectTransform.Find("ItemIcon").GetComponent<Image>();
             itemIcon.sprite = item.itemSprite;
             ItemSlotUI itemSlot = itemSlotRectTransform.GetComponent<ItemSlotUI>();
+            itemSlot.itemType = item.itemType;
             itemSlot.ClickFunc = () =>
             {
                 Debug.Log("Left Click!!");
                 //Use item
                 Debug.Log(item.itemType);
-                inventory.UseItem(item);
+                if (item.itemType == Item.ItemType.RedPotion || item.itemType == Item.ItemType.YellowPotion)
+                {
+                    inventory.UseItem(item);
+                    inventory.RemoveItem(item);
+                }
             };
             itemSlot.RightClickFunc = () =>
             {
-                //Debug.Log("Right Click!!");
-                //Remove item
                 inventory.RemoveItem(item);
                 DropItem(item);
+                Destroy(itemSlot.gameObject);
             };
-            itemSlot.DragBeginFunc = () =>
+            itemSlot.ToInventoryFunc = () =>
             {
-                //Instantiate the sprite from itemIcon
+                //Unequip item;
+                inventory.Unequip(item);
+                inventory.AddItem(item);
+                Destroy(itemSlot.gameObject);
             };
-            itemSlot.DraggingFunc = () =>
+            itemSlot.OnEquipFunc = () =>
             {
-                Debug.Log("DRAGGING");
-                // IDK
+                inventory.UseItem(item);
+                inventory.RemoveItem(item);
             };
-            itemSlot.DragEndFunc = () =>
-            {
-                //Goes into a new slot or gets dropped;
-                //Check where the player has dragged it;
-            };
-            
+
             x++;
             if (x > 2)
             {

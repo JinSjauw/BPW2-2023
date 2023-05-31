@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +13,7 @@ public class UnitWorldUI : MonoBehaviour
     private void Start()
     {
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
-        healthSystem.OnDamaged += HealthSystem_OnDamaged;
+        healthSystem.OnHealthChanged += HealthSystemOnHealthChanged;
         UpdateActionPointsText();
         UpdateHealthBar();
     }
@@ -35,7 +33,7 @@ public class UnitWorldUI : MonoBehaviour
         UpdateActionPointsText();
     }
 
-    private void HealthSystem_OnDamaged(object _sender, EventArgs _e)
+    private void HealthSystemOnHealthChanged(object _sender, EventArgs _e)
     {
         UpdateHealthBar();
     }

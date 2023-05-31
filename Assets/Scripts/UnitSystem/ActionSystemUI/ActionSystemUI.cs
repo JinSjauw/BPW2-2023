@@ -26,6 +26,7 @@ public class ActionSystemUI : MonoBehaviour
         UnitActionManager.Instance.OnPlayerSpawn += Init;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
+        InventoryUI.OnOpenInventory += InventoryUI_OnOpenInventory;
         
         CreateActionButtons();
         UpdateSelectedVisual();
@@ -80,6 +81,11 @@ public class ActionSystemUI : MonoBehaviour
         CreateActionButtons();
         UpdateSelectedVisual();
         UpdateActionPoints();
+    }
+    
+    private void InventoryUI_OnOpenInventory(object sender, EventArgs e)
+    {
+        gridSystemVisual.HideAllTileVisuals();
     }
     
     private void UnitManager_SelectedActionChanged(object _sender, EventArgs _e)
