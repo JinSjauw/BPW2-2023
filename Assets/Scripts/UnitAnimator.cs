@@ -8,15 +8,20 @@ using UnityEngine;
 public class UnitAnimator : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private RuntimeAnimatorController unarmedController;
+    [SerializeField] private RuntimeAnimatorController armedController;
     private void Start()
     {
         Unit unit = GetComponent<Unit>();
         BehaviourTree tree = unit.GetTree();
 
         unit.isHit += Unit_IsHit;
+        unit.EquippedWeapon += Unit_EquippedWeapon;
+        unit.UnequippedWeapon += Unit_UnequippedWeapon;
         
         if (!unit.IsEnemy())
         {
+            animator.runtimeAnimatorController = unarmedController;
             foreach (var action in unit.GetActionArray())
             {
                 MoveAction moveAction = action as MoveAction;
@@ -48,7 +53,6 @@ public class UnitAnimator : MonoBehaviour
                 MoveNode moveNode = n as MoveNode;
                 if (moveNode != null)
                 {
-                    //Debug.Log("Subbin enemy eventhandlers!");
                     moveNode.moveAction.OnMove += MoveAction_OnMove;
                     moveNode.moveAction.OnStop += MoveAction_OnStop;
                 }
@@ -59,6 +63,16 @@ public class UnitAnimator : MonoBehaviour
                 }
             });
         }
+    }
+
+    private void Unit_UnequippedWeapon(object sender, EventArgs e)
+    {
+        animator.runtimeAnimatorController = unarmedController;
+    }
+
+    private void Unit_EquippedWeapon(object sender, EventArgs e)
+    {
+        animator.runtimeAnimatorController = armedController;
     }
 
     private void Unit_IsHit(object sender, EventArgs e)

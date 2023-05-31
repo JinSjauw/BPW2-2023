@@ -3,7 +3,7 @@ using UnityEngine;
 public class ItemSpawner : MonoBehaviour
 {
     [SerializeField] private Item.ItemType itemType;
-    
+
     // Start is called before the first frame update
     void Start()
     {

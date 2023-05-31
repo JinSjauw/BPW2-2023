@@ -157,8 +157,8 @@ public class BehaviourTree : ScriptableObject
         Traverse(tree.rootNode, (n) =>
         {
             tree.nodes.Add(n);
-            n.Init();
             n.SetUnit(unit);
+            n.Init();
         });
         return tree;
     }

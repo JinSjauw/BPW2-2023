@@ -14,6 +14,7 @@ public class UnitData
     public float attackRange;
     public int meleeDamage;
     public int rangeDamage;
+    public int protection;
 }
 
 public class Unit : MonoBehaviour
@@ -29,6 +30,8 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitDead;
     public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler OnAnyUnitAlert;
+    public event EventHandler EquippedWeapon;
+    public event EventHandler UnequippedWeapon;
     public event EventHandler isHit;
     public Pathfinding pathfinding;
 
@@ -104,24 +107,29 @@ public class Unit : MonoBehaviour
         {
             case(Item.ItemType.Sword):
                 sword2h.gameObject.SetActive(true);
+                unitData.meleeDamage += 60;
+                EquippedWeapon?.Invoke(this, EventArgs.Empty);
                 break;
             case(Item.ItemType.Helmet):
                 helmet.gameObject.SetActive(true);
+                unitData.protection += 5;
                 break;
             case(Item.ItemType.Chest):
                 foreach (Transform part in chest)
                 {
                     part.gameObject.SetActive(true);
                 }
+                unitData.protection += 10;
                 break;
             case(Item.ItemType.Pants):
                 foreach (Transform part in pants)
                 {
                     part.gameObject.SetActive(true);
                 }
+                unitData.protection += 8;
                 break;
             case(Item.ItemType.RedPotion):
-                healthSystem.Heal(40);
+                healthSystem.Heal(45);
                 break;
             case(Item.ItemType.YellowPotion):
                 actionPoints += 1;
@@ -136,21 +144,26 @@ public class Unit : MonoBehaviour
         {
             case(Item.ItemType.Sword):
                 sword2h.gameObject.SetActive(false);
+                unitData.meleeDamage -= 60;
+                UnequippedWeapon?.Invoke(this, EventArgs.Empty);
                 break;
             case(Item.ItemType.Helmet):
                 helmet.gameObject.SetActive(false);
+                unitData.protection -= 5;
                 break;
             case(Item.ItemType.Chest):
                 foreach (Transform part in chest)
                 {
                     part.gameObject.SetActive(false);
                 }
+                unitData.protection -= 10;
                 break;
             case(Item.ItemType.Pants):
                 foreach (Transform part in pants)
                 {
                     part.gameObject.SetActive(false);
                 }
+                unitData.protection -= 8;
                 break;
             default:
                 Debug.Log("Invalid Item");
@@ -206,6 +219,7 @@ public class Unit : MonoBehaviour
     public void Damage(int _amount)
     {
         isHit?.Invoke(this, EventArgs.Empty);
+        _amount -= unitData.protection;
         healthSystem.Damage(_amount);
     }
     

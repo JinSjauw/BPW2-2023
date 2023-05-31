@@ -16,14 +16,13 @@ public class MeleeAction : BaseAction
     public override BaseAction Clone()
     {
         MeleeAction meleeAction = Instantiate(this);
-        damage = unit.GetUnitData().meleeDamage;
         return meleeAction;
     }
     
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {
         timer = delay;
-
+        damage = unit.GetUnitData().meleeDamage;
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(_targetPosition);
         if (unit.IsEnemy())
         {
