@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-[System.Serializable]
+[Serializable]
 public class UnitData
 {
     public float moveSpeed;
@@ -192,7 +191,6 @@ public class Unit : MonoBehaviour
         {
             actionPoints = maxActionPoints;
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-            //UpdateMoveDistance();
         }
     }
 
