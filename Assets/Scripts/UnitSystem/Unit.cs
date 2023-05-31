@@ -43,7 +43,12 @@ public class Unit : MonoBehaviour
     [SerializeField] private int actionPoints = 3;
     [SerializeField] private BehaviourTree BTree;
     [SerializeField] private UnitData unitData;
-
+    
+    [SerializeField] private Transform sword2h;
+    [SerializeField] private Transform helmet;
+    [SerializeField] private Transform[] chest;
+    [SerializeField] private Transform[] pants;
+    
     private void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
@@ -79,8 +84,6 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
         LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
-
-        //UpdateMoveDistance();
     }
     
     private void Update()
@@ -100,12 +103,23 @@ public class Unit : MonoBehaviour
         switch (_item.itemType)
         {
             case(Item.ItemType.Sword):
+                sword2h.gameObject.SetActive(true);
                 break;
             case(Item.ItemType.Helmet):
+                helmet.gameObject.SetActive(true);
                 break;
             case(Item.ItemType.Chest):
+                foreach (Transform part in chest)
+                {
+                    part.gameObject.SetActive(true);
+                }
+                Debug.Log("Equipping Chest Armor!");
                 break;
             case(Item.ItemType.Pants):
+                foreach (Transform part in pants)
+                {
+                    part.gameObject.SetActive(true);
+                }
                 break;
             case(Item.ItemType.RedPotion):
                 healthSystem.Heal(40);

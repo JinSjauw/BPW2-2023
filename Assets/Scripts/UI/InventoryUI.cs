@@ -60,7 +60,6 @@ public class InventoryUI : MonoBehaviour
 
     private void Inventory_OnItemsListChanged(object sender, EventArgs e)
     {
-        Debug.Log(inventory.GetItemList().Count);
         RefreshInventory();
     }
 
@@ -89,6 +88,7 @@ public class InventoryUI : MonoBehaviour
             {
                 Debug.Log("Left Click!!");
                 //Use item
+                Debug.Log(item.itemType);
                 inventory.UseItem(item);
             };
             itemSlot.RightClickFunc = () =>
@@ -112,11 +112,12 @@ public class InventoryUI : MonoBehaviour
                 //Goes into a new slot or gets dropped;
                 //Check where the player has dragged it;
             };
+            
             x++;
-            if (x > 3)
+            if (x > 2)
             {
                 x = 0;
-                y++;
+                y--;
             }
         }
     }
@@ -128,7 +129,7 @@ public class InventoryUI : MonoBehaviour
         randomDirection.y = Random.Range(1, 5);
         randomDirection.Normalize();
         ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPosition + randomDirection * 2f, item);
-        itemWorld.GetComponentInParent<Rigidbody>().AddForce(randomDirection * 15f, ForceMode.Impulse);
+        itemWorld.GetComponentInParent<Rigidbody>().AddForce(randomDirection * 5f, ForceMode.Impulse);
 
         return itemWorld;
     }

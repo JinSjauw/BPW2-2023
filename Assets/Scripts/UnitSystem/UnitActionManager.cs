@@ -104,7 +104,7 @@ public class UnitActionManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, LayerMask.GetMask("Loot")))
             {
-                ItemWorld worldItem = hit.collider.GetComponent<ItemWorld>();
+                ItemWorld worldItem = hit.transform.root.GetComponent<ItemWorld>();
                 selectedUnit.GetInventory().AddItem(worldItem.GetItem());
                 Destroy(worldItem.gameObject);
             }

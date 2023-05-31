@@ -14,12 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteAssets:
   - itemType: 0
-    sprite: {fileID: 21300000, guid: 719c2201c2f5f6c4aafffaeb5abdf5f9, type: 3}
-    worldPrefab: {fileID: 0}
-  - itemType: 5
-    sprite: {fileID: 21300000, guid: d659f7396cd57754eba78763cf986c51, type: 3}
+    sprite: {fileID: 21300000, guid: 6ef6240819c15094fbea2ccf864b858d, type: 3}
+    worldPrefab: {fileID: 9102023838076723003, guid: fee55aa6dda5ff24aba7100c35143a8d,
+      type: 3}
+  - itemType: 3
+    sprite: {fileID: 21300000, guid: 336d1a71ac82863448df7064a242dd98, type: 3}
     worldPrefab: {fileID: 1399227113997263106, guid: 5fd29fd8785b40b47b934ee8c63608db,
       type: 3}
   - itemType: 1
-    sprite: {fileID: 21300000, guid: 8a5f9829a049c704fa992203bfc451f2, type: 3}
-    worldPrefab: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 2695d9283435dd64aa4cc0fc57899d9d, type: 3}
+    worldPrefab: {fileID: 1399227113997263106, guid: 27e469bd99957304593c858da1dbd816,
+      type: 3}
+  - itemType: 2
+    sprite: {fileID: 21300000, guid: 9c96d453e652ded48a232f50bd7353c8, type: 3}
+    worldPrefab: {fileID: 1399227113997263106, guid: 10193cc8edc2e8445a0a5e369b1c43d9,
+      type: 3}

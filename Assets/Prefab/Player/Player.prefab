@@ -1476,7 +1476,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2298595785579914173
 Transform:
   m_ObjectHideFlags: 0
@@ -3303,8 +3303,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionArray:
-  - {fileID: 11400000, guid: 0cf0ae5dfd5ab1c48a094e7b0f542e95, type: 2}
   - {fileID: 11400000, guid: 6874c367b2bd5b6428cd5b588f02b468, type: 2}
+  - {fileID: 11400000, guid: 5b9cec1b9a1824843b7800586cbe43cb, type: 2}
+  - {fileID: 11400000, guid: 0cf0ae5dfd5ab1c48a094e7b0f542e95, type: 2}
   isEnemy: 0
   maxActionPoints: 3
   actionPoints: 3
@@ -3315,8 +3316,17 @@ MonoBehaviour:
     stoppingDistance: 0.15
     moveDistance: 12
     attackRange: 4
-    meleeDamage: 50
+    meleeDamage: 100
     rangeDamage: 0
+  sword2h: {fileID: 60575929560388973}
+  helmet: {fileID: 1943672661612329949}
+  chest:
+  - {fileID: 8379391490743022614}
+  - {fileID: 2298595785579914173}
+  - {fileID: 2295552409433262810}
+  pants:
+  - {fileID: 7690019065417180832}
+  - {fileID: 1465946282157725930}
 --- !u!114 &-9157105443493491002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3860,7 +3870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2295552409433262810
 Transform:
   m_ObjectHideFlags: 0
@@ -4207,7 +4217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8379391490743022614
 Transform:
   m_ObjectHideFlags: 0
@@ -4268,7 +4278,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -5919009186684979959, guid: 10399581d9d41a44bb8984ec628263dd, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 81b15c60bd11a844b9b81517ec5c7a10, type: 2}
   m_Bones:
   - {fileID: 608908672828586077}
   - {fileID: 8545871935221966499}
@@ -6540,6 +6550,11 @@ PrefabInstance:
       propertyPath: healthSystem
       value: 
       objectReference: {fileID: 7354531216741418980}
+    - target: {fileID: 9082023486697161207, guid: 951043f100bc4fb4ca76effa78a6dd7d,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 951043f100bc4fb4ca76effa78a6dd7d, type: 3}
 --- !u!224 &4605571374545376038 stripped
