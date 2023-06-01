@@ -61,7 +61,6 @@ public class InventoryUI : MonoBehaviour
     {
         inventory = _inventory;
         inventory.OnItemsListChanged += Inventory_OnItemsListChanged;
-        Debug.Log("Items count: " + _inventory.GetItemList().Count);
         RefreshInventory();
     }
 
@@ -105,8 +104,14 @@ public class InventoryUI : MonoBehaviour
             };
             itemSlot.RightClickFunc = () =>
             {
+                if (itemSlot.isEquipped)
+                {
+                    inventory.Unequip(item);
+                }
+                
                 inventory.RemoveItem(item);
                 DropItem(item);
+                Debug.Log("In rightclick Func");
                 Destroy(itemSlot.gameObject);
             };
             itemSlot.ToInventoryFunc = () =>
@@ -114,10 +119,11 @@ public class InventoryUI : MonoBehaviour
                 //Unequip item;
                 inventory.Unequip(item);
                 inventory.AddItem(item);
-                Destroy(itemSlot.gameObject);
+                //Destroy(itemSlot.gameObject);
             };
             itemSlot.OnEquipFunc = () =>
             {
+                itemSlot.isEquipped = true;
                 inventory.UseItem(item);
                 inventory.RemoveItem(item);
             };
@@ -138,7 +144,7 @@ public class InventoryUI : MonoBehaviour
         randomDirection.y = Random.Range(1, 5);
         randomDirection.Normalize();
         ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPosition + randomDirection * 2f, item);
-        itemWorld.GetComponentInParent<Rigidbody>().AddForce(randomDirection * 5f, ForceMode.Impulse);
+        itemWorld.GetComponent<Rigidbody>().AddForce(randomDirection * 5f, ForceMode.Impulse);
 
         return itemWorld;
     }

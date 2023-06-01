@@ -29,7 +29,7 @@ public class Inventory
 
     public void RemoveItem(Item _item)
     {
-        Debug.Log("Removed Item: " + _item.worldPrefab.name);
+        //Debug.Log("Removed Item: " + _item.worldPrefab.name);
         itemList.Remove(_item);
         OnItemsListChanged?.Invoke(this, EventArgs.Empty);
     }

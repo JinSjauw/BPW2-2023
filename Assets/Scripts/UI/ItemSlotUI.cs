@@ -12,6 +12,7 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
     public Action ToInventoryFunc;
     public Action OnEquipFunc;
     public Item.ItemType itemType;
+    public bool isEquipped = false;
     
     private Canvas canvas;
     private RectTransform rectTransform;

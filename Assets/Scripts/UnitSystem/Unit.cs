@@ -36,7 +36,7 @@ public class Unit : MonoBehaviour
 
     private GridPosition gridPosition;
     private HealthSystem healthSystem;
-    private UnitState unitState;
+    [SerializeField] private UnitState unitState;
     private Inventory inventory;
     
     [SerializeField] private BaseAction[] actionArray;
@@ -65,6 +65,11 @@ public class Unit : MonoBehaviour
             BTree = BTree.Clone(this);
             BTree.Bind(this);
         }
+        
+        if (!isEnemy)
+        {
+            inventory = new Inventory(UseItem, UnequipItem);
+        }
 
         unitState = UnitState.IDLE;
     }
@@ -74,13 +79,7 @@ public class Unit : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         EnemyManager.OnCombatEnd += EnemyManager_OnCombatEnd;
         healthSystem.OnDeath += HealthSystem_OnDeath;
-        
-        if (!isEnemy)
-        {
-            inventory = new Inventory(UseItem, UnequipItem);
-            Debug.Log("Inventory: " + inventory + "from: " + gameObject.name);
-        }
-        
+
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
         
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);

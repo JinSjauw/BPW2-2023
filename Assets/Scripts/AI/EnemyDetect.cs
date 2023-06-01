@@ -13,7 +13,7 @@ public class EnemyDetect : MonoBehaviour
     void Start()
     {
         LayerMask layerPlayer = LayerMask.GetMask("Player");
-        LayerMask layerEnemies = LayerMask.GetMask("Enemy");
+        //LayerMask layerEnemies = LayerMask.GetMask("Enemy");
 
         unit = GetComponent<Unit>();
         

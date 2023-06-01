@@ -73,6 +73,10 @@ public class ActionSystemUI : MonoBehaviour
     private void UpdateActionPoints()
     {
         Unit selectedUnit = UnitActionManager.Instance.GetSelectedUnit();
+        if (selectedUnit == null)
+        {
+            return;
+        }
         actionPointCounter.text = "AP : " + selectedUnit.GetActionPoints();
     }
 
