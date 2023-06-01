@@ -294,6 +294,7 @@ public class Unit : MonoBehaviour
     {
         if (unitState == UnitState.IDLE)
         {
+            unitState = UnitState.COMBAT;
             OnAnyUnitAlert?.Invoke(this, EventArgs.Empty);
         }
     }

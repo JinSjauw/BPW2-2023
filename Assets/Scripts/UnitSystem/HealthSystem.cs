@@ -31,7 +31,6 @@ public class HealthSystem : MonoBehaviour
 
    private void Die()
    {
-      Debug.Log($"Name: {gameObject.name} died !!");
       OnDeath?.Invoke(this, EventArgs.Empty);
    }
 

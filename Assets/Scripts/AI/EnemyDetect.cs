@@ -13,11 +13,8 @@ public class EnemyDetect : MonoBehaviour
     void Start()
     {
         LayerMask layerPlayer = LayerMask.GetMask("Player");
-        //LayerMask layerEnemies = LayerMask.GetMask("Enemy");
 
         unit = GetComponent<Unit>();
-        
-        //targetLayers = (1 << layerPlayer) | (1 << layerEnemies);
         targetLayers = layerPlayer;
     }
 
@@ -52,7 +49,5 @@ public class EnemyDetect : MonoBehaviour
                 }
             }
         }
-        //Alert other Units in the vicinity
-        //Apply red outline to show enemy is InCombat
     }
 }
