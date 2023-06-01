@@ -29,7 +29,7 @@ public class ActionSystemUI : MonoBehaviour
         InventoryUI.OnOpenInventory += InventoryUI_OnOpenInventory;
         
         CreateActionButtons();
-        UpdateSelectedVisual();
+        //UpdateSelectedVisual();
         UpdateActionPoints();
     }
 

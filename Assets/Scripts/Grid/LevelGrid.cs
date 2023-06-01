@@ -10,7 +10,7 @@ public class LevelGrid : MonoBehaviour
     
     [Header("Grid Data")]
     [SerializeField] private Transform gridDebugObject;
-    [SerializeField] private int width, height, cellSize;
+    [SerializeField] private int size, cellSize;
     [SerializeField] private bool CreateDebugGrid = false;
     [SerializeField] private bool GenerateDungeon = false;
     [SerializeField] private List<GridPosition> walkableList;
@@ -26,7 +26,8 @@ public class LevelGrid : MonoBehaviour
             return;
         }
         Instance = this;
-        
+        int width = size;
+        int height = size;
         gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> _grid, GridPosition _gridPosition, Vector3 _worldPosition) => new GridObject(_grid, _gridPosition, _worldPosition));
         SetNeighbours();
         /*if (CreateDebugGrid)
@@ -125,42 +126,6 @@ public class LevelGrid : MonoBehaviour
 
         List<GridPosition> result = new List<GridPosition>();
         result = validList;
-        
-        
-        
-        //Pathfind towards the end zone tiles && check if it can reach
-        //if it cant go a tile back
-        //show only tiles that are reachable
-        
-        //Breadth first Search
-        
-        /*List<GridPosition> unWalkableList = new List<GridPosition>();
-        //Go through this list to check if tile is reachable from the center
-        //Raycast to check for wall
-        Vector3 origin = _center;
-        origin.y += 1f;
-        foreach (var tile in validList)
-        {
-            Vector3 tileWorldPosition = GetWorldPosition(tile);
-            tileWorldPosition.y += 1f;
-            Vector3 direction = new Vector3(tileWorldPosition.x - origin.x, origin.y, tileWorldPosition.z - origin.z).normalized;
-            float distance = Vector3.Distance(new Vector3(tileWorldPosition.x, origin.y, tileWorldPosition.z), origin);
-            if(Physics.Raycast(origin, direction, distance, LayerMask.GetMask("Walls")))
-            {
-                unWalkableList.Add(tile);
-                Debug.Log($"Hit Wall! {tileWorldPosition} Origin: {origin} Distance: {distance}");
-            }
-        }
-
-        List<GridPosition> result = new List<GridPosition>();
-
-        foreach (var tile in validList)
-        {
-            if (!unWalkableList.Contains(tile))
-            {
-                result.Add(tile);
-            }
-        }*/
 
         return result;
     }

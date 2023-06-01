@@ -168,14 +168,9 @@ public class Pathfinding
         
         int score = 4 * (distanceX + distanceY);
 
-        if (_a.tileType == TILETYPE.FLOOR)
+        if (_a.tileType != TILETYPE.EMPTY)
         {
-            score += 1;
-        }
-
-        if (_a.tileType == TILETYPE.HALLWAY)
-        {
-            score -= 1;
+            score -= 2;
         }
 
         return score;

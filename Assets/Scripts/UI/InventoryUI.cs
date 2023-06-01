@@ -35,7 +35,7 @@ public class InventoryUI : MonoBehaviour
     private void Unit_OnPlayerUnitSpawn(object sender, EventArgs e)
     {
         Unit unit = sender as Unit;
-        Debug.Log("Inventory from: " + unit.name);
+        //Debug.Log("Inventory from: " + unit.name);
         if (!unit.IsEnemy())
         {
             dropPoint = unit.transform;
