@@ -77,10 +77,10 @@ public class DungeonGenerator : MonoBehaviour
     public List<GridPosition> Generate()
     {
         GenerateRooms();
-        //GenerateTriangulation();
+        GenerateTriangulation();
         //GenerateHallways();
-        //MarkWallTiles();
-        //MarkPathways();
+        MarkWallTiles();
+        MarkPathways();
         //GenerateWalls();
         //PopulateRooms();
 
@@ -326,13 +326,13 @@ public class DungeonGenerator : MonoBehaviour
             subGridList.Add(innerSubGridList);
         }*/
 
-        for (int x = 2; x < gridWidth - 2; x++)
+        /*for (int x = 2; x < gridWidth - 2; x++)
         {
             for (int z = 2; z < gridHeight - 2; z++)
             {
                 subGrid2[x, z] = new GridPosition(x,z);
             }
-        }
+        }*/
 
         /*int i = 0;
         foreach (List<GridPosition> subGrid in subGridList)
@@ -370,7 +370,7 @@ public class DungeonGenerator : MonoBehaviour
             int height = (int)size.y;
             int startX = Random.Range(0, (gridWidth - width));
             //int startZ = Random.Range(0, subGridIncrement);
-            GridPosition startPosition = subGrid2[2 + (subGridIndex * subGridIncrement), 2 + (subGridIndex * subGridIncrement)];
+            GridPosition startPosition = new GridPosition();
             List<GridPosition> roomPositions = new List<GridPosition>();
 
             for (int x = 0; x < width; x++)
@@ -379,6 +379,10 @@ public class DungeonGenerator : MonoBehaviour
                 {
                     GridPosition roomTile = new GridPosition(x + startX,
                        z + (subGridIndex * subGridIncrement));
+                    if (x == 0 && z == 0)
+                    {
+                        startPosition = roomTile;
+                    }
                     roomPositions.Add(roomTile);
                     walkableList.Add(roomTile);
                     Instantiate(tilePrefab, grid.GetWorldPosition(roomTile), Quaternion.identity);
