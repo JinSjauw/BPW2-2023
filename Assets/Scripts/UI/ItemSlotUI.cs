@@ -62,7 +62,8 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeginDragHandler
         for (int i = 0; i < raycastHits.Count; i++)
         {
             if (raycastHits[i].gameObject.GetComponent<EquipmentSlotUI>() != null ||
-                raycastHits[i].gameObject.GetComponent<ItemSlotContainerUI>() != null)
+                raycastHits[i].gameObject.GetComponent<ItemSlotContainerUI>() != null ||
+                raycastHits[i].gameObject.GetComponent<ItemSlotUI>())
             {
                 ignoreHits.Add(raycastHits[i]);
             }

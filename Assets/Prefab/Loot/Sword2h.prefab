@@ -130,5 +130,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item:
     itemType: 0
-    itemSprite: {fileID: 21300000, guid: 719c2201c2f5f6c4aafffaeb5abdf5f9, type: 3}
+    itemSprite: {fileID: 21300000, guid: 6ef6240819c15094fbea2ccf864b858d, type: 3}
     worldPrefab: {fileID: 9102023838076723003}

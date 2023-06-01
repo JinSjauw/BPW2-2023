@@ -11,7 +11,14 @@ public class ItemSlotContainerUI : MonoBehaviour, IDropHandler
         {
             RectTransform draggedObject = eventData.pointerDrag.GetComponent<RectTransform>();
             ItemSlotUI itemSlotUI = draggedObject.GetComponent<ItemSlotUI>();
-            itemSlotUI.ToInventoryFunc();
+            if (itemSlotUI.transform.parent != transform)
+            {
+                itemSlotUI.ToInventoryFunc();
+            }
+            else
+            {
+                itemSlotUI.Reject();
+            }
         }
     }
 }

@@ -426,8 +426,7 @@ public class DungeonGenerator : MonoBehaviour
             for (int i = 0; i < path.Count; i++)
             {
                 GridObject tile = LevelGrid.Instance.GetGridObject(path[i]);
-
-               
+                
                 tile.SetTileType(TILETYPE.HALLWAY);
                 hallwayList.Add(tile);
                 if (!walkableList.Contains(tile.gridPosition))
