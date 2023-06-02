@@ -10,10 +10,12 @@ public class LevelGrid : MonoBehaviour
     
     [Header("Grid Data")]
     [SerializeField] private Transform gridDebugObject;
-    [SerializeField] private int size, cellSize;
+    [SerializeField] private int dungeonSize, width, height, cellSize;
     [SerializeField] private bool CreateDebugGrid = false;
     [SerializeField] private bool GenerateDungeon = false;
+    [SerializeField] private bool GenerateTutorial = false;
     [SerializeField] private List<GridPosition> walkableList;
+    [SerializeField] private List<Transform> tutorialLevel;
 
     private GridSystem<GridObject> gridSystem;
 
@@ -26,27 +28,43 @@ public class LevelGrid : MonoBehaviour
             return;
         }
         Instance = this;
-        int width = size;
-        int height = size;
+
+        if (GenerateDungeon)
+        {
+            GenerateTutorial = false;
+        }
+        
+        if (GenerateDungeon)
+        {
+            width = dungeonSize;
+            height = dungeonSize;
+        }
+        
         gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> _grid, GridPosition _gridPosition, Vector3 _worldPosition) => new GridObject(_grid, _gridPosition, _worldPosition));
         SetNeighbours();
-        /*if (CreateDebugGrid)
+        if (CreateDebugGrid)
         {
-            //gridSystem.CreateDebugObjects(gridDebugObject);
-            gridSystem.CreateWalkableDebugObjects(gridDebugObject, walkableList);
-        }*/
+            gridSystem.CreateDebugObjects(gridDebugObject);
+            //gridSystem.CreateWalkableDebugObjects(gridDebugObject, walkableList);
+        }
     }
 
     private void Start()
     {
-        if (!GenerateDungeon)
-        {
-            walkableList = gridSystem.GetGridPositions();
-            return;
-        }
         DungeonGenerator.Instance.Initialize();
+        
+        if (GenerateTutorial)
+        {
+            //walkableList = gridSystem.GetGridPositions();
+            walkableList = DungeonGenerator.Instance.GenerateTutorial(tutorialLevel);
+        }
+        
+        if (GenerateDungeon)
+        {
+            walkableList = DungeonGenerator.Instance.Generate();
+        }
         //gridSystem.CreateDebugObjects(DungeonGenerator.Instance.Generate(), gridDebugObject);
-        walkableList = DungeonGenerator.Instance.Generate();
+        
         if (CreateDebugGrid)
         {
             //gridSystem.CreateDebugObjects(gridDebugObject);
@@ -105,12 +123,12 @@ public class LevelGrid : MonoBehaviour
         GridObject gridObject = gridSystem.GetGridObject(_gridPosition);
         return gridObject.HasUnit();
     }
-    public Vector3 GetTargetGridPosition(Vector3 _worldPosition)
+    /*public Vector3 GetTargetGridPosition(Vector3 _worldPosition)
     {
         return GetWorldPosition(GetGridPosition(_worldPosition));
-    }
+    }*/
 
-    public List<GridPosition> GetWalkableTilesInCircle(Vector3 _center, float _radius)
+    /*public List<GridPosition> GetWalkableTilesInCircle(Vector3 _center, float _radius)
     {
         List<GridPosition> inCircleList = gridSystem.GetTilesInCircle(_center, _radius);
 
@@ -128,7 +146,7 @@ public class LevelGrid : MonoBehaviour
         result = validList;
 
         return result;
-    }
+    }*/
     
     public bool insideCircle(Vector3 _center, Vector3 _tile, float _radius) => gridSystem.insideCircle(_center, _tile, _radius);
 
@@ -137,7 +155,8 @@ public class LevelGrid : MonoBehaviour
     public GridPosition GetGridPosition(Vector3 _worldPosition) => gridSystem.GetGridPosition(_worldPosition);
     public Vector3 GetWorldPosition(GridPosition _gridPosition) => gridSystem.GetWorldPosition(_gridPosition);
     public GridObject GetGridObject(GridPosition _gridPosition) => gridSystem.GetGridObject(_gridPosition);
-    public bool IsValidGridPosition(GridPosition _gridPosition) => gridSystem.IsValidGridPosition(_gridPosition);
+    
+    //public bool IsValidGridPosition(GridPosition _gridPosition) => gridSystem.IsValidGridPosition(_gridPosition);
 
     public GridObject GetGridObject(Vector3 _worldPosition)
     {

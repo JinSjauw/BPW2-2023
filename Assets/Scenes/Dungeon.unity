@@ -172,7 +172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &70864322
 RectTransform:
   m_ObjectHideFlags: 0
@@ -376,6 +376,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   cameraTransform: {fileID: 1535364079}
+  interactRadius: 3.5
 --- !u!1 &183857605
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &188739811
 RectTransform:
   m_ObjectHideFlags: 0
@@ -734,6 +735,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 0
+  isEquipped: 0
 --- !u!225 &204233026
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2010,11 +2012,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridDebugObject: {fileID: 1981648028813177864, guid: a86bdee89b57d3043ad3348ebd3ce102,
     type: 3}
-  size: 81
+  dungeonSize: 81
+  width: 81
+  height: 81
   cellSize: 2
   CreateDebugGrid: 0
   GenerateDungeon: 1
+  GenerateTutorial: 0
   walkableList: []
+  tutorialLevel: []
 --- !u!4 &1154728751
 Transform:
   m_ObjectHideFlags: 0
@@ -3863,7 +3869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2110564944
 RectTransform:
   m_ObjectHideFlags: 0

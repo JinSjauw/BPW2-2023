@@ -113,9 +113,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item:
-    itemType: 0
-    itemSprite: {fileID: 0}
-    worldPrefab: {fileID: 0}
+    itemType: 4
+    itemSprite: {fileID: 21300000, guid: 8beff70c0cf3c64458b01b9913a69d67, type: 3}
+    worldPrefab: {fileID: 1787877209949884528}
 --- !u!54 &-7330120656692098008
 Rigidbody:
   m_ObjectHideFlags: 0

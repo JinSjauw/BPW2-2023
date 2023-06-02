@@ -6,7 +6,7 @@ using Cinemachine;
 public class CameraController : MonoBehaviour
 {
     private const float MIN_FOLLOW_Y_OFFSET = 2f;
-    private const float MAX_FOLLOW_Y_OFFSET = 12f;
+    private const float MAX_FOLLOW_Y_OFFSET = 14f;
 
     private float SceneWidth;
     private Vector3 PressPoint;

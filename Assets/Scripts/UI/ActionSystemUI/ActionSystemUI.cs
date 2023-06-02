@@ -24,13 +24,26 @@ public class ActionSystemUI : MonoBehaviour
         UnitActionManager.Instance.SelectedActionChanged += UnitManager_SelectedActionChanged;
         UnitActionManager.Instance.OnActionStarted += UnitManager_OnActionStarted;
         UnitActionManager.Instance.OnPlayerSpawn += Init;
+        
+        EnemyManager.OnCombatStart += EnemyManager_OnOnCombatStart;
+        EnemyManager.OnCombatEnd += EnemyManager_OnOnCombatEnd;
+        
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         InventoryUI.OnOpenInventory += InventoryUI_OnOpenInventory;
         
         CreateActionButtons();
-        //UpdateSelectedVisual();
         UpdateActionPoints();
+    }
+
+    private void EnemyManager_OnOnCombatEnd(object sender, EventArgs e)
+    {
+        actionPointCounter.gameObject.SetActive(false);
+    }
+
+    private void EnemyManager_OnOnCombatStart(object sender, EventArgs e)
+    {
+        actionPointCounter.gameObject.SetActive(true);
     }
 
     private void CreateActionButtons()

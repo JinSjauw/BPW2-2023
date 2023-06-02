@@ -222,7 +222,6 @@ public class DungeonGenerator : MonoBehaviour
                     walkableList.Add(roomTile);
                     GridObject gridObject = grid.GetGridObject(roomTile);
                     gridObject.SetTileType(TILETYPE.FLOOR);
-                    //Instantiate(walkableTilePrefab, gridObject.position, Quaternion.identity);
                 }
             }
 
@@ -514,6 +513,36 @@ public class DungeonGenerator : MonoBehaviour
             Vector3 worldPosition = grid.GetWorldPosition(wallTile);
             Instantiate(tileWallPrefab, worldPosition, Quaternion.identity);
         }
+    }
+
+    public List<GridPosition> GenerateTutorial(List<Transform> _floorPositions)
+    {
+        List<GridObject> floorsList = new List<GridObject>();
+        foreach (Transform floorPosition in _floorPositions)
+        {
+            GridObject floor = grid.GetGridObject(grid.GetGridPosition(floorPosition.position));
+            floor.SetTileType(TILETYPE.FLOOR);
+            floorsList.Add(floor);
+            walkableList.Add(floor.gridPosition);
+        }
+        
+        //Mark walls
+        foreach (GridObject floor in floorsList)
+        {
+            foreach (GridObject neighbour in floor.neighbourList)
+            {
+                if (neighbour.tileType == TILETYPE.EMPTY)
+                {
+                    neighbour.SetTileType(TILETYPE.WALL);
+                    wallList.Add(neighbour.gridPosition);
+                }
+            }
+        }
+        
+        
+        RenderDungeon();
+
+        return walkableList;
     }
 
     public Vector2 GetRatioSize()

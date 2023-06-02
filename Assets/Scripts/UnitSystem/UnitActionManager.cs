@@ -19,7 +19,8 @@ public class UnitActionManager : MonoBehaviour
     [SerializeField] private Unit selectedUnit;
     [SerializeField] private LayerMask unitLayer;
     [SerializeField] private Transform cameraTransform;
-
+    [SerializeField] private float interactRadius;
+    
     private BaseAction selectedAction;
     private bool isRunning = false;
     private bool CanAct = false;
@@ -100,15 +101,7 @@ public class UnitActionManager : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            //Detect if mouse is over Loot
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000, LayerMask.GetMask("Loot")))
-            {
-                ItemWorld worldItem = hit.collider.GetComponentInParent<ItemWorld>();
-                Debug.Log(selectedUnit.name + " :" + selectedUnit.GetInventory());
-                selectedUnit.GetInventory().AddItem(worldItem.GetItem());
-                Destroy(worldItem.transform.gameObject);
-            }
+            PickUpItem();
 
             if (!CanAct)
             {
@@ -127,6 +120,32 @@ public class UnitActionManager : MonoBehaviour
             }
             SetRunning();
             selectedAction.TakeAction(mouseGridPosition, ClearRunning, null);
+        }
+    }
+
+    private void PickUpItem()
+    {
+        //Detect if mouse is over Loot
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000, LayerMask.GetMask("Loot")))
+        {
+            //Detect if mouse position is close enough to the player;
+            Vector3 itemPosition = hit.collider.transform.position;
+            Vector3 unitPosition = selectedUnit.transform.position;
+            float distance = Vector2.Distance(new Vector2(itemPosition.x, itemPosition.z), 
+                new Vector2(unitPosition.x, unitPosition.z));
+        
+            Debug.Log(distance);
+            if (distance > interactRadius)
+            {
+                return;
+            }
+            
+            
+            ItemWorld worldItem = hit.collider.GetComponentInParent<ItemWorld>();
+            Debug.Log(selectedUnit.name + " :" + selectedUnit.GetInventory());
+            selectedUnit.GetInventory().AddItem(worldItem.GetItem());
+            Destroy(worldItem.transform.gameObject);
         }
     }
     

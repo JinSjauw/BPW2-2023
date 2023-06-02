@@ -16,7 +16,7 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private Transform lid;
     [SerializeField] private LootType lootType;
     private bool isOpen = false;
-
+    private bool inRange = false;
     private void Awake()
     {
         if (lootType == LootType.EQUIPMENT)
@@ -33,6 +33,11 @@ public class ItemSpawner : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (!inRange)
+            {
+                return;
+            }
+            
             Debug.Log("Open");
             if (!isOpen)
             {
@@ -61,12 +66,33 @@ public class ItemSpawner : MonoBehaviour
     {
         for (int rotX = 0; rotX < 10; rotX++)
         {
-            Debug.Log(rotX);
             lid.transform.Rotate(new Vector3(rotX * -1, 0, 0));
             yield return null;
         }
         
         SpawnItem();
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //inRange = true;
+        if (other.transform.root.GetComponent<Unit>())
+        {
+            if (!other.transform.root.GetComponent<Unit>().IsEnemy())
+            {
+                inRange = true;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.root.GetComponent<Unit>())
+        {
+            if (!other.transform.root.GetComponent<Unit>().IsEnemy())
+            {
+                inRange = false;
+            }
+        }
+    }
 }

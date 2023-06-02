@@ -3306,7 +3306,6 @@ MonoBehaviour:
   unitState: 0
   actionArray:
   - {fileID: 11400000, guid: 6874c367b2bd5b6428cd5b588f02b468, type: 2}
-  - {fileID: 11400000, guid: 5b9cec1b9a1824843b7800586cbe43cb, type: 2}
   - {fileID: 11400000, guid: 0cf0ae5dfd5ab1c48a094e7b0f542e95, type: 2}
   isEnemy: 0
   maxActionPoints: 3
@@ -3318,7 +3317,7 @@ MonoBehaviour:
     stoppingDistance: 0.15
     moveDistance: 12
     attackRange: 4
-    meleeDamage: 100
+    meleeDamage: 40
     rangeDamage: 0
     protection: 0
   sword2h: {fileID: 60575929560388973}
@@ -6576,9 +6575,45 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 951043f100bc4fb4ca76effa78a6dd7d, type: 3}
+--- !u!1 &601541292437415820 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1370541509672687177, guid: 951043f100bc4fb4ca76effa78a6dd7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1971519609173569989}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &812574556
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601541292437415820}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!224 &4605571374545376038 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2645434185174344419, guid: 951043f100bc4fb4ca76effa78a6dd7d,
     type: 3}
   m_PrefabInstance: {fileID: 1971519609173569989}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9162700994832278960 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7238492559270040693, guid: 951043f100bc4fb4ca76effa78a6dd7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1971519609173569989}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &7064696440626360226
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9162700994832278960}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
