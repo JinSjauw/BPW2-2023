@@ -91,7 +91,6 @@ public class UnitActionManager : MonoBehaviour
 
     private void OpenInventory()
     {
-        Debug.Log("Opening Inventory!");
         RequestInventory?.Invoke(this, EventArgs.Empty);
     }
     

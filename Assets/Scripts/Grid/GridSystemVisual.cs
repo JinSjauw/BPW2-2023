@@ -44,6 +44,10 @@ public class GridSystemVisual : MonoBehaviour
         {
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
             {
+                if (tileVisualArray == null)
+                {
+                    continue;
+                }
                 tileVisualArray[x, z].Hide();
             }
         }

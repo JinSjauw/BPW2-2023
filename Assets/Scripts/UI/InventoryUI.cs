@@ -26,6 +26,7 @@ public class InventoryUI : MonoBehaviour
         equipmentContainer = transform.Find("EquipmentContainer");
         itemSlotContainer = inventoryContainer.Find("ItemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("ItemSlotTemplate");
+        Unit.OnAnyUnitSpawned += Unit_OnPlayerUnitSpawn;
     }
 
     private void Start()
@@ -33,7 +34,6 @@ public class InventoryUI : MonoBehaviour
         //Sub to opening the inventory
         UnitActionManager.Instance.RequestInventory += UnitActionManager_RequestInventory;
         //Sub player spawning
-        Unit.OnAnyUnitSpawned += Unit_OnPlayerUnitSpawn;
     }
 
     private void Unit_OnPlayerUnitSpawn(object sender, EventArgs e)
