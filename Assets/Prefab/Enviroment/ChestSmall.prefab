@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2276647887991655431}
   - component: {fileID: 6495124666368271922}
   - component: {fileID: 106417153}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ChestSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,6 +133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 18b40f6fb9474fc49b1aca2ad7393297,
         type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 18b40f6fb9474fc49b1aca2ad7393297,
+        type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -211,6 +216,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ChestSmall_Lid
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b51d8a270324c344fbb47301c11f3cf5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b51d8a270324c344fbb47301c11f3cf5,
         type: 3}
@@ -313,6 +323,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb,
         type: 3}

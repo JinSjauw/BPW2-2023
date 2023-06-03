@@ -10,14 +10,12 @@ public class UnitActionManager : MonoBehaviour
 {
     public static UnitActionManager Instance { get; private set; }
     
-    public EventHandler OnPlayerSpawn;
     public EventHandler SelectedActionChanged;
     public EventHandler OnActionStarted;
     public EventHandler OnActionComplete;
     public EventHandler RequestInventory;
 
     [SerializeField] private Unit selectedUnit;
-    [SerializeField] private LayerMask unitLayer;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private float interactRadius;
     
@@ -102,7 +100,8 @@ public class UnitActionManager : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             PickUpItem();
-
+            
+            
             if (!CanAct)
             {
                 return;
@@ -125,27 +124,36 @@ public class UnitActionManager : MonoBehaviour
 
     private void PickUpItem()
     {
-        //Detect if mouse is over Loot
+       
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000, LayerMask.GetMask("Loot")))
+
+        //Detect if mouse is over Loot or LootContainers
+        if (Physics.Raycast(ray, out RaycastHit lootHit, 100, LayerMask.GetMask("Loot")))
         {
             //Detect if mouse position is close enough to the player;
-            Vector3 itemPosition = hit.collider.transform.position;
+            Vector3 itemPosition = lootHit.collider.transform.position;
             Vector3 unitPosition = selectedUnit.transform.position;
             float distance = Vector2.Distance(new Vector2(itemPosition.x, itemPosition.z), 
                 new Vector2(unitPosition.x, unitPosition.z));
-        
-            Debug.Log(distance);
+            
             if (distance > interactRadius)
             {
                 return;
             }
             
-            
-            ItemWorld worldItem = hit.collider.GetComponentInParent<ItemWorld>();
-            Debug.Log(selectedUnit.name + " :" + selectedUnit.GetInventory());
-            selectedUnit.GetInventory().AddItem(worldItem.GetItem());
-            Destroy(worldItem.transform.gameObject);
+            ItemWorld worldItem = lootHit.collider.GetComponentInParent<ItemWorld>();
+            ItemSpawner container = lootHit.collider.GetComponent<ItemSpawner>();
+
+            if (worldItem != null)
+            {
+                //Debug.Log(selectedUnit.name + " :" + selectedUnit.GetInventory());
+                selectedUnit.GetInventory().AddItem(worldItem.GetItem());
+                Destroy(worldItem.transform.gameObject);   
+            }
+            else if (container != null)
+            {
+                container.OnClicked();
+            }
         }
     }
     
@@ -179,9 +187,20 @@ public class UnitActionManager : MonoBehaviour
 
     public void SetSelectedUnit(Unit _unit)
     {
+        //Debug.Log(_unit.name);
         selectedUnit = _unit;
         SetSelectedAction(selectedUnit.GetDefaultAction());
         cameraTransform.position = selectedUnit.transform.position;
-        OnPlayerSpawn?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnDestroy()
+    {
+        SelectedActionChanged = null;
+        OnActionStarted = null;
+        OnActionComplete = null;
+        RequestInventory = null;
+        Instance = null;
+        Destroy(this);
+        
     }
 }

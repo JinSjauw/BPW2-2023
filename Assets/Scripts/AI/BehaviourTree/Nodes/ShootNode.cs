@@ -26,7 +26,6 @@ public class ShootNode : ActionNode
     protected override void OnStart()
     {
         behaviourState = BehaviourState.Running;
-        Debug.Log("In Shoot Node!");
         if (unit.CanTakeAction(shootAction))
         {
             shootAction.SetUnit(unit);

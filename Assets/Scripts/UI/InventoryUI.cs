@@ -19,13 +19,17 @@ public class InventoryUI : MonoBehaviour
     private Inventory inventory;
     private Transform dropPoint;
     private bool state = false;
+    
     private void Awake()
     {
         inventoryContainer = transform.Find("InventoryContainer");
         equipmentContainer = transform.Find("EquipmentContainer");
         itemSlotContainer = inventoryContainer.Find("ItemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("ItemSlotTemplate");
-        
+    }
+
+    private void Start()
+    {
         //Sub to opening the inventory
         UnitActionManager.Instance.RequestInventory += UnitActionManager_RequestInventory;
         //Sub player spawning
@@ -71,6 +75,11 @@ public class InventoryUI : MonoBehaviour
 
     private void RefreshInventory()
     {
+        if (itemSlotContainer == null)
+        {
+            return;
+        }
+        
         foreach (Transform child in itemSlotContainer)
         {
             if(child == itemSlotTemplate) { continue; }
@@ -81,7 +90,6 @@ public class InventoryUI : MonoBehaviour
         int y = 0;
 
         float itemSlotCellSize = 80f;
-        Debug.Log(inventory);
         foreach (var item in inventory.GetItemList())
         {
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
@@ -93,9 +101,7 @@ public class InventoryUI : MonoBehaviour
             itemSlot.itemType = item.itemType;
             itemSlot.ClickFunc = () =>
             {
-                Debug.Log("Left Click!!");
                 //Use item
-                Debug.Log(item.itemType);
                 if (item.itemType == Item.ItemType.RedPotion || item.itemType == Item.ItemType.YellowPotion)
                 {
                     inventory.UseItem(item);
@@ -111,7 +117,6 @@ public class InventoryUI : MonoBehaviour
                 
                 inventory.RemoveItem(item);
                 DropItem(item);
-                Debug.Log("In rightclick Func");
                 Destroy(itemSlot.gameObject);
             };
             itemSlot.ToInventoryFunc = () =>
@@ -148,5 +153,9 @@ public class InventoryUI : MonoBehaviour
 
         return itemWorld;
     }
-    
+
+    private void OnDestroy()
+    {
+        OnOpenInventory = null;
+    }
 }

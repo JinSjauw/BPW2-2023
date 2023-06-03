@@ -12,18 +12,19 @@ public class ActionSystemUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI actionPointCounter;
 
     private List<ActionButtonUI> actionButtons;
+
+    private Unit selectedUnit;
     // Start is called before the first frame update
     private void Awake()
     {
         actionButtons = new List<ActionButtonUI>();
+        Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
     }
 
     void Start()
     {
-        //UnitActionManager.Instance.SelectedUnitChanged += UnitManager_SelectedUnitChanged;
         UnitActionManager.Instance.SelectedActionChanged += UnitManager_SelectedActionChanged;
         UnitActionManager.Instance.OnActionStarted += UnitManager_OnActionStarted;
-        UnitActionManager.Instance.OnPlayerSpawn += Init;
         
         EnemyManager.OnCombatStart += EnemyManager_OnOnCombatStart;
         EnemyManager.OnCombatEnd += EnemyManager_OnOnCombatEnd;
@@ -32,8 +33,16 @@ public class ActionSystemUI : MonoBehaviour
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         InventoryUI.OnOpenInventory += InventoryUI_OnOpenInventory;
         
-        CreateActionButtons();
-        UpdateActionPoints();
+    }
+
+    private void Unit_OnAnyUnitSpawned(object sender, EventArgs e)
+    {
+        Unit unit = sender as Unit;
+        if (!unit.IsEnemy())
+        {
+            selectedUnit = unit;
+            Init();
+        }
     }
 
     private void EnemyManager_OnOnCombatEnd(object sender, EventArgs e)
@@ -54,8 +63,6 @@ public class ActionSystemUI : MonoBehaviour
         }
         
         actionButtons.Clear();
-        
-        Unit selectedUnit = UnitActionManager.Instance.GetSelectedUnit();
 
         if (selectedUnit == null)
         {
@@ -93,8 +100,9 @@ public class ActionSystemUI : MonoBehaviour
         actionPointCounter.text = "AP : " + selectedUnit.GetActionPoints();
     }
 
-    private void Init(object _sender, EventArgs _e)
+    private void Init()
     {
+        Debug.Log("Init ");
         CreateActionButtons();
         UpdateSelectedVisual();
         UpdateActionPoints();

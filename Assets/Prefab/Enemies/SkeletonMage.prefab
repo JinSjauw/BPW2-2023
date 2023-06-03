@@ -2496,6 +2496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de3e075987d0cb4b924e05ea68acdfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitState: 0
   actionArray: []
   isEnemy: 1
   maxActionPoints: 3
@@ -2507,8 +2508,13 @@ MonoBehaviour:
     stoppingDistance: 0.1
     moveDistance: 6
     attackRange: 8
-    meleeDamage: 4
-    rangeDamage: 20
+    meleeDamage: 20
+    rangeDamage: 45
+    protection: 0
+  sword2h: {fileID: 0}
+  helmet: {fileID: 0}
+  chest: []
+  pants: []
 --- !u!114 &1461267897614390600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2551,6 +2557,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 525174721484145549}
+  unarmedController: {fileID: 0}
+  armedController: {fileID: 0}
 --- !u!114 &6993916231538364536
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -146,8 +146,9 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ffe6fe69da2757c4396edb4a526c7874, type: 2}
+  m_sharedMaterial: {fileID: 8035407079081716320, guid: ffe6fe69da2757c4396edb4a526c7874,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.65
+  m_fontSize: 19.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -384,3 +385,4 @@ MonoBehaviour:
   textMeshPro: {fileID: 6383518832524407941}
   selectedVisual: {fileID: 856104354647788140}
   button: {fileID: 6383518833246136725}
+  gridSystemVisual: {fileID: 0}

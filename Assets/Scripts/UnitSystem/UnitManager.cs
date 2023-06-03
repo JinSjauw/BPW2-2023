@@ -43,7 +43,7 @@ public class UnitManager : MonoBehaviour
         else
         {
             allyList.Add(unit);
-            UnitActionManager.Instance.SetSelectedUnit(unit);
+            //UnitActionManager.Instance.SetSelectedUnit(unit);
         }
     }
     private void Unit_OnAnyUnitDead(object _sender, EventArgs _e)

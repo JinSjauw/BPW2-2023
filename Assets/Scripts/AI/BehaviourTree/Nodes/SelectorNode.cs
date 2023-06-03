@@ -8,21 +8,17 @@ public class SelectorNode : CompositeNode
 
     protected override void OnStart()
     {
-        Debug.Log("In Selector");
         current = 0;
     }
 
     protected override void OnStop()
     {
-        Debug.Log("Stopped Selector");
-        
     }
 
     protected override BehaviourState OnUpdate()
     {
         var child = children[current];
         BehaviourState state = child.Update();
-        //Debug.Log($"Name: {child.name} : {state}");
         switch (state)
         {
             case BehaviourState.Running:

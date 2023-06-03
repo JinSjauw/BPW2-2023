@@ -15,7 +15,8 @@ public class LevelGrid : MonoBehaviour
     [SerializeField] private bool GenerateDungeon = false;
     [SerializeField] private bool GenerateTutorial = false;
     [SerializeField] private List<GridPosition> walkableList;
-    [SerializeField] private List<Transform> tutorialLevel;
+    [SerializeField] private List<Transform> tutorialTiles;
+    [SerializeField] private List<Transform> occupiedTiles;
 
     private GridSystem<GridObject> gridSystem;
 
@@ -45,7 +46,6 @@ public class LevelGrid : MonoBehaviour
         if (CreateDebugGrid)
         {
             gridSystem.CreateDebugObjects(gridDebugObject);
-            //gridSystem.CreateWalkableDebugObjects(gridDebugObject, walkableList);
         }
     }
 
@@ -55,21 +55,24 @@ public class LevelGrid : MonoBehaviour
         
         if (GenerateTutorial)
         {
-            //walkableList = gridSystem.GetGridPositions();
-            walkableList = DungeonGenerator.Instance.GenerateTutorial(tutorialLevel);
+            walkableList = DungeonGenerator.Instance.GenerateTutorial(tutorialTiles, occupiedTiles);
         }
         
         if (GenerateDungeon)
         {
             walkableList = DungeonGenerator.Instance.Generate();
         }
-        //gridSystem.CreateDebugObjects(DungeonGenerator.Instance.Generate(), gridDebugObject);
-        
+
         if (CreateDebugGrid)
         {
-            //gridSystem.CreateDebugObjects(gridDebugObject);
             gridSystem.CreateWalkableDebugObjects(gridDebugObject, walkableList);
         }
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+        Destroy(this);
     }
 
     public List<GridPosition> GetWalkableList()
@@ -123,31 +126,6 @@ public class LevelGrid : MonoBehaviour
         GridObject gridObject = gridSystem.GetGridObject(_gridPosition);
         return gridObject.HasUnit();
     }
-    /*public Vector3 GetTargetGridPosition(Vector3 _worldPosition)
-    {
-        return GetWorldPosition(GetGridPosition(_worldPosition));
-    }*/
-
-    /*public List<GridPosition> GetWalkableTilesInCircle(Vector3 _center, float _radius)
-    {
-        List<GridPosition> inCircleList = gridSystem.GetTilesInCircle(_center, _radius);
-
-        List<GridPosition> validList = new List<GridPosition>();
-
-        foreach (var tile in inCircleList)
-        {
-            if (walkableList.Contains(tile))
-            {
-                validList.Add(tile);
-            }
-        }
-
-        List<GridPosition> result = new List<GridPosition>();
-        result = validList;
-
-        return result;
-    }*/
-    
     public bool insideCircle(Vector3 _center, Vector3 _tile, float _radius) => gridSystem.insideCircle(_center, _tile, _radius);
 
     public void RemoveUnitAtGridPosition(GridPosition _gridPosition) => gridSystem.RemoveUnitAtGridPosition(_gridPosition);
@@ -155,8 +133,6 @@ public class LevelGrid : MonoBehaviour
     public GridPosition GetGridPosition(Vector3 _worldPosition) => gridSystem.GetGridPosition(_worldPosition);
     public Vector3 GetWorldPosition(GridPosition _gridPosition) => gridSystem.GetWorldPosition(_gridPosition);
     public GridObject GetGridObject(GridPosition _gridPosition) => gridSystem.GetGridObject(_gridPosition);
-    
-    //public bool IsValidGridPosition(GridPosition _gridPosition) => gridSystem.IsValidGridPosition(_gridPosition);
 
     public GridObject GetGridObject(Vector3 _worldPosition)
     {

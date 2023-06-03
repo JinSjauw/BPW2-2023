@@ -35,7 +35,7 @@ public class MoveNode : ActionNode
 
     protected override void OnStop()
     {
-        Debug.Log("Stopped Moving!");
+        //Debug.Log("Stopped Moving!");
     }
 
     protected override BehaviourState OnUpdate()

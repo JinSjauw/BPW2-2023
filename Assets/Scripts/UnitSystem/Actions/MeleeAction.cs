@@ -12,6 +12,11 @@ public class MeleeAction : BaseAction
     private float timer;
     private Unit targetUnit;
     private int damage = 40;
+
+    public void Unsubscribe()
+    {
+        OnMelee = null;
+    }
     
     public override BaseAction Clone()
     {
@@ -26,8 +31,6 @@ public class MeleeAction : BaseAction
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(_targetPosition);
         if (unit.IsEnemy())
         {
-            Debug.Log($"Unit: {unit.name} : Distance " + unit.GetGridPosition().Distance(targetUnit.GetGridPosition()));
-            
             if (Vector3.Distance(unit.transform.position, targetUnit.transform.position) > unitData.attackRange)
             {
                 targetUnit = null;

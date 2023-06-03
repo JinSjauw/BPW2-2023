@@ -15,7 +15,7 @@ public class ShootAction : BaseAction
     [SerializeField] private float delay;
     private float timer;
     private int damage;
-
+    
     private void Shoot()
     {
         Vector3 unitPosition = unit.transform.position;
@@ -29,6 +29,11 @@ public class ShootAction : BaseAction
         projectile.Init(targetUnit, shootAtTarget, damage);
     }
 
+    public void Unsubscribe()
+    {
+        OnShoot = null;
+    }
+
     public override void TakeAction(GridPosition _targetPosition, Action _onActionComplete, Action _onActionFail)
     {
         timer = delay;
@@ -37,7 +42,6 @@ public class ShootAction : BaseAction
 
         if (unit.IsEnemy())
         {
-            //Debug.Log($"Unit: {unit.name} : Distance " + unit.GetGridPosition().Distance(targetUnit.GetGridPosition()));
             if (Vector3.Distance(unit.transform.position, targetUnit.transform.position) > unitData.attackRange)
             {
                 targetUnit = null;
@@ -48,7 +52,6 @@ public class ShootAction : BaseAction
         }
         OnShoot?.Invoke(this, EventArgs.Empty);
         ActionStart(_onActionComplete);
-        Debug.Log("Aiming");
     }
 
     public override List<GridPosition> GetValidActionPositionsList()
@@ -61,7 +64,6 @@ public class ShootAction : BaseAction
 
         if (tempPositions.Count <= 0)
         {
-            Debug.Log("No available Targets");
             return null;
         }
         
@@ -105,13 +107,11 @@ public class ShootAction : BaseAction
         
         //Delay 
         timer -= Time.deltaTime;
-        Debug.Log($"Timer {timer}");
 
         //Shoot projectile
         if (timer < 0)
         {
             timer = delay;
-            Debug.Log($"Shooting!");
             Shoot();
             ActionComplete();
         }

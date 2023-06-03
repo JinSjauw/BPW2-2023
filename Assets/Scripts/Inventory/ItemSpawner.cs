@@ -12,7 +12,7 @@ public class ItemSpawner : MonoBehaviour
         EQUIPMENT,
     }
     
-    [SerializeField] private Item.ItemType itemType;
+    private Item.ItemType itemType;
     [SerializeField] private Transform lid;
     [SerializeField] private LootType lootType;
     private bool isOpen = false;
@@ -31,20 +31,14 @@ public class ItemSpawner : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(0))
+        
+    }
+
+    public void OnClicked()
+    {
+        if (!isOpen)
         {
-            if (!inRange)
-            {
-                return;
-            }
-            
-            Debug.Log("Open");
-            if (!isOpen)
-            {
-                isOpen = true;
-                //Open();
-                StartCoroutine(OpenChest());
-            }
+            StartCoroutine(OpenChest());
         }
     }
     
@@ -58,12 +52,11 @@ public class ItemSpawner : MonoBehaviour
         randomDirection.Normalize();
         ItemWorld itemWorld = ItemWorld.SpawnItemWorld(dropPosition + randomDirection * 2f, item);
         itemWorld.GetComponentInParent<Rigidbody>().AddForce(randomDirection * 3f, ForceMode.Impulse);
-        
-        
     }
 
     private IEnumerator OpenChest()
     {
+        isOpen = true;
         for (int rotX = 0; rotX < 10; rotX++)
         {
             lid.transform.Rotate(new Vector3(rotX * -1, 0, 0));
@@ -71,28 +64,5 @@ public class ItemSpawner : MonoBehaviour
         }
         
         SpawnItem();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //inRange = true;
-        if (other.transform.root.GetComponent<Unit>())
-        {
-            if (!other.transform.root.GetComponent<Unit>().IsEnemy())
-            {
-                inRange = true;
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform.root.GetComponent<Unit>())
-        {
-            if (!other.transform.root.GetComponent<Unit>().IsEnemy())
-            {
-                inRange = false;
-            }
-        }
     }
 }

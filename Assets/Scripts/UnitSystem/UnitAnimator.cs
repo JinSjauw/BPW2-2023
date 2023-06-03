@@ -7,12 +7,18 @@ using UnityEngine;
 [RequireComponent(typeof(Unit))]
 public class UnitAnimator : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
+    private Animator animator;
     [SerializeField] private RuntimeAnimatorController unarmedController;
     [SerializeField] private RuntimeAnimatorController armedController;
+    private Unit unit;
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void Start()
     {
-        Unit unit = GetComponent<Unit>();
+        unit = GetComponent<Unit>();
         BehaviourTree tree = unit.GetTree();
 
         unit.isHit += Unit_IsHit;
@@ -61,6 +67,11 @@ public class UnitAnimator : MonoBehaviour
                 {
                     meleeNode.meleeAction.OnMelee += MeleeAction_OnMelee;
                 }
+                ShootNode shootNode = n as ShootNode;
+                if (shootNode != null)
+                {
+                    shootNode.shootAction.OnShoot += ShootAction_OnShoot;
+                }
             });
         }
     }
@@ -98,5 +109,57 @@ public class UnitAnimator : MonoBehaviour
     private void MeleeAction_OnMelee(object _sender, EventArgs _e)
     {
         animator.SetTrigger("isMeleeing");
+    }
+
+    private void OnDestroy()
+    {
+        BehaviourTree tree = unit.GetTree();
+
+        if (!unit.IsEnemy())
+        {
+            foreach (var action in unit.GetActionArray())
+            {
+                MoveAction moveAction = action as MoveAction;
+                if (moveAction != null)
+                {
+                    moveAction.Unsubscribe();
+                
+                    continue;
+                }
+            
+                ShootAction shootAction = action as ShootAction;
+                if (shootAction != null)
+                {
+                    shootAction.Unsubscribe();
+                }
+                
+                MeleeAction meleeAction = action as MeleeAction;
+                if (meleeAction != null)
+                {
+                    meleeAction.Unsubscribe();
+                }
+            }
+        }
+        else if(tree != null && unit.IsEnemy())
+        {
+            tree.nodes.ForEach((n) =>
+            {
+                MoveNode moveNode = n as MoveNode;
+                if (moveNode != null)
+                {
+                    moveNode.moveAction.Unsubscribe();
+                }
+                MeleeNode meleeNode = n as MeleeNode;
+                if (meleeNode != null)
+                {
+                    meleeNode.meleeAction.Unsubscribe();
+                }
+                ShootNode shootNode = n as ShootNode;
+                if (shootNode != null)
+                {
+                    shootNode.shootAction.Unsubscribe();
+                }
+            });
+        }
     }
 }

@@ -647,7 +647,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a38994c0a37ba4186b17701c51450b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomList: []
   walkableTilePrefab: {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb,
     type: 3}
   tileWallPrefab: {fileID: 510248444000662079, guid: 71ee6660b7f5802428394528eda2849f,
@@ -655,15 +654,28 @@ MonoBehaviour:
   furniturePrefabsList:
   - {fileID: 2673821626700453619, guid: 7f4391ea3d0c7524bb9730c090ecda30, type: 3}
   - {fileID: 2145873907727157317, guid: 03abcee384f10e94191d6b662c74364b, type: 3}
-  - {fileID: 4372473032821395705, guid: f8236ff43ace661498aa3adb7ffc8cdc, type: 3}
-  - {fileID: 8376769965981961159, guid: e63cecbdeffe18c458163a84cca68e1c, type: 3}
-  - {fileID: 8358870228500367451, guid: 43201346cce3b2f4b9485c2c609bc61a, type: 3}
-  - {fileID: 8908034871203002546, guid: 6fdeb4b43d1e45543855002accbeff8e, type: 3}
-  - {fileID: 8372765771678715831, guid: 57ca89446fcdde04e92dd1cfd6afd9ef, type: 3}
   - {fileID: 2145873907727157317, guid: 2eddaef2cbfb85f43a3d8c980082e9f2, type: 3}
+  - {fileID: 2703000754947898464, guid: 0fe9b994c28cc76448151f01d993b657, type: 3}
+  - {fileID: 7607692504136974859, guid: afa58f8457a77ff488957d7041a3bcb4, type: 3}
+  - {fileID: 4372473032821395705, guid: f8236ff43ace661498aa3adb7ffc8cdc, type: 3}
   - {fileID: 4372473032821395705, guid: e694e931b254fb1418466d966eabc443, type: 3}
   - {fileID: 4372473032821395705, guid: 46238bdd737f7e84caa35bef2e1b3163, type: 3}
+  - {fileID: 7549215315148085440, guid: 15aba69a696727443a0882f8fd4669eb, type: 3}
+  - {fileID: 8376769965981961159, guid: e63cecbdeffe18c458163a84cca68e1c, type: 3}
+  - {fileID: 8358870228500367451, guid: 43201346cce3b2f4b9485c2c609bc61a, type: 3}
+  - {fileID: 8372765771678715831, guid: 57ca89446fcdde04e92dd1cfd6afd9ef, type: 3}
+  - {fileID: 980774016179655460, guid: 3d0adab0c49f7bf46a902860edad2692, type: 3}
+  - {fileID: 510248444000662079, guid: 71ee6660b7f5802428394528eda2849f, type: 3}
+  - {fileID: 8908034871203002546, guid: e5c2dc9823a4685468a9d9dd9f9186c7, type: 3}
   - {fileID: 8908034871203002546, guid: 6fdeb4b43d1e45543855002accbeff8e, type: 3}
+  startRoomSpawns:
+  - {fileID: 8908034871203002546, guid: 6fdeb4b43d1e45543855002accbeff8e, type: 3}
+  - {fileID: 2703000754947898464, guid: 0fe9b994c28cc76448151f01d993b657, type: 3}
+  - {fileID: 2703000754947898464, guid: 0fe9b994c28cc76448151f01d993b657, type: 3}
+  - {fileID: 7607692504136974859, guid: afa58f8457a77ff488957d7041a3bcb4, type: 3}
+  - {fileID: 7607692504136974859, guid: afa58f8457a77ff488957d7041a3bcb4, type: 3}
+  exitPrefab: {fileID: 2161387815452982299, guid: 133ae10a4d3d83b42bbcdd251e41272c,
+    type: 3}
   enemyWarriorPrefab: {fileID: 1782438951538960947, guid: a2d91539cfb7e484d9e15267022e740d,
     type: 3}
   enemyMagePrefab: {fileID: 6548858210896200525, guid: 508e8621f6244494184b51602288cfac,
@@ -2012,15 +2024,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridDebugObject: {fileID: 1981648028813177864, guid: a86bdee89b57d3043ad3348ebd3ce102,
     type: 3}
-  dungeonSize: 81
-  width: 81
-  height: 81
+  dungeonSize: 63
+  width: 63
+  height: 63
   cellSize: 2
   CreateDebugGrid: 0
   GenerateDungeon: 1
   GenerateTutorial: 0
   walkableList: []
-  tutorialLevel: []
+  tutorialTiles: []
+  occupiedTiles: []
 --- !u!4 &1154728751
 Transform:
   m_ObjectHideFlags: 0

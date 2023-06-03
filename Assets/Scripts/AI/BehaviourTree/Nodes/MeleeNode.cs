@@ -25,7 +25,6 @@ public class MeleeNode : ActionNode
     protected override void OnStart()
     {
         behaviourState = BehaviourState.Running;
-        Debug.Log("In Melee Node!");
         if (unit.CanTakeAction(meleeAction))
         {
             meleeAction.SetUnit(unit);

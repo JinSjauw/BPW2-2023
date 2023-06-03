@@ -14,7 +14,7 @@ public class DetectNode : ActionNode
 
     protected override void OnStop()
     {
-        Debug.Log($"Detected {blackboard.playerTransform.name} !!");
+        //Debug.Log($"Detected {blackboard.playerTransform.name} !!");
     }
 
     protected override BehaviourState OnUpdate()

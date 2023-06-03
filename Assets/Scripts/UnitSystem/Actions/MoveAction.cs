@@ -13,7 +13,13 @@ public class MoveAction : BaseAction
 
     public event EventHandler OnMove;
     public event EventHandler OnStop;
-    
+
+    public void Unsubscribe()
+    {
+        OnMove = null;
+        OnStop = null;
+    }
+
     public override BaseAction Clone()
     {
         MoveAction moveAction = Instantiate(this);

@@ -28,7 +28,7 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
     public static event EventHandler OnAnyActionPointsChanged;
-    public static event EventHandler OnAnyUnitAlert;
+    public static event EventHandler OnAnyUnitStateChanged;
     public event EventHandler EquippedWeapon;
     public event EventHandler UnequippedWeapon;
     public event EventHandler isHit;
@@ -80,13 +80,19 @@ public class Unit : MonoBehaviour
         EnemyManager.OnCombatEnd += EnemyManager_OnCombatEnd;
         healthSystem.OnDeath += HealthSystem_OnDeath;
 
-        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
-        
+        if (!isEnemy)
+        {
+            Debug.Log("PLAYER SPAWNED");
+            UnitActionManager.Instance.SetSelectedUnit(this);
+        }
+
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.SetUnitAtGridObject(gridPosition, this);
         LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
+        
+        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
     }
-    
+
     private void Update()
     {
         //Detect new GridPosition
@@ -193,6 +199,14 @@ public class Unit : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        OnAnyUnitSpawned = null;
+        OnAnyUnitDead = null;
+        OnAnyActionPointsChanged = null;
+        OnAnyUnitStateChanged = null;
+    }
+
     public Inventory GetInventory()
     {
         return inventory;
@@ -271,7 +285,7 @@ public class Unit : MonoBehaviour
     {
         actionPoints -= _amount;
         OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-        Debug.Log($"Spent {_amount} AP : {actionPoints} AP left");
+        //Debug.Log($"Spent {_amount} AP : {actionPoints} AP left");
     }
 
     
@@ -295,7 +309,7 @@ public class Unit : MonoBehaviour
         if (unitState == UnitState.IDLE)
         {
             unitState = UnitState.COMBAT;
-            OnAnyUnitAlert?.Invoke(this, EventArgs.Empty);
+            OnAnyUnitStateChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -306,6 +320,11 @@ public class Unit : MonoBehaviour
     
     public void SetState(UnitState _state)
     {
-        unitState = _state;
+        if (unitState != _state)
+        {
+            unitState = _state;
+            OnAnyUnitStateChanged?.Invoke(this, EventArgs.Empty);
+        }
+        
     }
 }

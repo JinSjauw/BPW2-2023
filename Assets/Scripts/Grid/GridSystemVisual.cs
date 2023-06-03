@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GridSystemVisual : MonoBehaviour
@@ -27,6 +28,12 @@ public class GridSystemVisual : MonoBehaviour
             }
         }
         HideAllTileVisuals();
+    }
+
+    private void OnDestroy()
+    {
+        OnVisualActive = null;
+        OnVisualOff = null;
     }
 
     public void HideAllTileVisuals()

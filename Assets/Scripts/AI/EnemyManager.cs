@@ -32,23 +32,45 @@ public class EnemyManager : MonoBehaviour
     {
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
-        Unit.OnAnyUnitAlert += Unit_OnAnyUnitAlert;
+        Unit.OnAnyUnitStateChanged += Unit_OnAnyUnitStateChanged;
+        enemies = new List<Unit>();
     }
 
-    private void Unit_OnAnyUnitAlert(object _sender, EventArgs e)
+    private void Unit_OnAnyUnitStateChanged(object _sender, EventArgs e)
     {
         Unit unit = _sender as Unit;
         
         if (unit.IsEnemy())
         {
-            enemies.Add(unit);
-            unit.SetState(Unit.UnitState.COMBAT);
-        }
+            if (unit.GetState() == Unit.UnitState.COMBAT)
+            {
+                enemies.Add(unit);
+                unit.SetState(Unit.UnitState.COMBAT);
+            
+                if (!isActive)
+                {
+                    isActive = true;
+                    OnCombatStart?.Invoke(this, EventArgs.Empty);
+                }
+            }
+            else if (unit.GetState() == Unit.UnitState.IDLE)
+            {
+                if (enemies.Contains(unit))
+                {
+                    enemies.Remove(unit);
 
-        if (!isActive)
-        {
-            isActive = true;
-            OnCombatStart?.Invoke(this, EventArgs.Empty);
+                    if (enemies.Count >= 0)
+                    {
+                        if (!TurnSystem.Instance.IsPlayerTurn())
+                        {
+                            TurnSystem.Instance.NextTurn();
+                        }
+
+                        isActive = false;
+                        OnCombatEnd?.Invoke(this,EventArgs.Empty);
+                    }
+                }
+            }
         }
     }
 
@@ -56,19 +78,26 @@ public class EnemyManager : MonoBehaviour
     {
         Unit unit = _sender as Unit;
 
+        if (!unit.IsEnemy())
+        {
+            //Player Death
+            isActive = false;
+            OnCombatEnd?.Invoke(this, EventArgs.Empty);
+        }
+        
         if (unit.IsEnemy())
         {
             enemies.Remove(unit);
         }
         
-        if(enemies.Count <= 0)
+        if(enemies.Count <= 0 && isActive)
         {
             //Not in combat
             if (!TurnSystem.Instance.IsPlayerTurn())
             {
                 TurnSystem.Instance.NextTurn();
             }
-
+            
             isActive = false;
             OnCombatEnd?.Invoke(this,EventArgs.Empty);
         }
@@ -151,5 +180,11 @@ public class EnemyManager : MonoBehaviour
             turnState = TurnState.TakingTurn;
             timer = 1.0f;
         }
+    }
+
+    private void OnDestroy()
+    {
+        OnCombatStart = null;
+        OnCombatEnd = null;
     }
 }

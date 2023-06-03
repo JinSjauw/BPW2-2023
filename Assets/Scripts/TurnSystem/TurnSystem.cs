@@ -51,4 +51,11 @@ public class TurnSystem : MonoBehaviour
     {
         return isPlayerTurn;
     }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+        OnTurnChanged = null;
+        Destroy(this);
+    }
 }

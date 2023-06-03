@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
 
     [SerializeField] private GameObject loadCanvas;
-    [SerializeField] private Image progressBar;
+    [SerializeField] private GameObject deathCanvas;
     private float target;
     
     private void Awake()
@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(loadCanvas);
+            DontDestroyOnLoad(deathCanvas);
         }
         else
         {
@@ -30,11 +31,22 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
+    }
+
+    private void Unit_OnAnyUnitDead(object sender, EventArgs e)
+    {
+        Unit unit = sender as Unit;
+        if (!unit.IsEnemy())
+        {
+            deathCanvas.SetActive(true);
+        }
     }
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         loadCanvas.SetActive(false);
+        deathCanvas.SetActive(false);
     }
 
     public void LoadNextScene(string _sceneName)
