@@ -124,7 +124,7 @@ public class InventoryUI : MonoBehaviour
                 //Unequip item;
                 inventory.Unequip(item);
                 inventory.AddItem(item);
-                //Destroy(itemSlot.gameObject);
+                Destroy(itemSlot.gameObject);
             };
             itemSlot.OnEquipFunc = () =>
             {

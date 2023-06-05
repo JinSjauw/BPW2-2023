@@ -31,7 +31,6 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
     }
 
     private void Unit_OnAnyUnitDead(object sender, EventArgs e)
@@ -45,6 +44,8 @@ public class LevelManager : MonoBehaviour
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
         loadCanvas.SetActive(false);
         deathCanvas.SetActive(false);
     }

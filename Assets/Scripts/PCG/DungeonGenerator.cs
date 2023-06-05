@@ -159,8 +159,21 @@ public class DungeonGenerator : MonoBehaviour
             int enemiesAmount = Random.Range(minAmountEnemies, maxAmountEnemies);
             for (int i = 0; i < enemiesAmount; i++)
             {
-                GridPosition gridSpawnPosition = roomGrid[Random.Range(0, Mathf.Abs(roomGrid.Count - 1))];
+                int spawnIndex = Random.Range(0, roomGrid.Count - 1);
+
+                if (roomGrid.Count >= 0)
+                {
+                    continue;
+                }
+                
+                if(spawnIndex < 0)
+                {
+                    spawnIndex = 0;
+                }
+                
+                GridPosition gridSpawnPosition = roomGrid[spawnIndex];
                 TILETYPE tileType = grid.GetGridObject(gridSpawnPosition).tileType;
+                
                 if (tileType != TILETYPE.FLOOR)
                 {
                     enemiesAmount -= 1;
@@ -187,7 +200,7 @@ public class DungeonGenerator : MonoBehaviour
         //Spawn a few enemies in the hallways
         foreach (GridObject hallWayTile in hallwayList)
         {
-            if (occupiedList.Contains(hallWayTile.gridPosition))
+            if (occupiedList.Contains(hallWayTile.gridPosition) && startRoom.GetRoomGrid().Contains(hallWayTile.gridPosition))
             {
                 continue;
             }

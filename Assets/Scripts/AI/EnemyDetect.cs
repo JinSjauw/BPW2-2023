@@ -36,7 +36,7 @@ public class EnemyDetect : MonoBehaviour
 
             float distance = Vector3.Distance(origin, target);
             
-            if (distance > detectRadius)
+            if (distance > detectRadius + 3.5f)
             {
                 unit.SetState(Unit.UnitState.IDLE);
                 hitUnit.SetState(Unit.UnitState.IDLE);

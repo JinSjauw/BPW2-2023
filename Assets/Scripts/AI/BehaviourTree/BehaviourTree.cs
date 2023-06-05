@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 [CreateAssetMenu()]
@@ -22,7 +23,7 @@ public class BehaviourTree : ScriptableObject
         return treeBehaviourState;
     }
 
-    /*public BehaviourNode CreateNode(System.Type type)
+    public BehaviourNode CreateNode(System.Type type)
     {
         BehaviourNode node = ScriptableObject.CreateInstance(type) as BehaviourNode;
         node.name = type.Name;
@@ -102,7 +103,7 @@ public class BehaviourTree : ScriptableObject
             composite.children.Remove(child);
             EditorUtility.SetDirty(composite);
         }
-    }*/
+    }
 
     public List<BehaviourNode> GetChildren(BehaviourNode parent)
     {

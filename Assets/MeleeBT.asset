@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13bea5b9a3c12014d9f27ff4a7e51d6a, type: 3}
-  m_Name: BTTest
+  m_Name: MeleeBT
   m_EditorClassIdentifier: 
   rootNode: {fileID: 5818527544081988834}
   treeBehaviourState: 0
